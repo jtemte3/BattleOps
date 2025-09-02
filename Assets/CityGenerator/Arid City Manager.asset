@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7283963aff0567140a51f03778ac4ef9, type: 3}
+  m_Name: Arid City Manager
+  m_EditorClassIdentifier: 
+  cityBlocks:
+  - {fileID: 366566010935885870, guid: 7032d66eb62ef24458357c1b980398f6, type: 3}
+  - {fileID: 366566010935885870, guid: 60f2a4e7dde1c5c44b535516ebc614ca, type: 3}
+  roadPrefab: {fileID: 3859618709302727562, guid: 5658c6b1a7eb70b4fb765a451f9e91b7,
+    type: 3}

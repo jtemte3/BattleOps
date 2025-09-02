@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e7fa3006d1a214b9d4ddf14f1a97ac, type: 3}
+  m_Name: EscortConvoy
+  m_EditorClassIdentifier: 
+  missionId: 004
+  missionTitle: Escort Humanitarian Convoy
+  icon: {fileID: 21300000, guid: 7ec97d6390913bb4bb73931cba12c306, type: 3}
+  missionDescription: Escort this convoy to deliver food, medicine, and water to
+    the aid station in  support of the local communities
+  scenes:
+  - VoronoiCityTest
+  baseHeartsChange: 10
+  baseMindsChange: 2
+  basePeaceChange: 5
+  expectedCombatants: 50
+  expectedTechnicals: 5
+  civsAllowed: 1
+  expectedCivilians: 20

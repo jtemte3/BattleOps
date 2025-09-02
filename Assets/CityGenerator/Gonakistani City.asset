@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7283963aff0567140a51f03778ac4ef9, type: 3}
+  m_Name: Gonakistani City
+  m_EditorClassIdentifier: 
+  objectives:
+  - {fileID: 366566010935885870, guid: 9498341b2d2afa8489ed8937f71d3aca, type: 3}
+  cityBlocks:
+  - {fileID: 366566010935885870, guid: c754bf01c91a462499596e12f9ef6b55, type: 3}
+  - {fileID: 366566010935885870, guid: e0f6c51b00d1b024798135c57ebcf352, type: 3}
+  - {fileID: 366566010935885870, guid: 996fd172040cd6e4e9a87b11ca00fb08, type: 3}
+  - {fileID: 366566010935885870, guid: fe08d20bc9753a64daa1b2fb84d4b93c, type: 3}
+  - {fileID: 366566010935885870, guid: d8310a0f51d4ee348a8c8cf9a6db0097, type: 3}
+  - {fileID: 366566010935885870, guid: a97d77d5b3f948147bb51dca2aeed374, type: 3}
+  - {fileID: 366566010935885870, guid: cb5a78ff56db5cc49a20941cb8f49d70, type: 3}
+  - {fileID: 366566010935885870, guid: 6154da6abb39796438dd639ee47187ad, type: 3}
+  - {fileID: 366566010935885870, guid: 892e6fb04bb667340ac4b10cf962c3ff, type: 3}
+  roadPrefab: {fileID: 3859618709302727562, guid: 61a9caf830927074fb2e683c7705d462,
+    type: 3}

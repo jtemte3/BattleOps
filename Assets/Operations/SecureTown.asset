@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e7fa3006d1a214b9d4ddf14f1a97ac, type: 3}
+  m_Name: SecureTown
+  m_EditorClassIdentifier: 
+  missionId: 007
+  missionTitle: Secure a Town from Insurgents
+  icon: {fileID: 21300000, guid: 7ec97d6390913bb4bb73931cba12c306, type: 3}
+  missionDescription: This village is occupied by enemy insurgents, clear out the
+    hostiles in the village. Watch out for the civilians.
+  scenes:
+  - VoronoiCityTest
+  baseHeartsChange: 0
+  baseMindsChange: 0
+  basePeaceChange: 0
+  expectedCombatants: 50
+  expectedTechnicals: 1
+  civsAllowed: 1
+  expectedCivilians: 20
