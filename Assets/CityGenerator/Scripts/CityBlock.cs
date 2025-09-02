@@ -12,7 +12,7 @@ public class CityBlock : MonoBehaviour
     public Vector2Int dimensions;
     public int gridScale;
     public float blockSpacingDistance = 7f; //Distance this block is from another block with the same ID
-    public List<Door> doors;
+    //public List<Door> doors;
     public List<CityBlock> connectedBlocks;
     public bool isConnected = false;
 

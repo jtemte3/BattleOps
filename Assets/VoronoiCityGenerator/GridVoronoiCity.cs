@@ -23,7 +23,9 @@ public class GridVoronoiCity : MonoBehaviour
     public int minRegionDistance = 10;
     public int maxGenerationAttempts = 10;
     public bool enableZones = true;
-    public bool generateRoadMeshes = true;
+    public bool generateCurveRoadMeshes = true;
+    public bool generateGridRoadMeshes = true;
+    public bool generateRoadCorners = true;
     public bool widenRoads = true;
     public bool generateBuildingMeshes = true;
     public bool generateWideRoadMeshes = true;
@@ -38,7 +40,7 @@ public class GridVoronoiCity : MonoBehaviour
     private bool areRegionsCreated = false;
     private bool isGridPopulated = false;
     private bool areCentersIdentified = false;
-    private bool areRoadsPlaced = false;
+    private bool areRoadsIdentified = false;
     private bool areRoadsEdgesIdentified = false;
     private bool areRoadsWidened = false;
     private bool areRoadMeshesSpawned = false;
@@ -98,7 +100,7 @@ public class GridVoronoiCity : MonoBehaviour
     IEnumerator GenerateCityCoroutine()
     {
 
-        totalSteps = 4 + (numberOfRegions * 3) + (width * height);
+        totalSteps = 5 + (numberOfRegions * 3) + (width * height);
         currentStep = 0;
 
         InitializeRegions();
@@ -122,14 +124,12 @@ public class GridVoronoiCity : MonoBehaviour
         yield return null;
         areCentersIdentified = true;
 
-        //PlaceModularBlocks();
-        //PlaceMainRoads();
-        PlaceMainRoadsOnly();
-        loadingState = "Identifying Main Road Positions";
+        IdentifyMainRoadPositionsAndIntersections();
+        loadingState = "Identifying Main Road Positions and Intersections";
         currentStep++;
         loadingPercentage = (float)currentStep / totalSteps;
         yield return null;
-        areRoadsPlaced = true;
+        areRoadsIdentified = true;
 
         IdentifyRoadEdges();
         loadingState = "Identifying Road and Boundary Intersections";
@@ -138,13 +138,20 @@ public class GridVoronoiCity : MonoBehaviour
         yield return null;
         areRoadsEdgesIdentified = true;
 
-        roadGenerator.roadPositions = roadPositions;
-        List<Vector2Int> allIntersectionsAndEdges = new();
+        if (generateCurveRoadMeshes)
+        {
+            List<Vector2Int> allIntersectionsAndEdges = new();
+            allIntersectionsAndEdges.AddRange(roadIntersections);
+            allIntersectionsAndEdges.AddRange(roadEdgePositions);
 
-        allIntersectionsAndEdges.AddRange(roadIntersections);
-        allIntersectionsAndEdges.AddRange(roadEdgePositions);
+            roadGenerator.roadPositions = roadPositions;
+            roadGenerator.GenerateRoadSegments(allIntersectionsAndEdges);
 
-        roadGenerator.GenerateRoadSegments(allIntersectionsAndEdges, roadEdgePositions);
+            loadingState = "Procedurally Generating Curved Road Meshes and Intersections";
+            currentStep++;
+            loadingPercentage = (float)currentStep / totalSteps;
+            yield return null;
+        }
 
         if (widenRoads)
         {
@@ -157,10 +164,7 @@ public class GridVoronoiCity : MonoBehaviour
         
         areRoadsWidened = true;
 
-        InstantiateRoadPrefabs();
-        //InstantiateRoadPrefabsWithCorners();
-        /*roadGenerator.roadPositions = roadPositions;
-        roadGenerator.GenerateRoadSegments();*/
+        InstantiateRoadPrefabsWithCorners();
         loadingState = "Spawning Road Prefabs";
         currentStep++;
         loadingPercentage = (float)currentStep / totalSteps;
@@ -219,7 +223,7 @@ public class GridVoronoiCity : MonoBehaviour
 
     private void GenerationCompletionCheck()
     {
-        if (areRegionsCreated == true && isGridPopulated == true && areCentersIdentified == true && areRoadsPlaced == true && areRoadsEdgesIdentified == true && areRoadsWidened == true && areRoadMeshesSpawned == true && areBuildingsSpawned == true && areBuildingsActivated == true)
+        if (areRegionsCreated == true && isGridPopulated == true && areCentersIdentified == true && areRoadsIdentified == true && areRoadsEdgesIdentified == true && areRoadsWidened == true && areRoadMeshesSpawned == true && areBuildingsSpawned == true && areBuildingsActivated == true)
         {
             isFullyLoaded = true;
         }
@@ -264,10 +268,6 @@ public class GridVoronoiCity : MonoBehaviour
                 }
             }
 
-            /*Vector2Int seed = new Vector2Int(
-                Random.Range((-width / 2), (width / 2)),
-                Random.Range((-height / 2), (height / 2))
-            );*/
             if (isValid)
             {
                 RegionData region = new()
@@ -282,59 +282,6 @@ public class GridVoronoiCity : MonoBehaviour
 
                 regions.Add(region);
             }
-        }
-    }
-
-    void InitializeRegion(int i)
-    {
-        Vector2Int seed = new(0, 0);
-        bool isValid = true;
-
-        for (int n = 0; n < maxRegionAttempts; n++)
-        {
-            isValid = true;
-
-            seed = new Vector2Int(
-                Random.Range((-width / 2), (width / 2)),
-                Random.Range((-height / 2), (height / 2))
-                );
-
-            if (regions.Count > 0)
-            {
-                foreach (RegionData regionData in regions)
-                {
-                    float dist = Vector2Int.Distance(seed, regionData.regionSeedPosition);
-
-                    if (dist < minRegionDistance)
-                    {
-                        isValid = false;
-                    }
-                }
-            }
-
-            if (isValid)
-            {
-                break;
-            }
-        }
-
-        /*Vector2Int seed = new Vector2Int(
-            Random.Range((-width / 2), (width / 2)),
-            Random.Range((-height / 2), (height / 2))
-        );*/
-        if (isValid)
-        {
-            RegionData region = new()
-            {
-                regionId = i,
-                // Assign a random zone to this seed
-                zone = (ZoneType)Random.Range(0, System.Enum.GetValues(typeof(ZoneType)).Length),
-                regionSeedPosition = seed,
-                regionPositions = new List<Vector2Int>()
-            };
-            region.regionPositions.Add(seed);
-
-            regions.Add(region);
         }
     }
 
@@ -364,74 +311,7 @@ public class GridVoronoiCity : MonoBehaviour
         }
     }
 
-    void PlaceMainRoads()
-    {
-        if (cityManager.roadPrefab == null) return;
-
-        foreach (RegionData region in regions)
-        {
-            foreach (Vector2Int pos in region.regionPositions)
-            {
-                (bool isBorder, List<Vector2Int> otherBorderPos, int borderCount) position = IsBorderCellAndIntersection(pos, 1);
-
-                bool isIntersection = false;
-
-                if (position.borderCount > 1)
-                {
-                    isIntersection = true;
-                }
-
-                if (position.isBorder)
-                {
-                    if (!isIntersection)
-                    {
-                        bool makeRoad = true;
-
-                        foreach (Vector2Int borderpos in position.otherBorderPos)
-                        {
-                            if (roadPositions.Contains(borderpos))
-                            {
-                                makeRoad = false;
-                            }
-                        }
-                        if (makeRoad)
-                        {
-                            roadPositions.Add(pos);
-                        }
-                    }
-                    else
-                    {
-                        roadPositions.Add(pos);
-
-                        //Make sure duplicate roadintersections don't spawn
-                        bool isValidIntersection = true;
-                        
-                        /*if (roadIntersections.Count > 0)
-                        {
-                            
-                            foreach (Vector2Int intersection in roadIntersections)
-                            {
-                                float distance = Vector2Int.Distance(pos, intersection);
-
-                                if (distance < 1.5)
-                                {
-                                    isValidIntersection = false;
-                                    break;
-                                }
-                            }
-                        }*/
-
-                        if (isValidIntersection)
-                        {
-                            roadIntersections.Add(pos);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    void PlaceMainRoadsOnly()
+    void IdentifyMainRoadPositionsAndIntersections()
     {
         if (cityManager.roadPrefab == null) return;
 
@@ -543,62 +423,6 @@ public class GridVoronoiCity : MonoBehaviour
         }
     }
 
-    void PlaceMainRoadsWithIntersections()
-    {
-        if (cityManager.roadPrefab == null) return;
-
-        foreach (RegionData region in regions)
-        {
-            foreach (Vector2Int pos in region.regionPositions)
-            {
-                (bool isBorder, List<Vector2Int> otherBorderPos) position = IsBorderCell(pos, 1);
-
-                if (position.isBorder)
-                {
-                    bool makeRoad = true;
-                    List<RegionData> borderRegions = new List<RegionData>();
-                    foreach (Vector2Int borderpos in position.otherBorderPos)
-                    {
-                        if (!borderRegions.Contains(regions[grid[borderpos].seedId]))
-                        {
-                            borderRegions.Add(regions[grid[borderpos].seedId]);
-                        }
-
-                        if (roadPositions.Contains(borderpos))
-                        {
-                            makeRoad = false;
-                        }
-                    }
-                    if (makeRoad)
-                    {
-                        roadPositions.Add(pos);
-                        blockedPositions.Add(pos);
-                    }
-                    else
-                    {
-                        bool haveAllOtherRegionsFinished = true;
-
-                        foreach (RegionData borderRegion in borderRegions)
-                        {
-                            if (!borderRegion.finishedPlacingRoads)
-                            {
-                                haveAllOtherRegionsFinished = false;
-                                break;
-                            }
-                        }
-
-                        if (!haveAllOtherRegionsFinished)
-                        {
-                            roadPositions.Add(pos);
-                            blockedPositions.Add(pos);
-                        }
-                    }
-                }
-            }
-            region.finishedPlacingRoads = true;
-        }
-    }
-
     void WidenRoads()
     {
         
@@ -625,41 +449,6 @@ public class GridVoronoiCity : MonoBehaviour
                 }
             }
         }
-
-        //roadPositions.AddRange(wideRoadPositions);
-    }
-
-    void InstantiateRoadPrefabs()
-    {
-        foreach (Vector2Int pos in roadPositions)
-        {
-            int regionId = grid[pos].seedId;
-            RegionData region = regions[regionId];
-            region.regionRoadCount++;
-
-            if (generateRoadMeshes)
-            {
-                Vector3 worldPos = new Vector3(pos.x * gridSize, 0f, pos.y * gridSize);
-                GameObject road = Instantiate(cityManager.roadPrefab, worldPos, Quaternion.identity, transform);
-                road.GetComponent<GridBuilding>().gridPosition = pos;
-            }
-            
-        }
-
-        foreach (Vector2Int pos in wideRoadPositions)
-        {
-            int regionId = grid[pos].seedId;
-            RegionData region = regions[regionId];
-            region.regionRoadCount++;
-
-            if (generateWideRoadMeshes)
-            {
-                Vector3 worldPos = new Vector3(pos.x * gridSize, 0f, pos.y * gridSize);
-                GameObject road = Instantiate(cityManager.roadPrefab, worldPos, Quaternion.identity, transform);
-                road.GetComponent<GridBuilding>().gridPosition = pos;
-            }
-
-        }
     }
 
     void InstantiateRoadPrefabsWithCorners()
@@ -678,7 +467,7 @@ public class GridVoronoiCity : MonoBehaviour
             RegionData region = regions[regionId];
             region.regionRoadCount++;
 
-            if (generateRoadMeshes)
+            if (generateGridRoadMeshes)
             {
                 // Check neighbors
                 bool up = validPositions.Contains(pos + Vector2Int.up);
@@ -692,7 +481,7 @@ public class GridVoronoiCity : MonoBehaviour
                 Quaternion rot = Quaternion.identity;
 
                 // Cannot spawn a corner on the edge of the map
-                if (!positionsOnEdge.Contains(pos))
+                if (!positionsOnEdge.Contains(pos) && generateRoadCorners)
                 {
                     // Corner detection: exactly two neighbors that are not opposite
                     if (up && right && !down && !left)
@@ -719,29 +508,6 @@ public class GridVoronoiCity : MonoBehaviour
 
                 GameObject road = Instantiate(prefabToSpawn, worldPos, rot, transform);
                 road.GetComponent<GridBuilding>().gridPosition = pos;
-            }
-        }
-    }
-
-    void PlaceRoadsOld()
-    {
-        if (cityManager.roadPrefab == null) return;
-
-        for (int x = (-width / 2); x <= width / 2; x++)
-        {
-            for (int y = (-height/2); y <= height/2; y++)
-            {
-                Vector2Int pos = new Vector2Int(x, y);
-                if (IsWideBorderCell(pos, 1))
-                {
-                    int regionId = grid[pos].seedId;
-                    RegionData region = regions[regionId];
-                    roadPositions.Add(pos);
-                    blockedPositions.Add(pos);
-                    region.regionRoadCount++;
-                    Vector3 worldPos = new Vector3(x * gridSize, 0f, y * gridSize);
-                    Instantiate(cityManager.roadPrefab, worldPos, Quaternion.identity, transform);
-                }
             }
         }
     }
@@ -780,48 +546,6 @@ public class GridVoronoiCity : MonoBehaviour
         return points;
     }
 
-    /*void PlaceModularBlocks()
-    {
-        foreach (var kvp in regionCells)
-        {
-            int seedId = kvp.Key;
-            List<Vector2Int> region = kvp.Value;
-
-            // Calculate average position of region
-            Vector2 sum = Vector2.zero;
-            foreach (var pos in region)
-            {
-                sum += pos;
-            }
-
-            Vector2 avg = sum / region.Count;
-            Vector3 worldPos = new Vector3(avg.x * cellSize, 0, avg.y * cellSize);
-
-            // Pick a random block prefab
-            GameObject prefab = cityBlockPrefabs[seedId % cityBlockPrefabs.Length];
-            GameObject block = Instantiate(prefab, worldPos, Quaternion.identity, transform);
-
-            // Optional: random rotation
-            block.transform.rotation = Quaternion.Euler(0, 90 * Random.Range(0, 4), 0);
-        }
-    }*/
-
-    /*void IdentifyRegionCenters_Average()
-    {
-        foreach (var region in regions)
-        {
-            Vector2Int sum = Vector2Int.zero;
-            foreach (var pos in region.regionPositions)
-            {
-                sum += pos;
-            }
-
-            Vector2Int avg = sum / region.regionPositions.Count;
-
-            region.regionCenterPosition = avg;
-        }
-    }*/
-
     void IdentifyRegionCenters_Median()
     {
         foreach (var region in regions)
@@ -849,32 +573,6 @@ public class GridVoronoiCity : MonoBehaviour
 
             region.regionCenterPosition = new(medianX, medianY);
         }
-    }
-
-    void IdentifyRegionCenter_Median(RegionData region)
-    {
-        List<int> xValues = region.regionPositions.Select(p => p.x).ToList();
-        List<int> yValues = region.regionPositions.Select(p => p.y).ToList();
-
-        xValues.Sort();
-        yValues.Sort();
-
-        int midCount = region.regionPositions.Count / 2;
-        int medianX = 0;
-        int medianY = 0;
-
-        if (region.regionPositions.Count % 2 == 1)
-        {
-            medianX = xValues[midCount];
-            medianY = yValues[midCount];
-        }
-        else
-        {
-            medianX = (xValues[midCount - 1] + xValues[midCount]) / 2;
-            medianY = (yValues[midCount - 1] + yValues[midCount]) / 2;
-        }
-
-        region.regionCenterPosition = new(medianX, medianY);
     }
 
     void CreateRegionBuilding(RegionData region)
@@ -923,32 +621,6 @@ public class GridVoronoiCity : MonoBehaviour
         }
     }
 
-    bool IsWideBorderCell(Vector2Int pos, int range )
-    {
-        int currentId = grid[pos].seedId;
-
-        // Check surrounding cells in a 5x5 neighborhood (2 cells in every direction)
-        for (int dx = -range; dx <= range; dx++)
-        {
-            for (int dy = -range; dy <= range; dy++)
-            {
-                int nx = pos.x + dx;
-                int ny = pos.y + dy;
-
-                // Stay within bounds
-                if (nx >= -(width/2) && nx < (width/2) && ny >= (-height/2) && ny < (height / 2))
-                {
-                    Vector2Int newPos = new Vector2Int(nx, ny);
-                    if (grid[newPos].seedId != currentId)
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
     (bool, List<Vector2Int>, int) IsBorderCellAndIntersection(Vector2Int pos, int range)
     {
         int currentId = grid[pos].seedId;
@@ -956,47 +628,12 @@ public class GridVoronoiCity : MonoBehaviour
         List<Vector2Int> surroundingPositions = new();
         List<Vector2Int> otherRegionPos = new();
         List<int> borderRegionSeeds = new();
-        // Check surrounding cells in a 5x5 neighborhood (2 cells in every direction)
-        //surroundingPositions.Add();
+
+        // Check surrounding cells
         surroundingPositions.Add(new(pos.x, pos.y + 1));
         surroundingPositions.Add(new(pos.x, pos.y - 1));
-
         surroundingPositions.Add(new(pos.x - 1, pos.y));
         surroundingPositions.Add(new(pos.x + 1, pos.y));
-
-        /*surroundingPositions.Add(new(pos.x + 1, pos.y + 1));
-        surroundingPositions.Add(new(pos.x + 1, pos.y - 1));
-
-        surroundingPositions.Add(new(pos.x - 1, pos.y + 1));
-        surroundingPositions.Add(new(pos.x - 1, pos.y - 1));*/
-
-
-
-
-        /*for (int dx = -range; dx <= range; dx++)
-        {
-            for (int dy = -range; dy <= range; dy++)
-            {
-                int nx = pos.x + dx;
-                int ny = pos.y + dy;
-
-                Vector2Int newPos = new(nx, ny);
-                // Stay within bounds
-                *//*if (nx >= -(width / 2) && nx <= (width / 2)+1 && ny >= (-height / 2) && ny <= (height / 2)+1)
-                {
-                    Vector2Int newPos = new Vector2Int(nx, ny);
-                    surroundingPositions.Add(newPos);
-                }*//*
-
-                if (grid.Keys.Contains(newPos))
-                {
-                    surroundingPositions.Add(newPos);
-                }
-
-                *//*Vector2Int newPos = new Vector2Int(nx, ny);
-                surroundingPositions.Add(newPos);*//*
-            }
-        }*/
 
         foreach (Vector2Int newPos in surroundingPositions)
         {
@@ -1023,40 +660,6 @@ public class GridVoronoiCity : MonoBehaviour
         return (false, null, 0);
     }
 
-    (bool, List<Vector2Int>) IsBorderCell(Vector2Int pos, int range)
-    {
-        int currentId = grid[pos].seedId;
-
-        List<Vector2Int> surroundingPositions = new();
-        List<Vector2Int> otherRegionPos = new();
-        // Check surrounding cells in a 5x5 neighborhood (2 cells in every direction)
-        //surroundingPositions.Add();
-        surroundingPositions.Add(new(pos.x, pos.y + 1));
-        surroundingPositions.Add(new(pos.x, pos.y - 1));
-
-        surroundingPositions.Add(new(pos.x - 1, pos.y));
-        surroundingPositions.Add(new(pos.x + 1, pos.y));
-
-        foreach (Vector2Int newPos in surroundingPositions)
-        {
-            if (grid.Keys.Contains(newPos))
-            {
-                int cellSeed = grid[newPos].seedId;
-                if (cellSeed != currentId)
-                {
-                    otherRegionPos.Add(newPos);
-                }
-            }
-        }
-
-        if (otherRegionPos.Count > 0)
-        {
-            return (true, otherRegionPos);
-        }
-
-        return (false, null);
-    }
-
     GameObject GetPrefabForZone(ZoneType zone)
     {
         if (!enableZones)
@@ -1077,6 +680,27 @@ public class GridVoronoiCity : MonoBehaviour
         }
         return null;
     }
+
+    public (Vector3, Vector3) GetLandingZoneRoadGen()
+    {
+        int randomIntersectionId = Random.Range(0, roadGenerator.intersections.Count);
+        Vector2Int pos = roadGenerator.intersections[randomIntersectionId];
+
+        Vector2Int closestPosition = new(int.MaxValue, int.MaxValue);
+
+        foreach (Vector2Int intersection in roadGenerator.intersections)
+        {
+            float oldDist = Vector2Int.Distance(pos, closestPosition);
+            float newDist = Vector2Int.Distance(pos, intersection);
+            if (oldDist < newDist)
+            {
+                closestPosition = intersection;
+            }
+        }
+
+        return (new Vector3(pos.x * gridSize, -.1f, pos.y * gridSize), new Vector3(closestPosition.x * gridSize, -.1f, closestPosition.y * gridSize));
+    }
+
 #if (UNITY_EDITOR)
     public void OnDrawGizmos()
     {
@@ -1180,42 +804,4 @@ public class GridVoronoiCity : MonoBehaviour
         }
     }
 #endif
-    public (Vector3, Vector3) GetLandingZone()
-    {
-        int randomIntersectionId = Random.Range(0,roadIntersections.Count);
-        Vector2Int pos = roadIntersections[randomIntersectionId];
-
-        Vector2Int closestPosition = new(int.MaxValue, int.MaxValue);
-        foreach(Vector2Int intersection in roadIntersections)
-        {
-            float oldDist = Vector2Int.Distance(pos, closestPosition);
-            float newDist = Vector2Int.Distance(pos, intersection);
-            if (oldDist < newDist)
-            {
-                closestPosition = intersection;
-            }
-        }
-
-        return (new Vector3(pos.x * gridSize, -.1f, pos.y * gridSize), new Vector3(closestPosition.x * gridSize, -.1f, closestPosition.y * gridSize));
-    }
-
-    public (Vector3, Vector3) GetLandingZoneRoadGen()
-    {
-        int randomIntersectionId = Random.Range(0, roadGenerator.intersections.Count);
-        Vector2Int pos = roadGenerator.intersections[randomIntersectionId];
-
-        Vector2Int closestPosition = new(int.MaxValue, int.MaxValue);
-
-        foreach (Vector2Int intersection in roadGenerator.intersections)
-        {
-            float oldDist = Vector2Int.Distance(pos, closestPosition);
-            float newDist = Vector2Int.Distance(pos, intersection);
-            if (oldDist < newDist)
-            {
-                closestPosition = intersection;
-            }
-        }
-
-        return (new Vector3(pos.x * gridSize, -.1f, pos.y * gridSize), new Vector3(closestPosition.x * gridSize, -.1f, closestPosition.y * gridSize));
-    }
 }
