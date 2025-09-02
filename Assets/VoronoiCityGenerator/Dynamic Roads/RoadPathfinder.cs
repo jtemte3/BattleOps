@@ -74,7 +74,7 @@ public static class RoadPathfinder
         }
 
         // no path found
-        Debug.LogWarning("Path not found: "+ start + " -> "+  goal);
+        //Debug.LogWarning("Path not found: "+ start + " -> "+  goal);
         return new List<Vector2Int>();
     }
 

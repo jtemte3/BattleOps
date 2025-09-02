@@ -12,9 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Operation.unity
     guid: c42e125103dc4b44dad849902ecd5524
   - enabled: 1
-    path: Assets/Scenes/Test Scenes/VoronoiCityTest.unity
+    path: Assets/Scenes/VoronoiCityTest.unity
     guid: f82a67556dda72f4c847219c34acf72c
   - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/Test Scenes/InitialCityGen.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects: {}
