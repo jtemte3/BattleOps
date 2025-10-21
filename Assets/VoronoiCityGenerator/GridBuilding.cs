@@ -53,10 +53,9 @@ public class GridBuilding : MonoBehaviour
                 nextIndex -= gridpoints.Count;
             }
 
-            Vector3 pos = new Vector3((gridpoints[i].x * gridScale) + transform.position.x, 0, (gridpoints[i].y * gridScale) + transform.position.z);
+            Vector3 pos = new Vector3((gridpoints[i].x * gridScale) + transform.position.x, this.transform.position.y, (gridpoints[i].y * gridScale) + transform.position.z);
 
             Gizmos.DrawSphere(pos, 0.1f);
-
         }
 
     }

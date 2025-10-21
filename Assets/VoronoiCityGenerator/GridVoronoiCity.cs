@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -16,6 +16,11 @@ public class GridVoronoiCity : MonoBehaviour
     public int height = 50;
     public float gridSize = 3f;
     public int seed = 0;
+
+    [Header("City Shape Settings")]
+    public float noiseScale = 0.1f;
+    public float baseScale = 0.05f;
+    public Vector2 noiseOffset;
 
     [Header("City Block Generation")]
     public int numberOfRegions = 10;
@@ -51,7 +56,9 @@ public class GridVoronoiCity : MonoBehaviour
     public string elapsedTime = "Loading...";
 
 
-    public Dictionary<Vector2Int, GridCell> grid;
+    public Dictionary<Vector2Int, GridCell> cityGrid;
+    public Dictionary<Vector2Int, GridCell> buildingGrid;
+    //public Dictionary<Vector2Int, GridCell> roadGrid;
     public List<RegionData> regions = new();
 
     public List<Vector2Int> roadPositions = new();
@@ -84,17 +91,120 @@ public class GridVoronoiCity : MonoBehaviour
             Random.InitState(seed);
         }
 
-        grid = new Dictionary<Vector2Int, GridCell>();
+        cityGrid = new Dictionary<Vector2Int, GridCell>();
+        buildingGrid = new Dictionary<Vector2Int, GridCell>();
+        //roadGrid = new Dictionary<Vector2Int, GridCell>();
 
-        for (int i = -(height / 2); i <= height / 2; i++)
-        {
-            for (int j = -(width / 2); j <= width / 2; j++)
-            {
-                grid.TryAdd(new Vector2Int(j, i), new GridCell());
-            }
-        }
+        CreateRectangularGrid(cityGrid);
+        //CreateCircleCity(roadGrid);
+        //CreateOrganicGrid();
+        CreateWavyCity(buildingGrid);
+
         startTime = System.DateTime.Now;
         StartCoroutine(GenerateCityCoroutine());
+    }
+
+    void CreateRectangularGrid(Dictionary<Vector2Int, GridCell> grid)
+    {
+        for (int i = -(height / 2); i <= (height / 2); i++)
+        {
+            for (int j = -(width / 2); j <= (width / 2); j++)
+            {
+                cityGrid.TryAdd(new Vector2Int(j, i), new GridCell());
+            }
+        }
+    }
+
+    void CreateCircleCity(Dictionary<Vector2Int, GridCell> grid)
+    {
+        int radius = (Mathf.Min(width, height) / 2);
+
+        for (int i = -height / 2; i <= height / 2; i++)
+        {
+            for (int j = -width / 2; j <= width / 2; j++)
+            {
+                if (j * j + i * i <= radius * radius) // inside circle
+                {
+                    grid.TryAdd(new Vector2Int(j, i), new GridCell());
+                }
+            }
+        }
+    }
+
+    void CreateOrganicGrid()
+    {
+        float radius = Mathf.Min(width, height) / 2f;
+        float innerRadius = radius * 0.85f;  // always included zone
+        //float outerRadius = radius * .95f;  // hard cutoff zone
+
+        noiseOffset = new Vector2(Random.Range(0f, 10000f), Random.Range(0f, 10000f));
+
+        for (int i = -height / 2; i <= height / 2; i++)
+        {
+            for (int j = -width / 2; j <= width / 2; j++)
+            {
+                Vector2 pos = new Vector2(j, i);
+                float dist = pos.magnitude;
+
+                if (dist <= innerRadius)
+                {
+                    // always include inside core
+                    cityGrid.TryAdd(new Vector2Int(j, i), new GridCell());
+                }
+                else if (dist > innerRadius)
+                {
+                    // noisy edge zone
+                    /*float warpedX = j + Mathf.PerlinNoise(i * 0.1f + noiseOffset.x, 0f + noiseOffset.y) * 20f;
+                    float warpedY = i + Mathf.PerlinNoise(0f + noiseOffset.x, j * 0.1f + noiseOffset.y) * 20f;
+                    float noise = Mathf.PerlinNoise(warpedX * 0.05f + noiseOffset.x, warpedY * 0.05f + noiseOffset.y);*/
+
+                    float noise = Mathf.PerlinNoise((i * noiseScale) + noiseOffset.x, (j * noiseScale) + noiseOffset.y);
+
+                    //float normalizedDist = (dist - innerRadius) / (outerRadius - innerRadius); // 0 → 1
+                    //if (dist + (noise - 0.5f) * 0.25f < 1f)
+                    //{
+                    //    grid.TryAdd(new Vector2Int(j, i), new GridCell());
+                    //}
+                    if (noise < .5f)
+                    {
+                        cityGrid.TryAdd(new Vector2Int(j, i), new GridCell());
+                    }
+                }
+                // else: beyond outer radius, skip
+            }
+        }
+    }
+
+    void CreateWavyCity(Dictionary<Vector2Int, GridCell> grid)
+    {
+        float baseRadius = Mathf.Min(width, height) / 2f;
+        float sinAmplitude = baseRadius * 0.1f;   // how far the waves push in/out
+        float cosAmplitude = baseRadius * 0.1f;   // how far the waves push in/out
+        float sinFrequency = 4f;                  // number of waves around the circle
+        float cosFrequency = 4f;                  // number of waves around the circle
+
+        grid.Clear();
+
+        for (int i = -height / 2; i <= height / 2; i++)
+        {
+            for (int j = -width / 2; j <= width / 2; j++)
+            {
+                Vector2 pos = new Vector2(j, i);
+                float angle = Mathf.Atan2(i, j);             // angle around center
+                float dist = pos.magnitude;
+
+                // boundary radius at this angle
+                //float wavyRadius = baseRadius + Mathf.Sin(angle * frequency) * amplitude;
+                float wavyRadius = baseRadius
+                    + Mathf.Sin(angle * sinFrequency) * sinAmplitude
+                    + Mathf.Cos(angle * cosFrequency) * cosAmplitude;
+
+                if (dist <= wavyRadius)
+                {
+                    grid.TryAdd(new Vector2Int(j, i), new GridCell());
+                }
+            }
+        }
     }
 
     IEnumerator GenerateCityCoroutine()
@@ -249,6 +359,11 @@ public class GridVoronoiCity : MonoBehaviour
                     Random.Range((-height / 2), (height / 2))
                     );
 
+                if (!cityGrid.ContainsKey(seed))
+                {
+                    break;
+                }
+
                 if (regions.Count > 0)
                 {
                     foreach(RegionData regionData in regions)
@@ -291,22 +406,26 @@ public class GridVoronoiCity : MonoBehaviour
         {
             for (int y = (-height/2); y <= (height/2); y++)
             {
+                
                 Vector2Int current = new Vector2Int(x, y);
-                int closestSeedIndex = -1;
-                float minDist = float.MaxValue;
-
-                foreach (var region in regions)
+                if (cityGrid.ContainsKey(current))
                 {
-                    float dist = Vector2Int.Distance(current, region.regionSeedPosition);
-                    if (dist < minDist)
-                    {
-                        minDist = dist;
-                        closestSeedIndex = region.regionId;
-                    }
-                }
+                    int closestSeedIndex = -1;
+                    float minDist = float.MaxValue;
 
-                grid[current].seedId = closestSeedIndex;
-                regions[closestSeedIndex].regionPositions.Add(current);
+                    foreach (var region in regions)
+                    {
+                        float dist = Vector2Int.Distance(current, region.regionSeedPosition);
+                        if (dist < minDist)
+                        {
+                            minDist = dist;
+                            closestSeedIndex = region.regionId;
+                        }
+                    }
+
+                    cityGrid[current].seedId = closestSeedIndex;
+                    regions[closestSeedIndex].regionPositions.Add(current);
+                }
             }
         }
     }
@@ -319,42 +438,64 @@ public class GridVoronoiCity : MonoBehaviour
         {
             foreach (Vector2Int pos in region.regionPositions)
             {
-                (bool isBorder, List<Vector2Int> otherBorderPos, int borderCount) position = IsBorderCellAndIntersection(pos, 1);
-
-                bool isIntersection = false;
-
-                if (position.borderCount > 1)
+                if (cityGrid.ContainsKey(pos))
                 {
-                    isIntersection = true;
-                }
+                    (bool isBorder, List<Vector2Int> otherBorderPos, int borderCount) position = IsBorderCellAndIntersection(pos, 1);
 
-                if (position.isBorder)
-                {
-                    List<RegionData> borderRegions = new List<RegionData>();
+                    bool isIntersection = false;
 
-                    foreach (Vector2Int borderpos in position.otherBorderPos)
+                    if (position.borderCount > 1)
                     {
-                        if (!borderRegions.Contains(regions[grid[borderpos].seedId]))
-                        {
-                            borderRegions.Add(regions[grid[borderpos].seedId]);
-                        }
+                        isIntersection = true;
                     }
 
-                    if (!isIntersection)
+                    if (position.isBorder)
                     {
-                        bool makeRoad = true;
-                        
+                        List<RegionData> borderRegions = new List<RegionData>();
+
                         foreach (Vector2Int borderpos in position.otherBorderPos)
                         {
-                            if (roadPositions.Contains(borderpos))
+                            if (!borderRegions.Contains(regions[cityGrid[borderpos].seedId]))
                             {
-                                makeRoad = false;
+                                borderRegions.Add(regions[cityGrid[borderpos].seedId]);
                             }
                         }
-                        if (makeRoad)
+
+                        if (!isIntersection)
                         {
-                            roadPositions.Add(pos);
-                            blockedPositions.Add(pos);
+                            bool makeRoad = true;
+
+                            foreach (Vector2Int borderpos in position.otherBorderPos)
+                            {
+                                if (roadPositions.Contains(borderpos))
+                                {
+                                    makeRoad = false;
+                                }
+                            }
+                            if (makeRoad)
+                            {
+                                roadPositions.Add(pos);
+                                blockedPositions.Add(pos);
+                            }
+                            else
+                            {
+                                bool haveAllOtherRegionsFinished = true;
+
+                                foreach (RegionData borderRegion in borderRegions)
+                                {
+                                    if (!borderRegion.finishedPlacingRoads)
+                                    {
+                                        haveAllOtherRegionsFinished = false;
+                                        break;
+                                    }
+                                }
+
+                                if (!haveAllOtherRegionsFinished)
+                                {
+                                    roadPositions.Add(pos);
+                                    blockedPositions.Add(pos);
+                                }
+                            }
                         }
                         else
                         {
@@ -374,50 +515,32 @@ public class GridVoronoiCity : MonoBehaviour
                                 roadPositions.Add(pos);
                                 blockedPositions.Add(pos);
                             }
-                        }
-                    }
-                    else
-                    {
-                        bool haveAllOtherRegionsFinished = true;
 
-                        foreach (RegionData borderRegion in borderRegions)
-                        {
-                            if (!borderRegion.finishedPlacingRoads)
+                            bool isValidIntersection = true;
+                            if (roadIntersections.Count > 0)
                             {
-                                haveAllOtherRegionsFinished = false;
-                                break;
-                            }
-                        }
 
-                        if (!haveAllOtherRegionsFinished)
-                        {
-                            roadPositions.Add(pos);
-                            blockedPositions.Add(pos);
-                        }
-
-                        bool isValidIntersection = true;
-                        if (roadIntersections.Count > 0)
-                        {
-
-                            foreach (Vector2Int intersection in roadIntersections)
-                            {
-                                float distance = Vector2Int.Distance(pos, intersection);
-
-                                if (distance < 2)
+                                foreach (Vector2Int intersection in roadIntersections)
                                 {
-                                    isValidIntersection = false;
-                                    break;
+                                    float distance = Vector2Int.Distance(pos, intersection);
+
+                                    if (distance < 2)
+                                    {
+                                        isValidIntersection = false;
+                                        break;
+                                    }
                                 }
                             }
+
+                            if (isValidIntersection && !haveAllOtherRegionsFinished)
+                            {
+                                roadIntersections.Add(pos);
+                            }
                         }
 
-                        if (isValidIntersection && !haveAllOtherRegionsFinished)
-                        {
-                            roadIntersections.Add(pos);
-                        }
                     }
-                    
                 }
+                
             }
             region.finishedPlacingRoads = true;
         }
@@ -442,7 +565,7 @@ public class GridVoronoiCity : MonoBehaviour
 
             foreach (Vector2Int newPos in surroundingPositions)
             {
-                if (grid.Keys.Contains(newPos) && !roadPositions.Contains(newPos))
+                if (cityGrid.Keys.Contains(newPos) && !roadPositions.Contains(newPos))
                 {
                     wideRoadPositions.Add(newPos);
                     blockedPositions.Add(newPos);
@@ -463,7 +586,7 @@ public class GridVoronoiCity : MonoBehaviour
 
         foreach (Vector2Int pos in validPositions)
         {
-            int regionId = grid[pos].seedId;
+            int regionId = cityGrid[pos].seedId;
             RegionData region = regions[regionId];
             region.regionRoadCount++;
 
@@ -514,7 +637,8 @@ public class GridVoronoiCity : MonoBehaviour
 
     void IdentifyRoadEdges()
     {
-        List<Vector2Int> edgesPositions = GetEdgePositions();
+        //List<Vector2Int> edgesPositions = GetEdgePositions();
+        List<Vector2Int> edgesPositions = GetEdgeCells();
 
         foreach (Vector2Int pos in edgesPositions)
         {
@@ -544,6 +668,46 @@ public class GridVoronoiCity : MonoBehaviour
         }
 
         return points;
+    }
+
+    List<Vector2Int> GetEdgeCells()
+    {
+        List<Vector2Int> edgeCells = new List<Vector2Int>();
+
+        // directions to check (4-neighbors, or 8 if you want diagonals)
+        Vector2Int[] dirs = new Vector2Int[]
+        {
+            new Vector2Int(1, 0),   // E
+            new Vector2Int(-1, 0),  // W
+            new Vector2Int(0, 1),   // N
+            new Vector2Int(0, -1),  // S
+            new Vector2Int(1, 1),   // NE
+            new Vector2Int(-1, 1),  // NW
+            new Vector2Int(1, -1),  // SE
+            new Vector2Int(-1, -1), // SW
+        };
+
+        foreach (var kvp in cityGrid)
+        {
+            Vector2Int pos = kvp.Key;
+            int numberMissing = 0;
+            //bool isEdgeCell = false;
+
+            foreach (var dir in dirs)
+            {
+                if (!cityGrid.ContainsKey(pos + dir))
+                {
+                    numberMissing++;
+                }
+            }
+
+            if (numberMissing > 0 && numberMissing < 5)
+            {
+                edgeCells.Add(pos);
+            }
+        }
+
+        return edgeCells;
     }
 
     void IdentifyRegionCenters_Median()
@@ -589,27 +753,29 @@ public class GridVoronoiCity : MonoBehaviour
             if (!isAvailable)
             {
                 //Vector2Int position = CityGeneratorUtils.GetRandomPosition(city.gridWidth, city.gridHeight);
-                Vector2Int position = VoronoiCityUtils.GetRandomPosition(region.regionPositions, blockedPositions);
-
-                if (grid[position].isBlocked == false)
+                Vector2Int position = VoronoiCityUtils.GetRandomPosition(region, blockedPositions, cityGrid);
+                if (buildingGrid.ContainsKey(position))
                 {
-                    List<Vector2Int> cityBlockGridPoints = VoronoiCityUtils.FindSurroundingPositions(position, currentCityBlock.dimensions.x, currentCityBlock.dimensions.y, false);
-                    //List<Vector2Int> cityBlockGridPointsWithMargin = VoronoiCityUtils.FindSurroundingPositions(position, currentCityBlock.dimensions.x, currentCityBlock.dimensions.y, false);
-
-                    bool isValidPosition = VoronoiCityUtils.isRoomValid(cityBlockGridPoints, blockedPositions, buildings, width, height, position, currentCityBlock);
-
-                    if (isValidPosition)
+                    if (cityGrid[position].isBlocked == false)
                     {
-                        isAvailable = true;
-                        currentCityBlock.gridPosition = position;
-                        selectedCityBlock.transform.position = new Vector3((position.x * gridSize) + transform.position.x, 0, (position.y * gridSize) + transform.position.z);
-                        selectedCityBlock.transform.parent = this.transform;
+                        List<Vector2Int> cityBlockGridPoints = VoronoiCityUtils.FindSurroundingPositions(position, currentCityBlock.dimensions.x, currentCityBlock.dimensions.y, false);
+                        //List<Vector2Int> cityBlockGridPointsWithMargin = VoronoiCityUtils.FindSurroundingPositions(position, currentCityBlock.dimensions.x, currentCityBlock.dimensions.y, false);
 
-                        grid[position].isBlocked = true;
-                        buildings.Add(currentCityBlock);
-                        blockedPositions.AddRange(cityBlockGridPoints);
-                        region.actualBuildingCount++;
-                        break;
+                        bool isValidPosition = VoronoiCityUtils.isRoomValid(cityBlockGridPoints, blockedPositions, buildings, width, height, position, currentCityBlock);
+
+                        if (isValidPosition)
+                        {
+                            isAvailable = true;
+                            currentCityBlock.gridPosition = position;
+                            selectedCityBlock.transform.position = new Vector3((position.x * gridSize) + transform.position.x, 0, (position.y * gridSize) + transform.position.z);
+                            selectedCityBlock.transform.parent = this.transform;
+
+                            cityGrid[position].isBlocked = true;
+                            buildings.Add(currentCityBlock);
+                            blockedPositions.AddRange(cityBlockGridPoints);
+                            region.actualBuildingCount++;
+                            break;
+                        }
                     }
                 }
             }
@@ -623,7 +789,7 @@ public class GridVoronoiCity : MonoBehaviour
 
     (bool, List<Vector2Int>, int) IsBorderCellAndIntersection(Vector2Int pos, int range)
     {
-        int currentId = grid[pos].seedId;
+        int currentId = cityGrid[pos].seedId;
 
         List<Vector2Int> surroundingPositions = new();
         List<Vector2Int> otherRegionPos = new();
@@ -637,9 +803,9 @@ public class GridVoronoiCity : MonoBehaviour
 
         foreach (Vector2Int newPos in surroundingPositions)
         {
-            if (grid.Keys.Contains(newPos))
+            if (cityGrid.Keys.Contains(newPos))
             {
-                int cellSeed = grid[newPos].seedId;
+                int cellSeed = cityGrid[newPos].seedId;
                 if (cellSeed != currentId)
                 {
                     otherRegionPos.Add(newPos);
@@ -716,15 +882,15 @@ public class GridVoronoiCity : MonoBehaviour
             {
                 for (int x = (int)(-(width * 1.5) - gridSize); x <= (width * 1.5); x += 3)
                 {
-                    Vector3 startPos = new Vector3(x + 1.5f, 0, (float)((width * 1.5) + 1.5f));
-                    Vector3 endPos = new Vector3(x + 1.5f, 0, (float)((width * -1.5) - 1.5f));
+                    Vector3 startPos = new Vector3(x + 1.5f, 0, (float)((width * 1.5) + 1.5f)) + transform.position;
+                    Vector3 endPos = new Vector3(x + 1.5f, 0, (float)((width * -1.5) - 1.5f)) + transform.position;
                     Gizmos.DrawLine(startPos, endPos);
                 }
 
                 for (int y = (int)(-(height * 1.5) - gridSize); y <= (height * 1.5); y += 3)
                 {
-                    Vector3 startPos = new Vector3((float)((height * 1.5) + 1.5f), 0, (float)y + 1.5f);
-                    Vector3 endPos = new Vector3((float)((height * -1.5) - 1.5f), 0, (float)y + 1.5f);
+                    Vector3 startPos = new Vector3((float)((height * 1.5) + 1.5f), 0, (float)y + 1.5f) + transform.position;
+                    Vector3 endPos = new Vector3((float)((height * -1.5) - 1.5f), 0, (float)y + 1.5f) + transform.position;
                     Gizmos.DrawLine(startPos, endPos);
                 }
             }
@@ -732,15 +898,15 @@ public class GridVoronoiCity : MonoBehaviour
             {
                 for (int x = (int)(-(height * 1.5) - gridSize); x <= (height * 1.5); x += 3)
                 {
-                    Vector3 startPos = new Vector3(x + 2.5f, 0, height * 1.5f);
-                    Vector3 endPos = new Vector3(x + 2.5f, 0, -height * 1.5f);
+                    Vector3 startPos = new Vector3(x + 2.5f, 0, height * 1.5f) + transform.position;
+                    Vector3 endPos = new Vector3(x + 2.5f, 0, -height * 1.5f) + transform.position;
                     Gizmos.DrawLine(startPos, endPos);
                 }
 
                 for (int y = (int)(-(height * 1.5) - gridSize); y <= (height * 1.5); y += 3)
                 {
-                    Vector3 startPos = new Vector3(height * 1.5f, 0, y + 2.5f);
-                    Vector3 endPos = new Vector3(-height * 1.5f, 0, y + 2.5f);
+                    Vector3 startPos = new Vector3(height * 1.5f, 0, y + 2.5f) + transform.position;
+                    Vector3 endPos = new Vector3(-height * 1.5f, 0, y + 2.5f) + transform.position;
                     Gizmos.DrawLine(startPos, endPos);
                 }
             }
@@ -749,13 +915,13 @@ public class GridVoronoiCity : MonoBehaviour
             {
                 for (int w = -(width / 2); w <= (width / 2); w++)
                 {
-                    Vector3 labelPos = new(((height / 2) * gridSize) + 3, 0, w * gridSize);
+                    Vector3 labelPos = new Vector3(((height / 2) * gridSize) + 3, 0f, w * gridSize) + transform.position;
                     Handles.Label(labelPos, w.ToString());
                 }
 
                 for (int h = -(height / 2); h <= (height / 2); h++)
                 {
-                    Vector3 labelPos = new(h * gridSize, 0, ((width / 2) * gridSize) + 3);
+                    Vector3 labelPos = new Vector3(h * gridSize, 0, ((width / 2) * gridSize) + 3) + transform.position;
                     Handles.Label(labelPos, h.ToString());
                 }
             }
@@ -764,7 +930,7 @@ public class GridVoronoiCity : MonoBehaviour
             {
                 Gizmos.color = Color.white;
 
-                Vector3 pos = new Vector3(highlightPos.x * gridSize, 0, highlightPos.y * gridSize);
+                Vector3 pos = new Vector3(highlightPos.x * gridSize, 0, highlightPos.y * gridSize) + transform.position;
 
                 Gizmos.DrawWireCube(pos, Vector3.one * 3);
             }
@@ -774,8 +940,8 @@ public class GridVoronoiCity : MonoBehaviour
             {
                 foreach (var region in regions)
                 {
-                    Vector3 pos = new(region.regionCenterPosition.x * gridSize, 1, region.regionCenterPosition.y * gridSize);
-                    Vector3 labelPos = new(region.regionCenterPosition.x * gridSize, 5, region.regionCenterPosition.y * gridSize);
+                    Vector3 pos = new Vector3(region.regionCenterPosition.x * gridSize, 1, region.regionCenterPosition.y * gridSize) + transform.position;
+                    Vector3 labelPos = new Vector3(region.regionCenterPosition.x * gridSize, 5, region.regionCenterPosition.y * gridSize) + transform.position;
                     Gizmos.DrawSphere(pos, 3f);
                     Handles.Label(labelPos, region.regionId.ToString());
                 }
@@ -785,7 +951,7 @@ public class GridVoronoiCity : MonoBehaviour
                     Gizmos.color = IntersectionColor;
                     foreach (Vector2Int intersection in roadIntersections)
                     {
-                        Vector3 pos = new(intersection.x * gridSize, 1, intersection.y * gridSize);
+                        Vector3 pos = new Vector3(intersection.x * gridSize, 1, intersection.y * gridSize) + transform.position;
                         Gizmos.DrawSphere(pos, 1f);
                     }
                 }
@@ -796,7 +962,7 @@ public class GridVoronoiCity : MonoBehaviour
                     //Gizmos.color = Color.orange;
                     foreach (Vector2Int edgePos in roadEdgePositions)
                     {
-                        Vector3 pos = new(edgePos.x * gridSize, 1, edgePos.y * gridSize);
+                        Vector3 pos = new Vector3(edgePos.x * gridSize, 1, edgePos.y * gridSize) + transform.position;
                         Gizmos.DrawSphere(pos, 1f);
                     }
                 }

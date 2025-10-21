@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
 
     public GameObject playerController;
     //public MissionManager missionManager;
+    public bool reGenerateTerrain = true;
 
     public float timer;
     float startTime;
@@ -21,8 +22,11 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        terrainObject.SetRandomNoiseOffset();
-        terrainObject.Generate();
+        if (reGenerateTerrain)
+        {
+            terrainObject.SetRandomNoiseOffset();
+            terrainObject.Generate();
+        }
     }
 
     // Update is called once per frame

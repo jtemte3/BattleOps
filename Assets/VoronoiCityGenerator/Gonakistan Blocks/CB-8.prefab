@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockId: CB-8
-  gridPosition: {x: -1, y: 20}
+  gridPosition: {x: 0, y: 0}
   dimensions: {x: 3, y: 3}
   gridScale: 3
   blockSpacingDistance: 7
