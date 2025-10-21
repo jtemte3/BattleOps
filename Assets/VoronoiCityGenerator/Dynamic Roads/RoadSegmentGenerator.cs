@@ -148,8 +148,8 @@ public class RoadSegmentGenerator : MonoBehaviour
                         if (i != segment.Count - 1)
                         {
                             int nextIndex = i + 1;
-                            Vector3 pos = new(segment[i].x * gridScale, 1, segment[i].y * gridScale);
-                            Vector3 nextPos = new(segment[nextIndex].x * gridScale, 1, segment[nextIndex].y * gridScale);
+                            Vector3 pos = new Vector3(segment[i].x * gridScale, 1, segment[i].y * gridScale) + transform.position;
+                            Vector3 nextPos = new Vector3(segment[nextIndex].x * gridScale, 1, segment[nextIndex].y * gridScale) + transform.position;
 
                             Gizmos.color = segmentColors[s];
                             Gizmos.DrawLine(pos, nextPos);
@@ -175,8 +175,8 @@ public class RoadSegmentGenerator : MonoBehaviour
                         if (i != path.Count - 1)
                         {
                             int nextIndex = i + 1;
-                            Vector3 pos = new(path[i].x * gridScale, 1, path[i].y * gridScale);
-                            Vector3 nextPos = new(path[nextIndex].x * gridScale, 1, path[nextIndex].y * gridScale);
+                            Vector3 pos = new Vector3(path[i].x * gridScale, 1, path[i].y * gridScale) + transform.position;
+                            Vector3 nextPos = new Vector3(path[nextIndex].x * gridScale, 1, path[nextIndex].y * gridScale) + transform.position;
 
                             Gizmos.DrawLine(pos, nextPos);
 
@@ -191,7 +191,7 @@ public class RoadSegmentGenerator : MonoBehaviour
                 Gizmos.color = new Color(0, 1, 0, .25f);
                 foreach (Vector2Int intersection in intersections)
                 {
-                    Vector3 pos = new(intersection.x * gridScale, 1, intersection.y * gridScale);
+                    Vector3 pos = new Vector3(intersection.x * gridScale, 1, intersection.y * gridScale) + transform.position;
                     Gizmos.DrawSphere(pos, 1f);
                 }
             }
@@ -216,12 +216,12 @@ public class RoadSegmentGenerator : MonoBehaviour
 
                         Gizmos.color = intersectionColors[intersectionMap.IndexOf(intersection)];
 
-                        Vector3 pos = new(intersection.position.x * gridScale, 1, intersection.position.y * gridScale);
+                        Vector3 pos = new Vector3(intersection.position.x * gridScale, 1, intersection.position.y * gridScale) + transform.position;
                         Gizmos.DrawSphere(pos, 1f);
 
                         foreach (Vector2Int neightborPosition in intersection.neighborPos)
                         {
-                            Vector3 neighPos = new(neightborPosition.x * gridScale, 1, neightborPosition.y * gridScale);
+                            Vector3 neighPos = new Vector3(neightborPosition.x * gridScale, 1, neightborPosition.y * gridScale) + transform.position;
                             Gizmos.DrawLine(pos, neighPos);
                         }
 
@@ -233,12 +233,12 @@ public class RoadSegmentGenerator : MonoBehaviour
                     {
                         Gizmos.color = intersectionColors[intersectionMap.IndexOf(intersection)];
 
-                        Vector3 pos = new(intersection.position.x * gridScale, 1, intersection.position.y * gridScale);
+                        Vector3 pos = new Vector3(intersection.position.x * gridScale, 1, intersection.position.y * gridScale) + transform.position;
                         Gizmos.DrawSphere(pos, 1f);
 
                         foreach (Vector2Int neightborPosition in intersection.neighborPos)
                         {
-                            Vector3 neighPos = new(neightborPosition.x * gridScale, 1, neightborPosition.y * gridScale);
+                            Vector3 neighPos = new Vector3(neightborPosition.x * gridScale, 1, neightborPosition.y * gridScale) + transform.position;
                             Gizmos.DrawLine(pos, neighPos);
                         }
 

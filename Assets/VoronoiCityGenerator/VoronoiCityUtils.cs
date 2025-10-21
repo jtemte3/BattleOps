@@ -19,19 +19,42 @@ public class VoronoiCityUtils : MonoBehaviour
         return openPositions[Random.Range(0, openPositions.Count)];
     }
 
-    public static Vector2Int GetRandomPosition(List<Vector2Int> regionPositions, List<Vector2Int> blockedPositions)
+    public static Vector2Int GetRandomPosition(Dictionary<Vector2Int, bool> grid)
     {
         List<Vector2Int> openPositions = new List<Vector2Int>();
 
-        foreach (var position in regionPositions)
+        foreach (var cell in grid)
         {
-            if (!blockedPositions.Contains(position))
+            if (cell.Value == false)
+            {
+                openPositions.Add(cell.Key);
+            }
+        }
+
+        return openPositions[Random.Range(0, openPositions.Count)];
+    }
+
+    public static Vector2Int GetRandomPosition(RegionData region, List<Vector2Int> blockedPositions, Dictionary<Vector2Int, GridCell> grid)
+    {
+        List<Vector2Int> openPositions = new List<Vector2Int>();
+
+        foreach (var position in region.regionPositions)
+        {
+            if (!blockedPositions.Contains(position) && grid.ContainsKey(position))
             {
                 openPositions.Add(position);
             }
         }
 
-        return openPositions[Random.Range(0, openPositions.Count)];
+        if (openPositions.Count > 0)
+        {
+            return openPositions[Random.Range(0, openPositions.Count)];
+        }
+        else
+        {
+            return region.regionCenterPosition;
+        }
+        
     }
 
     public static bool isRoomValid(List<Vector2Int> roomList, List<Vector2Int> blockedList, List<GridBuilding> buildings, int gridWidth, int gridHeight, Vector2Int position, GridBuilding currentBlock)
@@ -49,6 +72,38 @@ public class VoronoiCityUtils : MonoBehaviour
             }
 
             List<GridBuilding> similarBlocks = buildings.FindAll(x => x.blockId == currentBlock.GetId());
+
+            foreach (var block in similarBlocks)
+            {
+                float distance = Vector2.Distance(position, block.GetPosition());
+
+                if (distance < currentBlock.GetSpacing())
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static bool isRoomValid(List<Vector2Int> roomList, Dictionary<Vector2Int,bool> grid, List<GridBuilding> buildings, Vector2Int position, GridBuilding currentBlock)
+    {
+        foreach (var item in roomList)
+        {
+            if (grid.ContainsKey(item))
+            {
+                if (grid[item] == true)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+
+                List<GridBuilding> similarBlocks = buildings.FindAll(x => x.blockId == currentBlock.GetId());
 
             foreach (var block in similarBlocks)
             {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class SimpleCurveBuilder
@@ -29,7 +30,7 @@ public static class SimpleCurveBuilder
 
     // Sample an arc that passes exactly through start, mid, end (XZ plane). 
     // Falls back to a straight line if points are nearly collinear.
-    public static List<Vector3> SampleCircularArc(Vector3 start, Vector3 mid, Vector3 end, int samples)
+    private static List<Vector3> SampleCircularArc(Vector3 start, Vector3 mid, Vector3 end, int samples)
     {
         Vector2 A = new Vector2(start.x, start.z);
         Vector2 B = new Vector2(mid.x, mid.z);
@@ -82,5 +83,69 @@ public static class SimpleCurveBuilder
         }
 
         return pts;
+    }
+
+    // --------------------------
+    // Sample spline points along a segment
+    // --------------------------
+    public static List<Vector3> SimpleSpline(List<Vector2Int> segment, int samples)
+    {
+        List<Vector3> points = segment.Select(p => new Vector3(p.x, 0, p.y)).ToList();
+        List<Vector3> splinePoints = new List<Vector3>();
+
+        for (int i = 0; i < points.Count - 1; i++)
+        {
+            Vector3 p0 = i == 0 ? points[i] : points[i - 1];
+            Vector3 p1 = points[i];
+            Vector3 p2 = points[i + 1];
+            Vector3 p3 = (i + 2 < points.Count) ? points[i + 2] : points[i + 1];
+
+            for (int s = 0; s < samples; s++)
+            {
+                float t = s / (float)samples;
+                splinePoints.Add(CatmullRom(p0, p1, p2, p3, t));
+            }
+        }
+
+        splinePoints.Add(points.Last());
+        return splinePoints;
+    }
+
+    // --------------------------
+    // Sample spline points along a segment
+    // --------------------------
+    public static List<Vector3> SimpleSplineFromTrasforms(List<Vector3> path, int samples)
+    {
+        List<Vector3> splinePoints = new List<Vector3>();
+
+        for (int i = 0; i < path.Count - 1; i++)
+        {
+            Vector3 p0 = i == 0 ? path[i] : path[i - 1];
+            Vector3 p1 = path[i];
+            Vector3 p2 = path[i + 1];
+            Vector3 p3 = (i + 2 < path.Count) ? path[i + 2] : path[i + 1];
+
+            for (int s = 0; s < samples; s++)
+            {
+                float t = s / (float)samples;
+                splinePoints.Add(CatmullRom(p0, p1, p2, p3, t));
+            }
+        }
+
+        splinePoints.Add(path.Last());
+        return splinePoints;
+    }
+
+    // --------------------------
+    // Catmull-Rom spline
+    // --------------------------
+    private static Vector3 CatmullRom(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
+    {
+        float t2 = t * t;
+        float t3 = t2 * t;
+        return 0.5f * ((2f * p1) +
+                       (-p0 + p2) * t +
+                       (2f * p0 - 5f * p1 + 4f * p2 - p3) * t2 +
+                       (-p0 + 3f * p1 - 3f * p2 + p3) * t3);
     }
 }

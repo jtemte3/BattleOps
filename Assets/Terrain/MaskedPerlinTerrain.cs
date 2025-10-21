@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[ExecuteAlways]
+//[ExecuteAlways]
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
 public class MaskedPerlinTerrain : MonoBehaviour
 {
@@ -209,7 +209,7 @@ public class MaskedPerlinTerrain : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
-        Vector3 size = new Vector3((xVerts - 1) * cellSize, 0.01f, (zVerts - 1) * cellSize);
+        Vector3 size = new((xVerts - 1) * cellSize, 0.01f, (zVerts - 1) * cellSize);
         Gizmos.matrix = transform.localToWorldMatrix;
         Gizmos.DrawWireCube(new Vector3(size.x * 0.5f, 0f, size.z * 0.5f), size);
     }
