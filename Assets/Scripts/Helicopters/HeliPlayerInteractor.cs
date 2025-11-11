@@ -14,13 +14,13 @@ public class HeliPlayerInteractor : MonoBehaviour
     public ControlSchemeManager controlSchemeManager;
     public JetpackPlayerController controller;
     public List<GameObject> gameObjectsToManage;
-    public GameObject interactionUI;
+    public InteractionTextManager interactionManager;
 
     // Start is called before the first frame update
     void Start()
     {
         controller.canMove = false;
-        interactionUI.gameObject.SetActive(false);
+        interactionManager.SetTextState(false);
 
         foreach (GameObject go in gameObjectsToManage)
         {
@@ -48,12 +48,13 @@ public class HeliPlayerInteractor : MonoBehaviour
         
         if (canPlayerExit && isHeliDecended)
         {
-            interactionUI.gameObject.SetActive(true);
+            interactionManager.SetTextValue("Press "+ controlSchemeManager.interact+ " to Exit Helicopter");
+            interactionManager.SetTextState(true);
 
             if (Input.GetKeyDown(controlSchemeManager.interact))
             {
                 ActivatePlayer();
-                interactionUI.gameObject.SetActive(false);
+                interactionManager.SetTextState(false);
                 this.enabled = false;
             }
         }

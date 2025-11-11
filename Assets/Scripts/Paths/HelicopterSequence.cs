@@ -17,6 +17,7 @@ public class HelicopterSequence : MonoBehaviour
     public float flyingSpeed;
     public float approachSpeed;
     public float decentSpeed;
+    public float exitSpeed;
     public float decentHeight;
     public float rotationalSpeed;
     public float nodeRange;
@@ -174,7 +175,7 @@ public class HelicopterSequence : MonoBehaviour
 
         float dist = Vector3.Distance(helicopter.transform.position, nextNodeObject.transform.position);
 
-        speed = Mathf.Lerp(decentSpeed, flyingSpeed, currentAccelerationRate);
+        speed = Mathf.Lerp(decentSpeed, exitSpeed, currentAccelerationRate);
 
         currentAccelerationRate += Time.deltaTime;
 
