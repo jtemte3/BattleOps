@@ -16,7 +16,7 @@ public class Event_Extraction : MissionEvent
     {
         if (player == null)
         {
-            player = FindObjectOfType<JetpackPlayerController>();
+            player = FindFirstObjectByType<JetpackPlayerController>();
         }
         else
         {

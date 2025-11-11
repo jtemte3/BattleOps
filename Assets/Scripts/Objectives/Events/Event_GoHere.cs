@@ -11,7 +11,7 @@ public class Event_GoHere : MissionEvent
     {
         if (player == null)
         {
-            player = FindObjectOfType<JetpackPlayerController>();
+            player = FindFirstObjectByType<JetpackPlayerController>();
         }
         else
         {
@@ -29,7 +29,7 @@ public class Event_GoHere : MissionEvent
 #if (UNITY_EDITOR)
     void OnDrawGizmos()
     {
-        Handles.DrawWireDisc(transform.position, new Vector3(0, 1, 0), 1.0f);
+        Handles.DrawWireDisc(transform.position, new Vector3(0, 1, 0), completionDistance);
         Handles.DrawLine(transform.position, transform.position + (Vector3.up * 5));
     }
 #endif

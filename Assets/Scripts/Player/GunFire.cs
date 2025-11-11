@@ -4,21 +4,24 @@ public class GunFire : MonoBehaviour
 {
     public ControlSchemeManager controlScheme;
     public JetpackPlayerController playerController;
+    public Camera mainCamera;
     public ClipManager clipManager;
     public RecoilController recoilController;
     public float fireRate = 10f; // bullets per second
+    public GameObject gunMuzzle;
+    public GameObject bulletPrefab;
+    public float bulletSpeed;
+    public float sightRange = 500f;
 
-    private float nextFireTime;
-    private bool firstPass = true;
+    private float nextFireTime = 0f;
+
+    private void Start()
+    {
+        nextFireTime = Time.time;
+    }
 
     void Update()
     {
-        if (firstPass)
-        {
-            recoilController.ApplyRecoil();
-            firstPass = false;
-        }
-
         if (playerController.GetMovementState() != "sprinting" && clipManager.isClipped != true)
         {
             bool isFiring = Input.GetKey(controlScheme.weaponFire);
@@ -37,5 +40,15 @@ public class GunFire : MonoBehaviour
     void FireWeapon()
     {
         recoilController.ApplyRecoil();
+
+        Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+        //RaycastHit hit;
+
+        Vector3 targetPoint;
+        targetPoint = ray.GetPoint(sightRange);
+
+        GameObject bullet = Instantiate(bulletPrefab, gunMuzzle.transform.position, gunMuzzle.transform.rotation);
+        bullet.transform.parent = null;
+        bullet.GetComponent<Rigidbody>().linearVelocity = (targetPoint - gunMuzzle.transform.position).normalized * bulletSpeed;
     }
 }
