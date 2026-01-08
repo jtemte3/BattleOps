@@ -27,13 +27,13 @@ public class LadderScript : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(startHitColliders[0].gameObject.transform.position, startHitColliders[0].gameObject.transform.TransformDirection(Vector3.forward), out hit, 3, LadderMask))
             {
-                startHitColliders[0].gameObject.GetComponent<JetpackPlayerController>().isClimbingLadder = true;
+                startHitColliders[0].gameObject.GetComponent<PlayerController>().isClimbingLadder = true;
             }
         }
 
         if (endHitColliders.Length > 0)
         {
-            endHitColliders[0].gameObject.GetComponent<JetpackPlayerController>().isClimbingLadder = false;
+            endHitColliders[0].gameObject.GetComponent<PlayerController>().isClimbingLadder = false;
         }
     }
 #if (UNITY_EDITOR)
