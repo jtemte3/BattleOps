@@ -1,33 +1,37 @@
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerController : MonoBehaviour
 {
 
     public ControlSchemeManager controlScheme;
+    public GunProfile currentProfile;
+    public MultiAimConstraint headAimConstraint;
     //Creating a speed variable that can change
     float speed;
     Vector2 LookInput;
-    public float speedWalking = 2.0f;
-    public float speedRunning = 5.0f;
+    public float walkingSpeed = 2.5f;
+    public float croutchSpeed = 2.0f;
+    public float runningSpeed = 5.5f;
     public float speedJump = 750.0f;
     public float speedClimb = 50.0f;
-    public float speedRotation = 2.0f;
+    public float rotationSpeed = 3.0f;
     public float speedVerticalRotation = 2.0f;
     public bool jetpackMode = true;
     public bool isClimbingLadder = false;
     public Camera cam;
-    public float minPitch = -85f;
-    public float maxPitch = 85f;
+    public float pitchRange = 85f;
+    public float rollRange = 85f;
     private float pitch = 0f;   // Tracks camera X rotation
     Rigidbody playerRigidBody;
     Transform PlayerBase;
     bool canJump = false;
-    float floorCheckDistance = 1.0f;
+    public float floorCheckDistance = 1.0f;
     string movementState = "idle";
-    string cameraState = "center";
-    string aimState = "basic";
     string stanceState = "standing";
     public bool isMounted = true;
+    public bool canDismount = true;
+    private bool resetCameraOffset = false;
 
     void Start()
     {
@@ -55,6 +59,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Delete Me
+        if (isMounted && canDismount)
+        {
+            if (Input.GetKeyDown(controlScheme.interact))
+            {
+                isMounted = false;
+            }
+        }
 
         //Check for jetpack settings
         if (Input.GetKeyDown(controlScheme.flyingMode))
@@ -72,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (isMounted)
+        if (!isMounted)
         {
             //Check Stance and set stanceState
             if (Input.GetKeyDown(controlScheme.croutch))
@@ -89,20 +101,28 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (isMounted)
+        if (!isMounted)
         {
             //Check to sprint and set movement animation states
             if (Input.GetKey(controlScheme.foreward) || Input.GetKey(controlScheme.backward) || Input.GetKey(controlScheme.left) || Input.GetKey(controlScheme.right))
             {
                 if (Input.GetKey(controlScheme.sprint) && stanceState != "crouching")
                 {
-                    speed = speedRunning * Time.deltaTime;
+                    speed = runningSpeed * Time.deltaTime;
                     movementState = "sprinting";
                 }
                 else
                 {
-                    speed = speedWalking * Time.deltaTime;
-                    movementState = "walking";
+                    if (stanceState == "crouching")
+                    {
+                        speed = croutchSpeed * Time.deltaTime;
+                        movementState = "walking";
+                    }
+                    else
+                    {
+                        speed = walkingSpeed * Time.deltaTime;
+                        movementState = "walking";
+                    }
                 }
             }
             else
@@ -112,54 +132,31 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-
-        //Check Camera animation states
-        if (Input.GetKey(controlScheme.leanRight))
+        if (!isMounted)
         {
-            cameraState = "right";
+            RaycastHit hit;
+            // This determines if the player is touching the ground or a surface underneath them
+            if (Physics.Raycast(PlayerBase.position, PlayerBase.TransformDirection(Vector3.down), out hit, floorCheckDistance))
+            {
+                Debug.DrawRay(PlayerBase.position, PlayerBase.TransformDirection(Vector3.down) * floorCheckDistance, Color.yellow);
+                //Debug.Log("On the ground");
+                canJump = true;
+            }
+            else
+            {
+                Debug.DrawRay(PlayerBase.position, PlayerBase.TransformDirection(Vector3.down) * floorCheckDistance, Color.white);
+                //Debug.Log("Not on the ground");
+                canJump = false;
+                movementState = "jump";
+            }
         }
-        else if (Input.GetKey(controlScheme.leanLeft))
-        {
-            cameraState = "left";
-        }
-        else
-        {
-            cameraState = "center";
-        }
-
-        //Check for AimState
-        if (Input.GetKey(controlScheme.weaponAimDownSights))
-        {
-            aimState = "ads";
-        }
-        else
-        {
-            aimState = "basic";
-        }
-
-        RaycastHit hit;
-        // This determines if the player is touching the ground or a surface underneath them
-        if (Physics.Raycast(PlayerBase.position, PlayerBase.TransformDirection(Vector3.down), out hit, floorCheckDistance))
-        {
-            Debug.DrawRay(PlayerBase.position, PlayerBase.TransformDirection(Vector3.down) * floorCheckDistance, Color.yellow);
-            //Debug.Log("On the ground");
-            canJump = true;
-        }
-        else
-        {
-            Debug.DrawRay(PlayerBase.position, PlayerBase.TransformDirection(Vector3.down) * floorCheckDistance, Color.white);
-            //Debug.Log("Not on the ground");
-            canJump = false;
-        }
+        
 
         //For camera controls
         //Get the horizontal movement of the mouse to rotate the character from side to side
-        LookInput.x = speedRotation * Input.GetAxis("Mouse X");
+        LookInput.x = rotationSpeed * Input.GetAxis("Mouse X");
         //Get the vertical movement of the mouse to rotate the camera up and down
         LookInput.y = speedVerticalRotation * Input.GetAxis("Mouse Y");
-
-        //Set the character to move left and right based off the horizontal variable
-        transform.Rotate(0, LookInput.x, 0);
 
         //Set the camera to move up and down based off the vertical variable. (to invert make it positive)
         if (controlScheme.verticalInversion)
@@ -172,10 +169,36 @@ public class PlayerController : MonoBehaviour
         }
 
         // Clamp pitch to prevent flipping
-        pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+        pitch = Mathf.Clamp(pitch, -pitchRange, pitchRange);
 
-        // Apply camera rotation using the clamped pitch
-        cam.transform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+        if (isMounted)
+        {
+            // Apply camera rotation using the clamped pitch
+            cam.transform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+            float yVal = headAimConstraint.data.offset.y + LookInput.x;
+            float rollVal = Mathf.Clamp(yVal, -rollRange, rollRange);
+
+            headAimConstraint.data.offset = new Vector3(0f, rollVal, 0f);
+
+            if (resetCameraOffset == false)
+            {
+                resetCameraOffset = true;
+            }
+        }
+        else
+        {
+            if (resetCameraOffset == true)
+            {
+                headAimConstraint.data.offset = new Vector3(0f, 0f, 0f);
+                resetCameraOffset = false;
+            }
+            
+            // Apply camera rotation using the clamped pitch
+            cam.transform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+            //Set the character to move left and right based off the horizontal variable
+            transform.Rotate(0, LookInput.x, 0);
+        }
+
 
 
         if (jetpackMode)
@@ -192,7 +215,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if (isMounted)
+                if (!isMounted)
                 {
                     playerRigidBody.useGravity = true;
                     playerRigidBody.isKinematic = false;
@@ -262,11 +285,11 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKey(controlScheme.sprint))
             {
-                transform.Translate(0, speedRunning * Time.deltaTime, 0);
+                transform.Translate(0, runningSpeed * Time.deltaTime, 0);
             }
             else
             {
-                transform.Translate(0, speedWalking * Time.deltaTime, 0);
+                transform.Translate(0, walkingSpeed * Time.deltaTime, 0);
             }
         }
         //Check for moving down
@@ -274,11 +297,11 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKey(controlScheme.sprint))
             {
-                transform.Translate(0, -speedRunning * Time.deltaTime, 0);
+                transform.Translate(0, -runningSpeed * Time.deltaTime, 0);
             }
             else
             {
-                transform.Translate(0, -speedWalking * Time.deltaTime, 0);
+                transform.Translate(0, -walkingSpeed * Time.deltaTime, 0);
             }
         }
     }
@@ -328,14 +351,6 @@ public class PlayerController : MonoBehaviour
     public string GetMovementState()
     {
         return movementState;
-    }
-    public string GetCameraState()
-    {
-        return cameraState;
-    }
-    public string GetAimState()
-    {
-        return aimState;
     }
     public string GetStanceState()
     {
