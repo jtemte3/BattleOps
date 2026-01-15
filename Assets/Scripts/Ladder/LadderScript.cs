@@ -24,11 +24,13 @@ public class LadderScript : MonoBehaviour
         // Check when there is a new collider coming into contact with the box
         if (startHitColliders.Length > 0)
         {
-            RaycastHit hit;
+            startHitColliders[0].gameObject.GetComponent<PlayerController>().isClimbingLadder = true;
+
+            /*RaycastHit hit;
             if (Physics.Raycast(startHitColliders[0].gameObject.transform.position, startHitColliders[0].gameObject.transform.TransformDirection(Vector3.forward), out hit, 3, LadderMask))
             {
                 startHitColliders[0].gameObject.GetComponent<PlayerController>().isClimbingLadder = true;
-            }
+            }*/
         }
 
         if (endHitColliders.Length > 0)

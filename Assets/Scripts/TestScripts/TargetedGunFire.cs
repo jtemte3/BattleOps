@@ -6,21 +6,15 @@ public class TargetedGunFire : MonoBehaviour
     public ControlSchemeManager controlScheme;
     public PlayerController playerController;
     public Transform target;
-    //public ClipManager clipManager;
+
     public RecoilControllerIK recoilController;
-    public float fireRate = 10f; // bullets per second
-    public GameObject gunMuzzle;
-    public VisualEffect muzzleEffect;
-    public Light muzzleLight;
-    public float muzzleLightDuration;
-    public GameObject bulletPrefab;
-    public float bulletSpeed;
+    public HandheldObject gunObj;
 
     public bool canShoot = true;
-
-
     private float nextFireTime = 0f;
     private float lightOffTime = 0f;
+
+    public ShootingModes mode = ShootingModes.fullAuto;
 
     private void Start()
     {
@@ -29,35 +23,134 @@ public class TargetedGunFire : MonoBehaviour
 
     void Update()
     {
+        if (playerController.GetMountStatus())
+        {
+            canShoot = false;
+        }
+
+        if (Input.GetKeyDown(controlScheme.weaponMode))
+        {
+            int currentMode = gunObj.profile.supportedModes.IndexOf(mode);
+
+            int nextMode = currentMode + 1;
+
+            if (nextMode > gunObj.profile.supportedModes.Count - 1)
+            {
+                nextMode = 0;
+            }
+
+            mode = gunObj.profile.supportedModes[nextMode];
+
+            if(mode == ShootingModes.semiAuto)
+            {
+                recoilController.isFullAuto = false;
+            }
+            else
+            {
+                recoilController.isFullAuto = true;
+            }
+        }
+
         if (canShoot)
         {
-            bool isFiring = Input.GetKey(controlScheme.weaponFire);
-
-            if (playerController.GetMovementState() != "sprinting" /*&& clipManager.isClipped != true*/)
+            if (mode == ShootingModes.semiAuto)
             {
-                // Update recoil scaling
-                recoilController.isFiring = isFiring;
-
-                if (isFiring && Time.time >= nextFireTime)
-                {
-                    FireWeapon();
-                    nextFireTime = Time.time + 1f / fireRate;
-                }
+                SemiAutoMode();
             }
+            if (mode == ShootingModes.burst)
+            {
+                BurstMode();
+            }
+            if (mode == ShootingModes.fullAuto)
+            {
+                FullAutoMode();
+            }
+        }
+
+        if (gunObj.muzzleObj.GetComponent<Light>().enabled)
+        {
+            if (Time.time >= lightOffTime)
+            {
+                gunObj.muzzleObj.GetComponent<Light>().enabled = false;
+            }
+        }
+    }
+
+    private void FullAutoMode()
+    {
+        bool isFiring = Input.GetKey(controlScheme.weaponFire);
+
+        /*if (playerController.GetMovementState() != "sprinting" *//*&& clipManager.isClipped != true*//*)
+        {
+            // Update recoil scaling
+            recoilController.isFiring = isFiring;
 
             if (isFiring && Time.time >= nextFireTime)
             {
                 FireWeapon();
-                nextFireTime = Time.time + 1f / fireRate;
+                nextFireTime = Time.time + 1f / currentProfile.fireRate;
             }
-        }
+        }*/
 
-        if (muzzleLight.enabled)
+        if (isFiring && Time.time >= nextFireTime)
         {
-            if (Time.time >= lightOffTime)
+            // Update recoil scaling
+            recoilController.isFiring = isFiring;
+
+            FireWeapon();
+            nextFireTime = Time.time + 1f / gunObj.profile.fireRate;
+        }
+    }
+
+    private void BurstMode()
+    {
+        bool isFiring = Input.GetKeyDown(controlScheme.weaponFire);
+
+/*        if (playerController.GetMovementState() != "sprinting" *//*&& clipManager.isClipped != true*//*)
+        {
+            // Update recoil scaling
+            recoilController.isFiring = isFiring;
+
+            if (isFiring && Time.time >= nextFireTime)
             {
-                muzzleLight.enabled = false;
+                FireWeapon();
+                nextFireTime = Time.time + 1f / currentProfile.fireRate;
             }
+        }*/
+
+        if (isFiring && Time.time >= nextFireTime)
+        {
+            // Update recoil scaling
+            recoilController.isFiring = isFiring;
+
+            FireWeapon();
+            nextFireTime = Time.time + 1f / gunObj.profile.fireRate;
+        }
+    }
+
+    private void SemiAutoMode()
+    {
+        bool isFiring = Input.GetKeyDown(controlScheme.weaponFire);
+
+/*        if (playerController.GetMovementState() != "sprinting" *//*&& clipManager.isClipped != true*//*)
+        {
+            // Update recoil scaling
+            recoilController.isFiring = isFiring;
+
+            if (isFiring && Time.time >= nextFireTime)
+            {
+                FireWeapon();
+                nextFireTime = Time.time + 1f / currentProfile.fireRate;
+            }
+        }*/
+
+        if (isFiring && Time.time >= nextFireTime)
+        {
+            // Update recoil scaling
+            recoilController.isFiring = isFiring;
+
+            FireWeapon();
+            nextFireTime = Time.time + 1f / gunObj.profile.fireRate;
         }
     }
 
@@ -65,12 +158,12 @@ public class TargetedGunFire : MonoBehaviour
     {
         recoilController.ApplyRecoil();
 
-        GameObject bullet = Instantiate(bulletPrefab, gunMuzzle.transform.position, gunMuzzle.transform.rotation);
+        GameObject bullet = Instantiate(gunObj.profile.bulletPrefab, gunObj.muzzleObj.transform.position, gunObj.muzzleObj.transform.rotation);
         bullet.transform.parent = null;
-        bullet.GetComponent<Rigidbody>().linearVelocity = (target.transform.position - gunMuzzle.transform.position).normalized * bulletSpeed;
+        bullet.GetComponent<Rigidbody>().linearVelocity = (target.transform.position - gunObj.muzzleObj.transform.position).normalized * gunObj.profile.bulletSpeed;
 
-        muzzleEffect.Play();
-        muzzleLight.enabled = true;
-        lightOffTime = Time.time + muzzleLightDuration;
+        gunObj.muzzleObj.GetComponent<VisualEffect>().Play();
+        gunObj.muzzleObj.GetComponent<Light>().enabled = true;
+        lightOffTime = Time.time + gunObj.profile.muzzleLightDuration;
     }
 }

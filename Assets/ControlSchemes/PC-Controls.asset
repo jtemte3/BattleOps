@@ -23,11 +23,13 @@ MonoBehaviour:
   leanRight: 101
   verticalInversion: 0
   escapeMenu: 27
+  interact: 102
   weaponFire: 323
   weaponAimDownSights: 324
-  weaponMode: 325
+  weaponMode: 308
   weaponReload: 114
   debugMenu: 96
   flyingMode: 120
   flyingUp: 32
   flyingDown: 99
+  toggleHUD: 282
