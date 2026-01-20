@@ -1,0 +1,219 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LeftHandMask
+  m_Mask: 00000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: BaseArmature
+    m_Weight: 1
+  - m_Path: BaseArmature/Base
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/LeftHip
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/LeftHip/LeftHip.001
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/LeftHip/LeftHip.001/LeftKnee
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/LeftHip/LeftHip.001/LeftKnee/LeftFoot
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/LeftHip/LeftHip.001/LeftKnee/LeftFoot/LeftFoot_end
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Camelback
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Cap
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/FrontAmmo
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/FrontBadge
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/FrontHolder
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/FrontPouches
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Hose
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftPack
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0/LeftIndex1
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0/LeftIndex1/LeftIndex2
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0/LeftIndex1/LeftIndex2/LeftIndex2_end
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001/LeftMiddle1
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001/LeftMiddle1/LeftMiddle2
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001/LeftMiddle1/LeftMiddle2/LeftMiddle2_end
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftPinky0
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftPinky0/LeftPinky1
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftPinky0/LeftPinky1/LeftPinky2
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftPinky0/LeftPinky1/LeftPinky2/LeftPinky2_end
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0/LeftRing1
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0/LeftRing1/LeftRing2
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0/LeftRing1/LeftRing2/LeftRing2_end
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0/LeftThumb1
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0/LeftThumb1/LeftThumb1.001
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0/LeftThumb1/LeftThumb1.001/LeftThumb1.001_end
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Neck
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Neck/Head
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Neck/Head/ChinStrap
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Neck/Head/EarCoverPt1
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Neck/Head/EarCoverPt2
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Neck/Head/EarCoverPt3
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Neck/Head/Glasses
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Neck/Head/Head_end
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Neck/Head/Helmet
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Radio
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RadioAntenna
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RearPack
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RearPouches
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightPack
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightIndex0
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightIndex0/RightIndex1
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightIndex0/RightIndex1/RightIndex2
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightIndex0/RightIndex1/RightIndex2/RightIndex2_end
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightMiddle0
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightMiddle0/RightMiddle1
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightMiddle0/RightMiddle1/RightMiddle2
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightMiddle0/RightMiddle1/RightMiddle2/RightMiddle2_end
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightPinky0
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightPinky0/RightPinky1
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightPinky0/RightPinky1/RightPinky2
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightPinky0/RightPinky1/RightPinky2/RightPinky2_end
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightRing0
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightRing0/RightRing1
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightRing0/RightRing1/RightRing2
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightRing0/RightRing1/RightRing2/RightRing2_end
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightThumb0
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightThumb0/RightThumb1
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightThumb0/RightThumb1/RightThumb1.001
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightThumb0/RightThumb1/RightThumb1.001/RightThumb1.001_end
+    m_Weight: 1
+  - m_Path: BaseArmature/Base/Pelvis/MiddleSpine/Vest
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/RightHip
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/RightHip/RightHip.001
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/RightHip/RightHip.001/RightKnee
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/RightHip/RightHip.001/RightKnee/RightFoot
+    m_Weight: 0
+  - m_Path: BaseArmature/Base/Pelvis/RightHip/RightHip.001/RightKnee/RightFoot/RightFoot_end
+    m_Weight: 0
+  - m_Path: BaseArmature/LeftElbow
+    m_Weight: 0
+  - m_Path: BaseArmature/LeftElbow/LeftElbow_end
+    m_Weight: 0
+  - m_Path: BaseArmature/LeftFoot-Ik
+    m_Weight: 0
+  - m_Path: BaseArmature/LeftFoot-Ik/LeftFoot-Ik_end
+    m_Weight: 0
+  - m_Path: BaseArmature/LeftHand-Ik
+    m_Weight: 0
+  - m_Path: BaseArmature/LeftHand-Ik/LeftHand-Ik_end
+    m_Weight: 0
+  - m_Path: BaseArmature/LeftKnee.001
+    m_Weight: 0
+  - m_Path: BaseArmature/LeftKnee.001/LeftKnee.001_end
+    m_Weight: 0
+  - m_Path: BaseArmature/RightElbow
+    m_Weight: 0
+  - m_Path: BaseArmature/RightElbow/RightElbow_end
+    m_Weight: 0
+  - m_Path: BaseArmature/RightFoot-Ik
+    m_Weight: 0
+  - m_Path: BaseArmature/RightFoot-Ik/RightFoot-Ik_end
+    m_Weight: 0
+  - m_Path: BaseArmature/RightHand-Ik
+    m_Weight: 0
+  - m_Path: BaseArmature/RightHand-Ik/RightHand-Ik_end
+    m_Weight: 1
+  - m_Path: BaseArmature/RightKnee.001
+    m_Weight: 0
+  - m_Path: BaseArmature/RightKnee.001/RightKnee.001_end
+    m_Weight: 0
+  - m_Path: Body
+    m_Weight: 0
+  - m_Path: Head
+    m_Weight: 0

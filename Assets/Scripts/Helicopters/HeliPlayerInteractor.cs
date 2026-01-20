@@ -12,20 +12,20 @@ public class HeliPlayerInteractor : MonoBehaviour
     public float groundCheckDistance = 1.0f;
 
     public ControlSchemeManager controlSchemeManager;
-    public JetpackPlayerController controller;
-    public List<GameObject> gameObjectsToManage;
+    public PlayerController controller;
+    //public List<GameObject> gameObjectsToManage;
     public InteractionTextManager interactionManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        controller.canMove = false;
+        controller.isMounted = true;
         interactionManager.SetTextState(false);
 
-        foreach (GameObject go in gameObjectsToManage)
+        /*foreach (GameObject go in gameObjectsToManage)
         {
             go.SetActive(false);
-        }
+        }*/
     }
 
     // Update is called once per frame
@@ -45,6 +45,11 @@ public class HeliPlayerInteractor : MonoBehaviour
             //Debug.Log("Not on the ground");
             canPlayerExit = false;
         }
+
+        if (!hasPlayerExited)
+        {
+            ManagePlayerPosition();
+        }
         
         if (canPlayerExit && isHeliDecended)
         {
@@ -61,15 +66,20 @@ public class HeliPlayerInteractor : MonoBehaviour
         
     }
 
+    void ManagePlayerPosition()
+    {
+        controller.gameObject.transform.localPosition = Vector3.zero;
+    }
+
     void ActivatePlayer()
     {
-        controller.canMove = true;
-        foreach (GameObject go in gameObjectsToManage)
+        controller.isMounted = false;
+        /*foreach (GameObject go in gameObjectsToManage)
         {
             go.SetActive(true);
-        }
+        }*/
 
-        controller.transform.localPosition += new Vector3(1, 0, 0);
+        //controller.transform.localPosition += new Vector3(1, 0, 0);
         controller.gameObject.transform.parent = null;
         hasPlayerExited = true;
     }

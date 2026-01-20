@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Event_GoHere : MissionEvent
 {
-    public JetpackPlayerController player;
+    public PlayerController player;
     public float completionDistance;
 
     // Update is called once per frame
@@ -11,7 +11,7 @@ public class Event_GoHere : MissionEvent
     {
         if (player == null)
         {
-            player = FindFirstObjectByType<JetpackPlayerController>();
+            player = FindFirstObjectByType<PlayerController>();
         }
         else
         {

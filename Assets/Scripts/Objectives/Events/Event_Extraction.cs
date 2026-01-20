@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Event_Extraction : MissionEvent
 {
-    public JetpackPlayerController player;
+    public PlayerController player;
     public ControlSchemeManager controlSchemeManager;
     public InteractionTextManager interactionManager;
 
@@ -16,7 +16,7 @@ public class Event_Extraction : MissionEvent
     {
         if (player == null)
         {
-            player = FindFirstObjectByType<JetpackPlayerController>();
+            player = FindFirstObjectByType<PlayerController>();
         }
         else
         {

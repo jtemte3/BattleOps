@@ -1,0 +1,1 @@
+public enum WeaponType { Meele, SemiAuto, Burst, FullAuto, Throwable, Mounted, Handheld };

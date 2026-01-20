@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
 
     public GameObject playerController;
     //public MissionManager missionManager;
+    public bool landInCity = false;
     public bool reGenerateTerrain = true;
 
     public float timer;
@@ -40,21 +41,23 @@ public class LevelManager : MonoBehaviour
                 endTime = startTime + timer;
                 isTimerSet = true;
 
-                (Vector3 landingPos, Vector3 directionPos) = cityParent.GetLandingZoneRoadGen();
-
-                Vector3 hoverPos = landingPos;
-                hoverPos.y += 30.1f;
-
                 List<GameObject> sequence = infilVehicle.RoutePositions[infilVehicle.routId].infilApproachRoute;
-                
+
                 GameObject endObj = sequence[sequence.Count - 1];
                 GameObject hoverObj = sequence[sequence.Count - 2];
 
-                endObj.transform.position = landingPos;
-                hoverObj.transform.position = hoverPos;
+                if (landInCity)
+                {
+                    (Vector3 landingPos, Vector3 directionPos) = cityParent.GetLandingZoneRoadGen();
 
-                endObj.transform.LookAt(directionPos);
+                    Vector3 hoverPos = landingPos;
+                    hoverPos.y += 30.1f;
 
+                    endObj.transform.position = landingPos;
+                    hoverObj.transform.position = hoverPos;
+
+                    endObj.transform.LookAt(directionPos);
+                }
             }
 
             if (Time.time >= endTime)

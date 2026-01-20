@@ -9,8 +9,8 @@ public class InGameMenuManager : MonoBehaviour
     public ControlSchemeManager controlScheme;
     public GameObject inGameMenuPanel;
     public List<GameObject> uiElementsToDisable;
-    public GunFire gunScript;
-    public JetpackPlayerController playerController;
+    public TargetedGunFire gunScript;
+    public PlayerController playerController;
     public bool isMenuActive;
 
     // Start is called before the first frame update
