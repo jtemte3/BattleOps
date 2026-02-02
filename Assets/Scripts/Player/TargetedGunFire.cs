@@ -8,7 +8,8 @@ public class TargetedGunFire : MonoBehaviour
     public Transform target;
 
     public RecoilControllerIK recoilController;
-    public HandheldObject gunObj;
+    public GunProfile gunProfile;
+    public GameObject muzzleObj;
 
     public bool canShoot = true;
     private float nextFireTime = 0f;
@@ -30,16 +31,16 @@ public class TargetedGunFire : MonoBehaviour
 
         if (Input.GetKeyDown(controlScheme.weaponMode))
         {
-            int currentMode = gunObj.profile.supportedModes.IndexOf(mode);
+            int currentMode = gunProfile.supportedModes.IndexOf(mode);
 
             int nextMode = currentMode + 1;
 
-            if (nextMode > gunObj.profile.supportedModes.Count - 1)
+            if (nextMode > gunProfile.supportedModes.Count - 1)
             {
                 nextMode = 0;
             }
 
-            mode = gunObj.profile.supportedModes[nextMode];
+            mode = gunProfile.supportedModes[nextMode];
 
             if(mode == ShootingModes.semiAuto)
             {
@@ -67,11 +68,11 @@ public class TargetedGunFire : MonoBehaviour
             }
         }
 
-        if (gunObj.muzzleObj.GetComponent<Light>().enabled)
+        if (muzzleObj.GetComponent<Light>().enabled)
         {
             if (Time.time >= lightOffTime)
             {
-                gunObj.muzzleObj.GetComponent<Light>().enabled = false;
+                muzzleObj.GetComponent<Light>().enabled = false;
             }
         }
     }
@@ -98,7 +99,7 @@ public class TargetedGunFire : MonoBehaviour
             recoilController.isFiring = isFiring;
 
             FireWeapon();
-            nextFireTime = Time.time + 1f / gunObj.profile.fireRate;
+            nextFireTime = Time.time + 1f / gunProfile.fireRate;
         }
     }
 
@@ -124,7 +125,7 @@ public class TargetedGunFire : MonoBehaviour
             recoilController.isFiring = isFiring;
 
             FireWeapon();
-            nextFireTime = Time.time + 1f / gunObj.profile.fireRate;
+            nextFireTime = Time.time + 1f / gunProfile.fireRate;
         }
     }
 
@@ -150,7 +151,7 @@ public class TargetedGunFire : MonoBehaviour
             recoilController.isFiring = isFiring;
 
             FireWeapon();
-            nextFireTime = Time.time + 1f / gunObj.profile.fireRate;
+            nextFireTime = Time.time + 1f / gunProfile.fireRate;
         }
     }
 
@@ -158,12 +159,12 @@ public class TargetedGunFire : MonoBehaviour
     {
         recoilController.ApplyRecoil();
 
-        GameObject bullet = Instantiate(gunObj.profile.bulletPrefab, gunObj.muzzleObj.transform.position, gunObj.muzzleObj.transform.rotation);
+        GameObject bullet = Instantiate(gunProfile.bulletPrefab, muzzleObj.transform.position, muzzleObj.transform.rotation);
         bullet.transform.parent = null;
-        bullet.GetComponent<Rigidbody>().linearVelocity = (target.transform.position - gunObj.muzzleObj.transform.position).normalized * gunObj.profile.bulletSpeed;
+        bullet.GetComponent<Rigidbody>().linearVelocity = (target.transform.position - muzzleObj.transform.position).normalized * gunProfile.bulletSpeed;
 
-        gunObj.muzzleObj.GetComponent<VisualEffect>().Play();
-        gunObj.muzzleObj.GetComponent<Light>().enabled = true;
-        lightOffTime = Time.time + gunObj.profile.muzzleLightDuration;
+        muzzleObj.GetComponent<VisualEffect>().Play();
+        muzzleObj.GetComponent<Light>().enabled = true;
+        lightOffTime = Time.time + gunProfile.muzzleLightDuration;
     }
 }

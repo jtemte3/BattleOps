@@ -6,7 +6,6 @@ public class WeaponLoader : MonoBehaviour
     [Header("Player Default")]
     public int startingWeaponId = 1;
     [Header("Dependancies")]
-    public PlayerController controller;
     public SwayAndBobIK swayAndBobIK;
     public RecoilControllerIK recoilControllerIK;
     public Animator animator;
@@ -25,21 +24,40 @@ public class WeaponLoader : MonoBehaviour
         LoadWeapon(startingWeaponId);
     }
 
+    private void Update()
+    {
+        /*var keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), Input.inputString.ToUpper());
+        switch (keyCode)
+        {
+            case KeyCode.Alpha1:
+                LoadWeapon(1);
+                break;
+        }*/
+    }
+
     public void LoadWeapon(int id)
     {
-        controller.currentProfile = HandheldList[id].profile;
         swayAndBobIK.currentProfile = HandheldList[id].profile;
+
+        int layer = animator.GetLayerIndex(HandheldList[id].animationLayer.ToString());
+        animator.SetLayerWeight(layer, 100);
 
         if (HandheldList[id].isGun)
         {
+            HandheldGun handheldGun = (HandheldGun)HandheldList[id];
+            GunProfile gunProfile = (GunProfile)handheldGun.profile;
+
             recoilControllerIK.enabled = true;
             targetedGun.enabled = true;
 
-            recoilControllerIK.currentProfile = HandheldList[id].profile;
-            targetedGun.gunObj = HandheldList[id];
+            handheldGun.meshObject.SetActive(true);
 
-            targetedGun.mode = HandheldList[id].profile.supportedModes[0];
-            gunAnimator.currentProfile = HandheldList[id].profile;
+            recoilControllerIK.currentProfile = gunProfile;
+            targetedGun.gunProfile = gunProfile;
+            targetedGun.muzzleObj = handheldGun.muzzleObj;
+
+            targetedGun.mode = gunProfile.supportedModes[0];
+            gunAnimator.currentProfile = gunProfile;
         }
         else
         {
@@ -53,5 +71,20 @@ public class WeaponLoader : MonoBehaviour
 
         leftHandRef.transform.position = HandheldList[id].profile.leftHandPosition;
         leftHandRef.transform.rotation = Quaternion.Euler(HandheldList[id].profile.leftHandRotation);
+    }
+
+    public void UnloadWeapon(int id)
+    {
+        int layer = animator.GetLayerIndex(HandheldList[id].animationLayer.ToString());
+        animator.SetLayerWeight(layer, 0);
+
+        recoilControllerIK.enabled = false;
+        targetedGun.enabled = false;
+
+        rightHandRef.transform.localPosition = Vector3.zero;
+        rightHandRef.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+        leftHandRef.transform.localPosition = Vector3.zero;
+        leftHandRef.transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 }

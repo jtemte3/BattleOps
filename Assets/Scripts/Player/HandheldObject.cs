@@ -3,10 +3,9 @@ using UnityEngine;
 using UnityEngine.VFX;
 
 [Serializable]
-public class HandheldObject
+public class HandheldObject : MonoBehaviour
 {
-    public GunProfile profile;
+    public WeaponProfile profile;
     public bool isGun;
-    public GameObject meshObject;
-    public GameObject muzzleObj;
+    public AnimLayer animationLayer;
 }
