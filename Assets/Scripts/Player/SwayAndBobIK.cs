@@ -7,7 +7,7 @@ public class SwayAndBobIK : MonoBehaviour
     public PlayerController playerController;
     public MultiAimConstraint aimConstraint;
     public MultiPositionConstraint positionConstraint;
-    public GunProfile currentProfile;
+    public WeaponProfile currentProfile;
 
     [Header("Sway Settings")]
     public float strength = 0.05f; //multiplied by the value of camera movement (mouse) for each frame
