@@ -18,8 +18,8 @@ MonoBehaviour:
   leftHandPosition: {x: -0.06819999, y: -0.04890001, z: 0.4392004}
   leftHandRotation: {x: 270, y: 240.14911, z: 0}
   idleCenter: {x: 0.1, y: 0.05, z: -0.1}
-  idleLeanRight: {x: 0.15, y: 0.05, z: -0.1}
-  idleLeanLeft: {x: -0.15, y: 0.05, z: -0.1}
-  adsCenter: {x: 0, y: 0.105, z: 0}
-  adsLeanRight: {x: 0.07, y: 0.07, z: 0}
-  adsLeanLeft: {x: -0.07, y: 0.07, z: 0}
+  idleLeanRight: {x: 0.15, y: -0.05, z: -0.1}
+  idleLeanLeft: {x: 0.1, y: 0.15, z: -0.1}
+  adsCenter: {x: 0.1, y: 0.05, z: -0.1}
+  adsLeanRight: {x: 0.15, y: 0, z: -0.01}
+  adsLeanLeft: {x: 0.05, y: 0.1, z: -0.01}

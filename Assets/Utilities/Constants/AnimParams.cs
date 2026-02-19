@@ -11,7 +11,8 @@ public static class AnimParams
     public static string reload = "reload";
     public static string clipped = "clipped";
     public static string swap = "swap";
-    public static string action = "action";
+    public static string actionTrigger = "action_trigger";
+    public static string actionBool = "action_bool";
     public static string interaction = "interaction";
     public static string heal = "heal";
     public static string follow = "follow";

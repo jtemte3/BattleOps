@@ -1,3 +1,3 @@
 using System;
 
-public enum AnimLayer {M4, Grenade};
+public enum AnimLayer { EmptyHands, M4, Grenade};

@@ -5,15 +5,22 @@ public class WeaponLoader : MonoBehaviour
 {
     [Header("Player Default")]
     public int startingWeaponId = 1;
+    [Header("State Details")]
+    public int currentWeaponId;
     [Header("Dependancies")]
     public SwayAndBobIK swayAndBobIK;
     public RecoilControllerIK recoilControllerIK;
     public Animator animator;
     public TargetedGunFire targetedGun;
+    public GrenadeThrower grenadeScript;
     public GunAnimator gunAnimator;
+    public GrenadeAnimator grenadeAnimator;
     public GameObject gunParent;
     public GameObject rightHandRef;
     public GameObject leftHandRef;
+    public bool weaponSwap = false;
+    public float swapTime;
+    private float resetTime;
 
     [Space]
     [Header("Weapon Registry")]
@@ -21,26 +28,69 @@ public class WeaponLoader : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        targetedGun.enabled = false;
+        grenadeScript.enabled = false;
+        recoilControllerIK.enabled = false;
+        gunAnimator.enabled = false;
+        grenadeAnimator.enabled = false;
+
         LoadWeapon(startingWeaponId);
     }
 
     private void Update()
     {
-        /*var keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), Input.inputString.ToUpper());
-        switch (keyCode)
+        List<KeyCode> keys = new List<KeyCode>
         {
-            case KeyCode.Alpha1:
-                LoadWeapon(1);
+            KeyCode.Alpha1,
+            KeyCode.Alpha2
+        };
+
+        KeyCode input = KeyCode.None;
+
+        foreach(KeyCode key in keys)
+        {
+            if (Input.GetKeyDown(key))
+            {
+                input = key;
+            }
+        }
+
+        switch (input)
+        {
+            case KeyCode.None:
                 break;
-        }*/
+            case KeyCode.Alpha1:
+                UnloadWeapon(currentWeaponId);
+                currentWeaponId = 0;
+                break;
+            case KeyCode.Alpha2:
+                UnloadWeapon(currentWeaponId);
+                currentWeaponId = 1;
+                break;
+        }
+
+        if (weaponSwap)
+        {
+            if (Time.time >= resetTime)
+            {
+                weaponSwap = false;
+                animator.SetBool(AnimParams.swap, false);
+
+                LoadWeapon(currentWeaponId);
+            }
+        }
     }
 
     public void LoadWeapon(int id)
     {
+        currentWeaponId = id;
         swayAndBobIK.currentProfile = HandheldList[id].profile;
 
         int layer = animator.GetLayerIndex(HandheldList[id].animationLayer.ToString());
-        animator.SetLayerWeight(layer, 100);
+        animator.SetLayerWeight(layer, 1.0f);
+
+        int emptylayer = animator.GetLayerIndex(AnimLayer.EmptyHands.ToString());
+        animator.SetLayerWeight(emptylayer, 0);
 
         if (HandheldList[id].isGun)
         {
@@ -49,6 +99,7 @@ public class WeaponLoader : MonoBehaviour
 
             recoilControllerIK.enabled = true;
             targetedGun.enabled = true;
+            gunAnimator.enabled = true;
 
             handheldGun.meshObject.SetActive(true);
 
@@ -58,6 +109,18 @@ public class WeaponLoader : MonoBehaviour
 
             targetedGun.mode = gunProfile.supportedModes[0];
             gunAnimator.currentProfile = gunProfile;
+        }
+        else if (HandheldList[id].isGrenade)
+        {
+            HandheldGrenade handheldGrenade = (HandheldGrenade)HandheldList[id];
+            GrenadeProfile grenadeProfile = (GrenadeProfile)handheldGrenade.profile;
+
+            //Enable Grenade Throwing script here, assign grenade profile, and grenade spawner
+            grenadeScript.enabled = true;
+            grenadeAnimator.enabled = true;
+
+            grenadeScript.profile = handheldGrenade;
+            handheldGrenade.previewObj.SetActive(true);
         }
         else
         {
@@ -75,16 +138,39 @@ public class WeaponLoader : MonoBehaviour
 
     public void UnloadWeapon(int id)
     {
-        int layer = animator.GetLayerIndex(HandheldList[id].animationLayer.ToString());
-        animator.SetLayerWeight(layer, 0);
+        //Set Animation to swap, and create trigger time to reset
+        weaponSwap = true;
+        animator.SetBool(AnimParams.swap, true);
+        resetTime = Time.time + swapTime;
 
-        recoilControllerIK.enabled = false;
-        targetedGun.enabled = false;
+        //If the weapon is a gun, unload its related scripts :)
+        if (HandheldList[id].isGun)
+        {
+            recoilControllerIK.enabled = false;
+            targetedGun.enabled = false;
+            gunAnimator.enabled = false;
 
-        rightHandRef.transform.localPosition = Vector3.zero;
-        rightHandRef.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            HandheldGun handheldGun = (HandheldGun)HandheldList[id];
 
-        leftHandRef.transform.localPosition = Vector3.zero;
-        leftHandRef.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            handheldGun.meshObject.SetActive(false);
+        }
+        else if (HandheldList[id].isGrenade)
+        {
+            recoilControllerIK.enabled = false;
+            targetedGun.enabled = false;
+            grenadeScript.enabled = false;
+            grenadeAnimator.enabled = false;
+
+            HandheldGrenade handheldGrenade = (HandheldGrenade)HandheldList[id];
+
+            handheldGrenade.previewObj.SetActive(false);
+        }
+
+        //For Safety, unload old weapon animation layer and load empty hands animation layer
+        int emptylayer = animator.GetLayerIndex(AnimLayer.EmptyHands.ToString());
+        animator.SetLayerWeight(emptylayer, 1.0f);
+
+        int oldLayer = animator.GetLayerIndex(HandheldList[id].animationLayer.ToString());
+        animator.SetLayerWeight(oldLayer, 0);
     }
 }

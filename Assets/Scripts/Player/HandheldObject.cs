@@ -7,5 +7,6 @@ public class HandheldObject : MonoBehaviour
 {
     public WeaponProfile profile;
     public bool isGun;
+    public bool isGrenade;
     public AnimLayer animationLayer;
 }

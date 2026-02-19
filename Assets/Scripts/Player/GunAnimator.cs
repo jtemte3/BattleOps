@@ -4,9 +4,6 @@ public class GunAnimator : MonoBehaviour
 {
     public ControlSchemeManager controlScheme;
     public TargetedGunFire gunScript;
-    public RecoilControllerIK recoilController;
-    public SwayAndBobIK swayAndBobIK;
-    public ADSManager adsManager;
     public Animator animator;
     public GunProfile currentProfile;
     [Header("Gun Clipping Setup")]
@@ -36,48 +33,6 @@ public class GunAnimator : MonoBehaviour
             animator.SetTrigger("reload");
 
             resetTime = Time.time + currentProfile.reloadTime;
-        }
-
-        bool isAds = Input.GetKey(controlScheme.weaponAimDownSights);
-
-        if (isAds)
-        {
-            //animator.SetBool("ads", true);
-            adsManager.SetAdsState(true);
-            recoilController.isAds = true;
-
-            if (Input.GetKey(controlScheme.leanLeft))
-            {
-                swayAndBobIK.SetOffsetType("adsLeanLeft");
-            }
-            else if (Input.GetKey(controlScheme.leanRight))
-            {
-                swayAndBobIK.SetOffsetType("adsLeanRight");
-            }
-            else
-            {
-                swayAndBobIK.SetOffsetType("adsCenter");
-            }
-
-        }
-        else
-        {
-            //animator.SetBool("ads", false);
-            adsManager.SetAdsState(false);
-            recoilController.isAds = false;
-
-            if (Input.GetKey(controlScheme.leanLeft))
-            {
-                swayAndBobIK.SetOffsetType("idleLeanLeft");
-            }
-            else if (Input.GetKey(controlScheme.leanRight))
-            {
-                swayAndBobIK.SetOffsetType("idleLeanRight");
-            }
-            else
-            {
-                swayAndBobIK.SetOffsetType("idleCenter");
-            }
         }
     }
 
