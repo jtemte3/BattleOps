@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class HandheldGrenade : HandheldObject
 {
+
+    public GameObject spawner;
     public GameObject previewObj;
     public GameObject prefab;
-    public GameObject spawner;
+    
 
     [Header("Fuse")]
     public float maxFuse = 5f;

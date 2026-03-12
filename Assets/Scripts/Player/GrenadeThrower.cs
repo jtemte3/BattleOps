@@ -4,6 +4,7 @@ public class GrenadeThrower : MonoBehaviour
 {
     [Header("References")]
     public ControlSchemeManager controls;
+    public PlayerController playerController;
     public HandheldGrenade profile;
     public Transform target;
     public Camera cam;
@@ -25,8 +26,19 @@ public class GrenadeThrower : MonoBehaviour
     public float rechargeTime = 1f;
     float rechargeTimer;
 
+    public bool canThrow = true;
+
     void Update()
     {
+        if (playerController.GetMountStatus() == true)
+        {
+            canThrow = false;
+        }
+        else
+        {
+            canThrow = true;
+        }
+
         if (isRecharging)
         {
             rechargeTimer += Time.deltaTime;
@@ -40,7 +52,10 @@ public class GrenadeThrower : MonoBehaviour
         }
         else
         {
-            HandleInput();
+            if (canThrow)
+            {
+                HandleInput();
+            }
         }
     }
 

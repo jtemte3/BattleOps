@@ -6,9 +6,13 @@ public class Grenade : MonoBehaviour
     public float explosionRadius = 6f;
     public float explosionForce = 800f;
     public float damage = 100f;
+    public bool deleteOnEffect = true;
+
+    public GameObject effectObject;
 
     float fuseRemaining = 5f;
     bool armed;
+    bool effectEnabled = false;
 
     Rigidbody rb;
 
@@ -31,7 +35,12 @@ public class Grenade : MonoBehaviour
 
         if (fuseRemaining <= 0f)
         {
-            Explode();
+            if (effectEnabled == false)
+            {
+                Explode();
+                effectEnabled = true;
+            }
+            
         }
     }
 
@@ -53,6 +62,13 @@ public class Grenade : MonoBehaviour
 
         // TODO: spawn VFX / SFX here
 
-        Destroy(gameObject);
+        GameObject effectObj = Instantiate(effectObject, transform.position, transform.rotation);
+
+        effectObj.transform.rotation = Quaternion.Euler(Vector3.zero);
+
+        if (deleteOnEffect)
+        {
+            Destroy(gameObject);
+        }
     }
 }

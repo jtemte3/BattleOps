@@ -1257,7 +1257,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 3277085249
+      path: 3959523577
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -1284,7 +1284,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3277085249
+      path: 3959523577
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -5868,7 +5868,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0/LeftRing1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -5880,7 +5880,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0/LeftRing1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -5892,7 +5892,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0/LeftRing1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -5904,7 +5904,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0/LeftThumb1
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -5916,7 +5916,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0/LeftThumb1
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -5928,7 +5928,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0/LeftThumb1
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -5976,7 +5976,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0/LeftRing1
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -5988,7 +5988,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0/LeftRing1
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6000,7 +6000,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0/LeftRing1
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6012,7 +6012,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: GunParent/Ref_LeftHandGrip
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0/LeftThumb1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6024,7 +6024,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: GunParent/Ref_LeftHandGrip
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0/LeftThumb1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6036,7 +6036,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: GunParent/Ref_LeftHandGrip
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftThumb0/LeftThumb1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6048,7 +6048,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftPinky0
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001/LeftMiddle1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6060,7 +6060,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftPinky0
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001/LeftMiddle1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6072,7 +6072,43 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftPinky0
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001/LeftMiddle1
+    classID: 4
+    script: {fileID: 0}
+    flags: 0
+  - serializedVersion: 2
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.z
+    path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightThumb0/RightThumb1
+    classID: 4
+    script: {fileID: 0}
+    flags: 0
+  - serializedVersion: 2
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.y
+    path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightThumb0/RightThumb1
+    classID: 4
+    script: {fileID: 0}
+    flags: 0
+  - serializedVersion: 2
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.x
+    path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightThumb0/RightThumb1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6156,7 +6192,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftPinky0
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6168,7 +6204,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftPinky0
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6180,7 +6216,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftPinky0
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6228,7 +6264,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6240,7 +6276,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6252,43 +6288,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftRing0
-    classID: 4
-    script: {fileID: 0}
-    flags: 0
-  - serializedVersion: 2
-    curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.z
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001/LeftMiddle1
-    classID: 4
-    script: {fileID: 0}
-    flags: 0
-  - serializedVersion: 2
-    curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.y
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001/LeftMiddle1
-    classID: 4
-    script: {fileID: 0}
-    flags: 0
-  - serializedVersion: 2
-    curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001/LeftMiddle1
+    path: BaseArmature/Base/Pelvis/MiddleSpine/LeftShoulder/LeftArm/LeftForearm/LeftHand/LeftIndex0.001
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6552,7 +6552,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightThumb0/RightThumb1
+    path: GunParent/Ref_LeftHandGrip
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6564,7 +6564,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightThumb0/RightThumb1
+    path: GunParent/Ref_LeftHandGrip
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -6576,7 +6576,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: BaseArmature/Base/Pelvis/MiddleSpine/RightShoulder/RightArm/RightForearm/RightHand/RightThumb0/RightThumb1
+    path: GunParent/Ref_LeftHandGrip
     classID: 4
     script: {fileID: 0}
     flags: 0

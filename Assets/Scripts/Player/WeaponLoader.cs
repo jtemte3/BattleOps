@@ -42,7 +42,8 @@ public class WeaponLoader : MonoBehaviour
         List<KeyCode> keys = new List<KeyCode>
         {
             KeyCode.Alpha1,
-            KeyCode.Alpha2
+            KeyCode.Alpha2,
+            KeyCode.Alpha3
         };
 
         KeyCode input = KeyCode.None;
@@ -66,6 +67,10 @@ public class WeaponLoader : MonoBehaviour
             case KeyCode.Alpha2:
                 UnloadWeapon(currentWeaponId);
                 currentWeaponId = 1;
+                break;
+            case KeyCode.Alpha3:
+                UnloadWeapon(currentWeaponId);
+                currentWeaponId = 2;
                 break;
         }
 
