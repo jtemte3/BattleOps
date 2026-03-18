@@ -68,7 +68,7 @@ public class LevelManager : MonoBehaviour
                     playerController.SetActive(true);
                     LoadingScreen.SetActive(false);
                     infilVehicle.beginFlying = true;
-                    infilVehicle.startAudio();
+                    infilVehicle.StartAudio();
 
                     /*if (missionManager)
                     {
