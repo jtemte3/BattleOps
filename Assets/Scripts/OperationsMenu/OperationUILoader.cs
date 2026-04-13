@@ -1,4 +1,5 @@
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,8 +45,8 @@ public class OperationUILoader : MonoBehaviour
         int opDay = loader.currentData.operationDay;
         int opDuration = loader.currentData.operationDuration;
 
-        int hearts = int.Parse(lbl_hearts.text);
-        int minds = int.Parse(lbl_minds.text);
+        int hearts = loader.currentData.heartsScore;
+        int minds = loader.currentData.mindsScore;
 
         int peacescore = (int)Mathf.Clamp((((hearts * hWeight) + (minds * mWeight)) / 2) - ((opDay / opDuration) * dWeight), 0, 100);
 
@@ -81,6 +82,8 @@ public class OperationUILoader : MonoBehaviour
         GameObject currentNode = Instantiate(currentNodePrefab, timelineContentParent.transform);
         currentNode.GetComponentInChildren<TMP_Text>().text = string.Format("Day {0}", loader.currentData.operationDay);
         currentNode.GetComponent<CurrentEventManager>().SetMissionsOptions(loader.currentData.currentMissionOptions, MissionPrefab, ResultsPrefab, missionHandler);
+        currentNode.GetComponentInChildren<Button>().onClick.AddListener(() => MissionPrefab.SetActive(false));
+        currentNode.GetComponentInChildren<Button>().onClick.AddListener(() => ResultsPrefab.SetActive(false));
 
         scroller.targetElement = currentNode.GetComponent<RectTransform>();
     }

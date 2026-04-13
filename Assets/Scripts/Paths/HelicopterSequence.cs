@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class HelicopterSequence : MonoBehaviour
 {
@@ -12,6 +11,8 @@ public class HelicopterSequence : MonoBehaviour
     public AudioSource helicopterAudio;
     public int routId;
     public List<HeliRoute> RoutePositions = new();
+
+    public VehicleType vehicleType;
 
     public float speed;
     public float flyingSpeed;
@@ -36,7 +37,7 @@ public class HelicopterSequence : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        beginFlying = false;
+        //beginFlying = false;
         routId = Random.Range(0, RoutePositions.Count);
 
         GameObject startingPos = RoutePositions[routId].infilApproachRoute[0];
@@ -114,11 +115,6 @@ public class HelicopterSequence : MonoBehaviour
 
     void OnDecent()
     {
-        if (interactor.isHeliDecended != true)
-        {
-            interactor.isHeliDecended = true;
-        }
-
         nextNodeObject = RoutePositions[routId].infilApproachRoute[nextNode];
 
         float dist = Vector3.Distance(helicopter.transform.position, nextNodeObject.transform.position);
@@ -135,23 +131,53 @@ public class HelicopterSequence : MonoBehaviour
 
     void OnHold()
     {
-        if (interactor.hasPlayerExited && !beginTakeoff)
+        if (interactor.isHeliDecended == false)
         {
-            timeToTakeOff = Time.time + takeOffTimer;
-            beginTakeoff = true;
+            interactor.isHeliDecended = true;
         }
 
-        if (beginTakeoff)
+        if (vehicleType == VehicleType.Infill)
         {
-            if (Time.time > timeToTakeOff)
+            if (interactor.isPlayerInVehicle == false && !beginTakeoff)
             {
-                stage = FlightStage.Ascending;
+                timeToTakeOff = Time.time + takeOffTimer;
+                beginTakeoff = true;
+            }
+
+            if (beginTakeoff)
+            {
+                if (Time.time > timeToTakeOff)
+                {
+                    stage = FlightStage.Ascending;
+                }
             }
         }
+        if (vehicleType == VehicleType.Exfill)
+        {
+            if (interactor.isPlayerInVehicle == true && !beginTakeoff)
+            {
+                timeToTakeOff = Time.time + takeOffTimer;
+                beginTakeoff = true;
+            }
+
+            if (beginTakeoff)
+            {
+                if (Time.time > timeToTakeOff)
+                {
+                    stage = FlightStage.Ascending;
+                }
+            }
+        }
+        
     }
 
     void OnAscent()
     {
+        if (interactor.isHeliDecended == true)
+        {
+            interactor.isHeliDecended = false;
+        }
+
         nextNode = 0;
         nextNodeObject = RoutePositions[routId].infilExitRoute[nextNode];
 
@@ -185,7 +211,12 @@ public class HelicopterSequence : MonoBehaviour
         }
         if (dist <= nodeRange)
         {
-            helicopter.SetActive(false);
+            beginFlying = false;
+
+            if(vehicleType != VehicleType.Exfill)
+            {
+                helicopter.SetActive(false);
+            }
         }
     }
 
@@ -221,9 +252,16 @@ public class HelicopterSequence : MonoBehaviour
         helicopter.transform.position = Vector3.MoveTowards(helicopter.transform.position, nextNodeObject.transform.position, Time.deltaTime * speed);
     }
 
-    public void startAudio()
+    public void StartAudio()
     {
         helicopterAudio.Play();
+    }
+
+    public void SetFlyingState(bool value)
+    {
+        this.gameObject.SetActive(value);
+        beginFlying = value;
+        StartAudio();
     }
 
     /*private void OnDrawGizmos()
