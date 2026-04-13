@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     public MaskedPerlinTerrain terrainObject;
     public HelicopterSequence infilVehicle;
     public GameObject LoadingScreen;
+    public AudioSource musicPlayer;
 
     public GameObject playerController;
     //public MissionManager missionManager;
@@ -69,6 +70,7 @@ public class LevelManager : MonoBehaviour
                     LoadingScreen.SetActive(false);
                     infilVehicle.beginFlying = true;
                     infilVehicle.StartAudio();
+                    musicPlayer.Play();
 
                     /*if (missionManager)
                     {

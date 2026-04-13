@@ -14,6 +14,7 @@ public class HeliPlayerInteractor : MonoBehaviour
     public float interactionDistance = 5.0f;
     public GameObject playerSeat;
     public Vector3 playerSeatRotation;
+    public bool interactionOveride = false;
 
     public ControlSchemeManager controlSchemeManager;
     public PlayerController controller;
@@ -33,21 +34,29 @@ public class HeliPlayerInteractor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Check Helicopter distance to the ground
-        RaycastHit hit;
-        // This determines if the player is able to hop out of the Helicopter
-        if (Physics.Raycast(HeliBase.position, HeliBase.TransformDirection(Vector3.down), out hit, groundCheckDistance))
+        if (interactionOveride == false)
         {
-            Debug.DrawRay(HeliBase.position, HeliBase.TransformDirection(Vector3.down) * groundCheckDistance, Color.yellow);
-            //Debug.Log("On the ground");
-            canPlayerInteract = true;
+            //Check Helicopter distance to the ground
+            RaycastHit hit;
+            // This determines if the player is able to hop out of the Helicopter
+            if (Physics.Raycast(HeliBase.position, HeliBase.TransformDirection(Vector3.down), out hit, groundCheckDistance))
+            {
+                Debug.DrawRay(HeliBase.position, HeliBase.TransformDirection(Vector3.down) * groundCheckDistance, Color.yellow);
+                //Debug.Log("On the ground");
+                canPlayerInteract = true;
+            }
+            else
+            {
+                Debug.DrawRay(HeliBase.position, HeliBase.TransformDirection(Vector3.down) * groundCheckDistance, Color.white);
+                //Debug.Log("Not on the ground");
+                canPlayerInteract = false;
+            }
         }
         else
         {
-            Debug.DrawRay(HeliBase.position, HeliBase.TransformDirection(Vector3.down) * groundCheckDistance, Color.white);
-            //Debug.Log("Not on the ground");
             canPlayerInteract = false;
         }
+
 
         //manage player interactions
         if (isPlayerInVehicle == true)
@@ -86,6 +95,7 @@ public class HeliPlayerInteractor : MonoBehaviour
                 {
                     DeactivatePlayer();
                     interactionManager.SetTextState(false);
+                    interactionOveride = true;
                 }
             }
         }
