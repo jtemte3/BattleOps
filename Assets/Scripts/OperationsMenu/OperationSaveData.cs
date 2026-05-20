@@ -5,6 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class OperationSaveData
 {
+    public bool isFinished;
+    public string operationName;
+    public string lastSaveDate;
+    public string lastSaveTime;
     public int operationDay;
     public int operationDuration;
     public int heartsScore;
@@ -38,6 +42,13 @@ public class MissionRecord
 [System.Serializable]
 public class MissionOption
 {
+    public MissionOption(string id, int rFactor, int iFactor)
+    {
+        missionId = id;
+        baseRiskFactor = rFactor;
+        baseIntelFactor = iFactor;
+    }
+
     public string missionId;
     public int baseRiskFactor;
     public int baseIntelFactor;
