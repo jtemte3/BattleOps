@@ -1,11 +1,10 @@
 using UnityEngine;
-using static UnityEngine.InputManagerEntry;
-using static UnityEngine.Rendering.HDROutputUtils;
 
 public class MissionStatsTracker : MonoBehaviour
 {
     public MissionTemplate missionTemplate;
-    public SaveDataHandler saveDataHandler;
+    public MissionSaveDataHandler saveDataHandler;
+    public ScoreWeights scoreWeights;
     [Space]
     bool isMissionCompleted;
     bool hasExtracted;
@@ -20,13 +19,6 @@ public class MissionStatsTracker : MonoBehaviour
     int mindsChange = 0; //International Opinion
     int fundsChange = 0; //Money
     int peaceScoreChange = 0;
-
-    [Space]
-    [Header("Peace Score Weights")]
-    [Header("Peace Score Settings")]
-    public float hWeight = 1.5f;
-    public float mWeight = 0.85f;
-    public float dWeight = 10f;
 
     public void generateScoreChanges()
     {
@@ -70,7 +62,7 @@ public class MissionStatsTracker : MonoBehaviour
         }
         OperationSaveData currentData = saveDataHandler.currentData;
 
-        int newPeaceScore = (int)Mathf.Clamp(((((currentData.heartsScore + heartsChange) * hWeight) + ((currentData.mindsScore + mindsChange) * mWeight)) / 2) - ((currentData.operationDay / currentData.operationDuration) * dWeight), 0, 100);
+        int newPeaceScore = (int)Mathf.Clamp(((((currentData.heartsScore + heartsChange) * scoreWeights.hearts) + ((currentData.mindsScore + mindsChange) * scoreWeights.minds)) / 2) - ((currentData.operationDay / currentData.operationDuration) * scoreWeights.day), 0, 100);
         peaceScoreChange = newPeaceScore - currentData.peaceScore;
     }
 
