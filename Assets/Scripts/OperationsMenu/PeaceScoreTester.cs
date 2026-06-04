@@ -5,24 +5,28 @@ using UnityEngine;
 
 public class PeaceScoreTester : MonoBehaviour
 {
-    public TMP_Text lbl_heart;
-    public TMP_Text lbl_minds;
-    public TMP_Text lbl_peace;
-    public float opDay = 1;
-    public float opDuration = 1;
-    public float hWeight = 1.0f;
-    public float mWeight = 1.0f;
-    public float dWeight = 1.2f;
+    public OperationUILoader loader;
+    public bool hasLoaded = false;
+    public int day;
+    public int opDays;
+    public int hearts;
+    public int minds;
+    public int peace;
 
     // Update is called once per frame
     void Update()
     {
-        int hearts = int.Parse(lbl_heart.text);
-        int minds = int.Parse(lbl_minds.text);
+        if (loader.dataHandler.hasLoaded && hasLoaded == false)
+        {
+            day = loader.dataHandler.currentData.operationDay;
+            opDays = loader.dataHandler.currentData.operationDuration;
+            hearts = loader.dataHandler.currentData.heartsScore;
+            minds = loader.dataHandler.currentData.mindsScore;
 
-        //int peacescore = (int)Mathf.Clamp(((Mathf.Log(hearts + minds) - Mathf.Log(((100f-(hearts * .75f)) + (100f-minds)))) * 100f) - ((opDay/opDuration) * 20f), 0, 100);
-        int peacescore = (int)Mathf.Clamp((((hearts * hWeight) + (minds * mWeight)) / 2) - ((opDay / opDuration) * dWeight), 0, 100);
+            hasLoaded = true;
+        }
 
-        lbl_peace.text = peacescore.ToString();
+        peace = loader.CalculatePeaceScoreManually(day, opDays, hearts, minds);
+
     }
 }

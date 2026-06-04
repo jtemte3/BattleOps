@@ -16,13 +16,16 @@ public class MisssionPanelHandler : MonoBehaviour
     public TMP_Text lbl_basePeace;
     public void SetPanelDetails(MissionTemplate mission, MissionOption missionDetails)
     {
+        List<string> factorString = new List<string>() {"Low", "Medium", "High"};
+
         lbl_missionTitle.text = mission.missionTitle;
         lbl_missionDescription.text = mission.missionDescription;
 
         lbl_expectedInsurgents.text = string.Format("Expected Insurgents: {0}", mission.expectedCombatants);
         lbl_expectedCivilians.text = string.Format("Civilian Present: {0}", mission.civsAllowed);
-        lbl_risklevel.text = string.Format("Risk Level: {0}", missionDetails.baseRiskFactor);
-        lbl_intelLevel.text = string.Format("Intel Level: {0}", missionDetails.baseIntelFactor);
+
+        lbl_risklevel.text = string.Format("Risk Level: {0}", factorString[missionDetails.baseRiskFactor -1]);
+        lbl_intelLevel.text = string.Format("Intel Level: {0}", factorString[missionDetails.baseIntelFactor-1]);
 
         lbl_baseHearts.text = string.Format("{0}", mission.baseHeartsChange);
         lbl_baseMinds.text = string.Format("{0}", mission.baseMindsChange);

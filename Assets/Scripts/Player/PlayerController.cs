@@ -5,7 +5,6 @@ public class PlayerController : MonoBehaviour
 {
 
     public ControlSchemeManager controlScheme;
-    public GunProfile currentProfile;
     public MultiAimConstraint headAimConstraint;
     //Creating a speed variable that can change
     float speed;

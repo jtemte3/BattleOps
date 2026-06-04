@@ -12,11 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f903a4e88d901548a0f43bb2fec35f1, type: 3}
   m_Name: M4
   m_EditorClassIdentifier: Assembly-CSharp::WeaponProfile
-  AnimationController: {fileID: 9100000, guid: ed9e570701e9e564585d32a6027af03a, type: 2}
-  localPosition: {x: -0.0004451275, y: -0.049999952, z: 0.25}
-  localRotation: {x: 0, y: 89.899994, z: 0}
-  localScale: {x: 1, y: 1, z: 1}
   weaponName: M4
+  rightHandPosition: {x: 0.020799994, y: -0.069000006, z: 0.23050022}
+  rightHandRotation: {x: 270, y: 180, z: 0}
+  leftHandPosition: {x: -0.06819999, y: -0.04890001, z: 0.4392004}
+  leftHandRotation: {x: 270, y: 240.14911, z: 0}
+  idleCenter: {x: 0.1, y: 0.05, z: -0.1}
+  idleLeanRight: {x: 0.15, y: 0.05, z: -0.1}
+  idleLeanLeft: {x: -0.15, y: 0.05, z: -0.1}
+  adsCenter: {x: 0, y: 0.105, z: 0}
+  adsLeanRight: {x: 0.07, y: 0.07, z: 0}
+  adsLeanLeft: {x: -0.07, y: 0.07, z: 0}
   supportedModes: 0200000000000000
   magazineSize: 30
   fireRate: 10
@@ -29,23 +35,6 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4661589223095390683, guid: 6fda73944e49aa34dabb9ee1fe242a42,
     type: 3}
   bulletSpeed: 100
-  rightHandPosition: {x: 0.020799994, y: -0.069000006, z: 0.23050022}
-  rightHandRotation: {x: 270, y: 180, z: 0}
-  leftHandPosition: {x: -0.06819999, y: -0.04890001, z: 0.4392004}
-  leftHandRotation: {x: 270, y: 240.14911, z: 0}
-  walkingSpeed: 2.5
-  runningSpeed: 5.5
-  rotationSpeed: 3
-  idleCenter: {x: 0.1, y: 0.05, z: -0.1}
-  idleLeanRight: {x: 0.15, y: 0.05, z: -0.1}
-  idleLeanLeft: {x: -0.15, y: 0.05, z: -0.1}
-  adsCenter: {x: 0, y: 0.105, z: 0}
-  adsLeanRight: {x: 0.07, y: 0.07, z: 0}
-  adsLeanLeft: {x: -0.07, y: 0.07, z: 0}
-  strength: 0.05
-  maxDistance: 0.125
-  maxRotation: 0.125
-  amplitude: 0.05
   cameraRecoilKick: {x: 1, y: 1}
   cameraReturnSpeed: 5
   cameraSnappiness: 10

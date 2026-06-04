@@ -7,6 +7,8 @@ using UnityEngine.Events;
 public abstract class MissionEvent : MonoBehaviour
 {
     public CompassPoint compassPoint;
+    public bool showOnCompass = true;
+    public bool showCompassGlow;
 
     [Header("Objective Settings")]
     public string objectiveShortDescription;
@@ -24,7 +26,7 @@ public abstract class MissionEvent : MonoBehaviour
 
     private void Update()
     {
-        if (compassPoint.compassVisualPrefab != null && isInitialized == false)
+        if (isInitialized == false)
         {
             if (isObjActive && !isObjCompleted)
             {
@@ -32,7 +34,10 @@ public abstract class MissionEvent : MonoBehaviour
             }
             if (!isObjActive)
             {
-                compassPoint.SetPointActive(false);
+                if (showOnCompass && compassPoint.compassVisualPrefab != null)
+                {
+                    compassPoint.SetPointActive(false);
+                }
             }
 
             isInitialized = true;
@@ -42,14 +47,23 @@ public abstract class MissionEvent : MonoBehaviour
     public void SetEventActive()
     {
         isObjActive = true;
-        compassPoint.SetPointActive(true);
+
+        if (showOnCompass && compassPoint.compassVisualPrefab != null)
+        {
+            compassPoint.SetPointActive(true);
+        }
     }
 
     public void TriggerCompletion()
     {
         isObjCompleted = true;
         isObjActive= false;
-        compassPoint.SetPointActive(false);
+
+        if (showOnCompass && compassPoint.compassVisualPrefab != null)
+        {
+            compassPoint.SetPointActive(false);
+        }
+
         OnCompletion.Invoke();
     }
 }

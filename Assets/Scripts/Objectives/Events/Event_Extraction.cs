@@ -6,7 +6,8 @@ using UnityEngine;
 public class Event_Extraction : MissionEvent
 {
     public PlayerController player;
-    public ControlSchemeManager controlSchemeManager;
+    public LayerMask TriggerMask;
+    //public ControlSchemeManager controlSchemeManager;
     public InteractionTextManager interactionManager;
 
     public float activationDistance;
@@ -28,10 +29,12 @@ public class Event_Extraction : MissionEvent
             {
                 if (!isActivated)
                 {
-                    interactionManager.SetTextValue("Press " + controlSchemeManager.interact + " to Signal Extraction");
+                    //interactionManager.SetTextValue("Press " + controlSchemeManager.interact + " to Signal Extraction");
+                    interactionManager.SetTextValue("Throw a Smoke Grenade to Signal Extraction");
                     interactionManager.SetTextState(true);
 
-                    if (Input.GetKeyDown(controlSchemeManager.interact))
+                    Collider[] triggerColliders = Physics.OverlapSphere(this.transform.position, activationDistance, TriggerMask);
+                    if (triggerColliders.Length > 0)
                     {
                         isActivated = true;
                         interactionManager.SetTextState(false);
@@ -39,6 +42,15 @@ public class Event_Extraction : MissionEvent
                         //Call Heli-Sequence here, remove the temp completion call
                         TriggerCompletion();
                     }
+
+                    /*if (Input.GetKeyDown(controlSchemeManager.interact))
+                    {
+                        isActivated = true;
+                        interactionManager.SetTextState(false);
+
+                        //Call Heli-Sequence here, remove the temp completion call
+                        TriggerCompletion();
+                    }*/
                 }
             }
             else if (distance >= activationDistance && !isActivated)
