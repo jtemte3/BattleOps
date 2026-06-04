@@ -11,6 +11,7 @@ public class VillageRoadGenerator : MonoBehaviour
     public float cellSize = 3f;
     public int width = 50;
     public int height = 50;
+    public int waveFrequency = 4;
 
     [Header("Inputs")]
     public List<Vector2Int> gridCells = new List<Vector2Int>();
@@ -180,8 +181,8 @@ public class VillageRoadGenerator : MonoBehaviour
         float baseRadius = Mathf.Min(width, height) / 2f;
         float sinAmplitude = baseRadius * 0.1f;   // how far the waves push in/out
         float cosAmplitude = baseRadius * 0.1f;   // how far the waves push in/out
-        float sinFrequency = 4f;                  // number of waves around the circle
-        float cosFrequency = 4f;                  // number of waves around the circle
+        float sinFrequency = waveFrequency;                  // number of waves around the circle
+        float cosFrequency = waveFrequency;                  // number of waves around the circle
 
         for (int i = -height / 2; i <= height / 2; i++)
         {
