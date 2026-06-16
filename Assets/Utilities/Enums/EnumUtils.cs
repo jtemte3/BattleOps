@@ -23,3 +23,28 @@ public enum MissionCategory
     Recon,
     CivilAffairs
 }
+
+public enum AIState
+{
+    Idle,
+    Patrol,
+    Combat,
+    Search,
+    Dead
+}
+
+public enum AITeam
+{
+    Neutral,
+    Player,
+    Enemy,
+    Ally
+}
+
+public enum DetectionState
+{
+    None,
+    Suspicious,
+    Detected,
+    LostTarget
+}

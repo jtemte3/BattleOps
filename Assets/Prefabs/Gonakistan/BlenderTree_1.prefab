@@ -65,7 +65,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8392333071949895162, guid: fc28a1373ec9aa8429225d33f5911444,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 5716c04806ec8234daca2b0bab9f5c07, type: 2}
     - target: {fileID: -5255580320279669240, guid: fc28a1373ec9aa8429225d33f5911444,
@@ -78,9 +78,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlenderTree_1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fc28a1373ec9aa8429225d33f5911444,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3681790978099765340, guid: fc28a1373ec9aa8429225d33f5911444,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7061009275388539339, guid: fc28a1373ec9aa8429225d33f5911444,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 7113232789235503381, guid: fc28a1373ec9aa8429225d33f5911444,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 1d5637fa6cddda84b8a4ed87afbc7e73, type: 2}
     m_RemovedComponents:
@@ -120,7 +135,7 @@ LODGroup:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8065013970502459260}
-  serializedVersion: 2
+  serializedVersion: 3
   m_LocalReferencePoint: {x: -0.20958328, y: 4.3554044, z: 0.53473663}
   m_Size: 8.710809
   m_FadeMode: 1
@@ -139,3 +154,4 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers: []
   m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
