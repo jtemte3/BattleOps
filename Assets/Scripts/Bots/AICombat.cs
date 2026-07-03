@@ -16,7 +16,7 @@ using UnityEngine;
 /// </summary>
 public class AICombat : MonoBehaviour, IAIBehaviour
 {
-    private AIEntity entity;
+    public AIEntity entity;
 
     [Header("References")]
     public Transform weaponMuzzle;
@@ -37,9 +37,12 @@ public class AICombat : MonoBehaviour, IAIBehaviour
 
     public float fireRate = 0.1f;
 
-    public int burstCount = 3;
-
-    public float burstDelay = 0.08f;
+    [Space]
+    public int burstCountMin = 2;
+    public int burstCountMax = 5;
+    [Space]
+    public float burstDelayMin = 0.08f;
+    public float burstDelayMax = 0.25f;
 
     [Header("Accuracy")]
     [Tooltip("Lower = more accurate")]
@@ -50,6 +53,9 @@ public class AICombat : MonoBehaviour, IAIBehaviour
 
     [Header("Search Fire")]
     public bool suppressLastKnownPosition = true;
+    public float suppressionDurationMin;
+    public float suppressionDurationMax;
+    private float endSuppressionTime;
 
     [Tooltip("Chance to continue firing at last known position")]
     [Range(0f, 1f)]
@@ -58,21 +64,28 @@ public class AICombat : MonoBehaviour, IAIBehaviour
     [Header("Debug")]
     public bool debugDrawShots = true;
 
-    private float nextFireTime;
+    public float nextFireTime;
+    public float nextBurstTime;
 
-    private int currentBurstShots;
+    public int burstCount;
+    public int currentBurstShots;
+    public bool isBursting;
 
-    private bool isBursting;
+    public bool isSuppressing;
 
     public void Initialize(AIEntity entity)
     {
         this.entity = entity;
+
+        burstCount = Random.Range(burstCountMin, burstCountMax);
     }
 
     private void Update()
     {
         if (entity.currentState == AIState.Dead)
+        {
             return;
+        }
 
         switch (entity.currentState)
         {
@@ -80,8 +93,24 @@ public class AICombat : MonoBehaviour, IAIBehaviour
                 HandleCombat();
                 break;
 
-            case AIState.Search:
-                HandleSuppressionFire();
+            case AIState.Suppress:
+                if (isSuppressing == false)
+                {
+                    isSuppressing = true;
+                    endSuppressionTime = Time.time + Random.Range(suppressionDurationMin, suppressionDurationMax);
+                }
+                
+                if (isSuppressing == true)
+                {
+                    if (Time.time >= endSuppressionTime)
+                    {
+                        isSuppressing = false;
+                    }
+                    else
+                    {
+                        HandleSuppressionFire();
+                    }
+                }
                 break;
         }
     }
@@ -92,17 +121,14 @@ public class AICombat : MonoBehaviour, IAIBehaviour
 
     private void HandleCombat()
     {
-        Transform target =
-            entity.perception.currentTarget;
+        Transform target = entity.perception.currentTarget;
 
         if (target == null)
+        {
             return;
+        }
 
-        float distance =
-            Vector3.Distance(
-                transform.position,
-                target.position
-            );
+        float distance = Vector3.Distance(transform.position, target.position);
 
         UpdateAim(target.position);
 
@@ -113,16 +139,20 @@ public class AICombat : MonoBehaviour, IAIBehaviour
     }
 
     // --------------------------------------------------
-    // SEARCH / SUPPRESSION FIRE
+    // SUPPRESSION FIRE
     // --------------------------------------------------
 
     private void HandleSuppressionFire()
     {
         if (!suppressLastKnownPosition)
+        {
             return;
+        }
 
         if (Random.value > suppressionFireChance)
+        {
             return;
+        }
 
         UpdateAim(
             entity.perception.lastKnownPosition
@@ -140,17 +170,13 @@ public class AICombat : MonoBehaviour, IAIBehaviour
     private void UpdateAim(Vector3 targetPosition)
     {
         if (weaponAimTarget == null)
+        {
             return;
+        }
 
-        Vector3 current =
-            weaponAimTarget.position;
+        Vector3 current = weaponAimTarget.position;
 
-        Vector3 smoothed =
-            Vector3.Lerp(
-                current,
-                targetPosition,
-                Time.deltaTime * aimSpeed
-            );
+        Vector3 smoothed = Vector3.Lerp(current, targetPosition, Time.deltaTime * aimSpeed);
 
         weaponAimTarget.position = smoothed;
     }
@@ -162,49 +188,45 @@ public class AICombat : MonoBehaviour, IAIBehaviour
     private void TryFire(Vector3 targetPosition)
     {
         if (Time.time < nextFireTime)
+        {
             return;
+        }          
 
-        nextFireTime =
-            Time.time + fireRate;
+        if (isBursting == true && currentBurstShots >= burstCount)
+        {
+            isBursting = false;
+            currentBurstShots = 0;
+            burstCount = Random.Range(burstCountMin, burstCountMax);
+            nextBurstTime = Time.time + Random.Range(burstDelayMin, burstDelayMax);
+        }
 
         if (automatic)
         {
             FireShot(targetPosition);
+            // SET NEXT FIRE TIME
+            nextFireTime = Time.time + fireRate;
         }
         else
         {
-            if (!isBursting)
+            if (!isBursting && Time.time > nextBurstTime)
             {
-                StartCoroutine(
-                    BurstFire(targetPosition)
-                );
+                isBursting = true;
+            }
+
+            if (isBursting)
+            {
+                if (currentBurstShots < burstCount)
+                {
+                    FireShot(targetPosition);
+
+                    currentBurstShots++;
+                    // SET NEXT FIRE TIME
+                    nextFireTime = Time.time + fireRate;
+                }
             }
         }
-    }
 
-    // --------------------------------------------------
-    // BURST FIRE
-    // --------------------------------------------------
-
-    private System.Collections.IEnumerator BurstFire(
-        Vector3 targetPosition)
-    {
-        isBursting = true;
-
-        currentBurstShots = 0;
-
-        while (currentBurstShots < burstCount)
-        {
-            FireShot(targetPosition);
-
-            currentBurstShots++;
-
-            yield return new WaitForSeconds(
-                burstDelay
-            );
-        }
-
-        isBursting = false;
+        
     }
 
     // --------------------------------------------------
@@ -213,18 +235,14 @@ public class AICombat : MonoBehaviour, IAIBehaviour
 
     private void FireShot(Vector3 targetPosition)
     {
-        Vector3 shotDirection =
-            GetSpreadDirection(targetPosition);
+        Vector3 shotDirection = GetSpreadDirection(targetPosition);
 
         // RAYCAST HITSCAN
-        if (Physics.Raycast(
-                weaponMuzzle.position,
-                shotDirection,
-                out RaycastHit hit,
-                attackRange))
+        //This is okay for getting things setup, but I want to use a physical projectile instead of a raycast system
+        //TODO: Redo this section and instantiate a prefab bullet
+        if (Physics.Raycast(weaponMuzzle.position, shotDirection, out RaycastHit hit, attackRange))
         {
-            AIHealth health =
-                hit.collider.GetComponentInParent<AIHealth>();
+            AIHealth health = hit.collider.GetComponentInParent<AIHealth>();
 
             if (health != null)
             {
@@ -233,24 +251,14 @@ public class AICombat : MonoBehaviour, IAIBehaviour
 
             if (debugDrawShots)
             {
-                Debug.DrawLine(
-                    weaponMuzzle.position,
-                    hit.point,
-                    Color.red,
-                    1f
-                );
+                Debug.DrawLine(weaponMuzzle.position, hit.point, Color.red, 1f);
             }
         }
         else
         {
             if (debugDrawShots)
             {
-                Debug.DrawRay(
-                    weaponMuzzle.position,
-                    shotDirection * attackRange,
-                    Color.yellow,
-                    1f
-                );
+                Debug.DrawRay(weaponMuzzle.position, shotDirection * attackRange, Color.yellow, 1f);
             }
         }
 
@@ -265,31 +273,24 @@ public class AICombat : MonoBehaviour, IAIBehaviour
     // SPREAD
     // --------------------------------------------------
 
-    private Vector3 GetSpreadDirection(
-        Vector3 targetPosition)
+    private Vector3 GetSpreadDirection(Vector3 targetPosition)
     {
-        Vector3 direction =
-            (targetPosition - weaponMuzzle.position)
-            .normalized;
+        Vector3 direction = (targetPosition - weaponMuzzle.position).normalized;
 
         float finalSpread = spreadRadius;
 
         // Moving inaccuracy
         if (entity.movement != null)
         {
-            float speed =
-                entity.movement.GetVelocityMagnitude();
+            float speed = entity.movement.GetVelocityMagnitude();
 
             if (speed > 0.1f)
             {
-                finalSpread *=
-                    movingSpreadMultiplier;
+                finalSpread *= movingSpreadMultiplier;
             }
         }
 
-        Vector3 spreadOffset =
-            Random.insideUnitSphere *
-            finalSpread;
+        Vector3 spreadOffset = Random.insideUnitSphere * finalSpread;
 
         direction += spreadOffset;
 

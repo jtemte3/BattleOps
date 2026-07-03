@@ -17,7 +17,7 @@ using UnityEngine.Animations.Rigging;
 /// </summary>
 public class AIHealth : MonoBehaviour, IAIBehaviour
 {
-    private AIEntity entity;
+    public AIEntity entity;
 
     [Header("Health")]
     public float maxHealth = 100f;
@@ -92,7 +92,9 @@ public class AIHealth : MonoBehaviour, IAIBehaviour
     public void TakeDamage(float damage)
     {
         if (isDead)
+        {
             return;
+        }
 
         currentHealth -= damage;
 
@@ -109,7 +111,9 @@ public class AIHealth : MonoBehaviour, IAIBehaviour
     private void Die()
     {
         if (isDead)
+        {
             return;
+        }
 
         isDead = true;
 
@@ -143,7 +147,9 @@ public class AIHealth : MonoBehaviour, IAIBehaviour
         foreach (MonoBehaviour script in scriptsToDisable)
         {
             if (script == null)
+            {
                 continue;
+            }
 
             script.enabled = false;
         }
@@ -165,10 +171,7 @@ public class AIHealth : MonoBehaviour, IAIBehaviour
         // OPTIONAL CLEANUP
         if (destroyOnDeath)
         {
-            Destroy(
-                gameObject,
-                destroyDelay
-            );
+            Destroy(gameObject, destroyDelay);
         }
     }
 
@@ -181,7 +184,9 @@ public class AIHealth : MonoBehaviour, IAIBehaviour
         foreach (Rigidbody rb in ragdollBodies)
         {
             if (rb == null)
-                continue;
+            {
+                continue; 
+            }
 
             rb.isKinematic = false;
         }
@@ -189,7 +194,9 @@ public class AIHealth : MonoBehaviour, IAIBehaviour
         foreach (Collider col in ragdollColliders)
         {
             if (col == null)
+            {
                 continue;
+            }
 
             col.enabled = true;
         }
@@ -199,21 +206,16 @@ public class AIHealth : MonoBehaviour, IAIBehaviour
     // OPTIONAL FORCE APPLICATION
     // --------------------------------------------------
 
-    public void ApplyImpactForce(
-        Vector3 force,
-        Vector3 hitPoint,
-        float radius = 0.25f)
+    public void ApplyImpactForce(Vector3 force, Vector3 hitPoint, float radius = 0.25f)
     {
         foreach (Rigidbody rb in ragdollBodies)
         {
             if (rb == null)
+            {
                 continue;
+            }
 
-            rb.AddExplosionForce(
-                force.magnitude,
-                hitPoint,
-                radius
-            );
+            rb.AddExplosionForce(force.magnitude, hitPoint, radius);
         }
     }
 

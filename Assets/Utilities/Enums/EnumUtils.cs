@@ -30,6 +30,7 @@ public enum AIState
     Patrol,
     Combat,
     Search,
+    Suppress,
     Dead
 }
 

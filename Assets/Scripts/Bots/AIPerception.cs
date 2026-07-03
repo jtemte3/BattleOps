@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -14,7 +15,7 @@ using UnityEngine;
 /// </summary>
 public class AIPerception : MonoBehaviour, IAIBehaviour
 {
-    private AIEntity entity;
+    public AIEntity entity;
 
     [Header("Vision")]
     public Transform eyePoint;
@@ -46,19 +47,17 @@ public class AIPerception : MonoBehaviour, IAIBehaviour
     public bool drawDebug = true;
 
     // TARGET DATA
-    [HideInInspector] public Transform currentTarget;
-    [HideInInspector] public Vector3 lastKnownPosition;
+     public Transform currentTarget;
+     public Vector3 lastKnownPosition;
 
-    [HideInInspector]
-    public DetectionState detectionState =
-        DetectionState.None;
+    
+    public DetectionState detectionState = DetectionState.None;
 
-    private float suspicionLevel;
+    public float suspicionLevel;
 
     private float nextPerceptionTime;
 
-    private readonly Collider[] results =
-        new Collider[32];
+    private Collider[] results;
 
     public void Initialize(AIEntity entity)
     {
@@ -69,8 +68,7 @@ public class AIPerception : MonoBehaviour, IAIBehaviour
     {
         if (Time.time >= nextPerceptionTime)
         {
-            nextPerceptionTime =
-                Time.time + perceptionInterval;
+            nextPerceptionTime = Time.time + perceptionInterval;
 
             PerformPerceptionCheck();
         }
@@ -84,49 +82,49 @@ public class AIPerception : MonoBehaviour, IAIBehaviour
 
     private void PerformPerceptionCheck()
     {
-        int count =
-            Physics.OverlapSphereNonAlloc(
-                eyePoint.position,
-                viewDistance,
-                results,
-                targetMask
-            );
+        results = Physics.OverlapSphere(eyePoint.position, viewDistance, targetMask);
 
         Transform bestTarget = null;
         float closestDistance = Mathf.Infinity;
 
-        for (int i = 0; i < count; i++)
+        foreach(Collider col in results)
         {
-            Collider col = results[i];
-
             if (col == null)
+            {
                 continue;
+            }
 
             AIEntity otherEntity =
                 col.GetComponentInParent<AIEntity>();
 
             if (otherEntity == null)
+            {
                 continue;
+            }
 
             // Ignore same team
             if (otherEntity.team == entity.team && otherEntity.team == AITeam.Neutral)
+            {
                 continue;
+            }
 
             Transform target = otherEntity.transform;
 
-            if (!CanSeeTarget(target))
-                continue;
+            float distance = Vector3.Distance(eyePoint.position, target.position);
 
-            float distance =
-                Vector3.Distance(
-                    eyePoint.position,
-                    target.position
-                );
+            if (!IsTargetVisable(target))
+            {
+                continue;
+            }
+            /*if (!CanSeeTarget(target))
+            {
+                continue;
+            }*/
 
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                bestTarget = target;
+                bestTarget = otherEntity.target;
             }
         }
 
@@ -135,9 +133,8 @@ public class AIPerception : MonoBehaviour, IAIBehaviour
             currentTarget = bestTarget;
             lastKnownPosition = bestTarget.position;
 
-            suspicionLevel +=
-                suspicionIncreaseRate *
-                perceptionInterval;
+            suspicionLevel += suspicionIncreaseRate;
+            suspicionLevel = Mathf.Min(suspicionLevel, detectionThreshold);
         }
         else
         {
@@ -151,45 +148,59 @@ public class AIPerception : MonoBehaviour, IAIBehaviour
 
     private bool CanSeeTarget(Transform target)
     {
-        Vector3 dirToTarget =
-            (target.position - eyePoint.position).normalized;
+        Vector3 dirToTarget = (eyePoint.position - target.position).normalized;
 
         // ANGLE CHECK
-        float angle =
-            Vector3.Angle(
-                eyePoint.forward,
-                dirToTarget
-            );
+        float angle = Vector3.Angle(-entity.transform.forward, dirToTarget);
 
         if (angle > viewAngle * 0.5f)
+        {
             return false;
+        }
+            
 
         // DISTANCE CHECK
-        float distance =
-            Vector3.Distance(
-                eyePoint.position,
-                target.position
-            );
+        float distance = Vector3.Distance( eyePoint.position, target.position);
 
         if (distance > viewDistance)
+        {
             return false;
+        }
 
         // LINE OF SIGHT
-        if (Physics.Raycast(
-                eyePoint.position,
-                dirToTarget,
-                out RaycastHit hit,
-                distance,
-                obstacleMask | targetMask))
+        if (Physics.Raycast(eyePoint.position, -dirToTarget, out RaycastHit hit, distance, obstacleMask | targetMask))
         {
-            if (hit.transform != target &&
-                !hit.transform.IsChildOf(target))
+            if (hit.transform != target && !hit.transform.IsChildOf(target))
             {
                 return false;
             }
         }
 
         return true;
+    }
+
+    private bool IsTargetVisable(Transform target)
+    {
+        Vector3 targetDirection = (entity.transform.position - target.position).normalized;
+        float targetAngle = Vector3.Angle(-entity.transform.forward, targetDirection);
+        if (targetAngle < (viewAngle / 2))
+        {
+            float distanceToTarget = Vector3.Distance(entity.transform.position, target.position);
+
+            Debug.DrawRay(entity.transform.position, -targetDirection * distanceToTarget, Color.green, 1);
+            if (Physics.Raycast(eyePoint.position, -targetDirection, distanceToTarget, obstacleMask))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 
     // --------------------------------------------------
@@ -202,33 +213,26 @@ public class AIPerception : MonoBehaviour, IAIBehaviour
         {
             if (suspicionLevel >= detectionThreshold)
             {
-                detectionState =
-                    DetectionState.Detected;
+                detectionState = DetectionState.Detected;
             }
             else
             {
-                detectionState =
-                    DetectionState.Suspicious;
+                detectionState = DetectionState.Suspicious;
             }
         }
         else
         {
-            suspicionLevel -=
-                suspicionDecayRate *
-                Time.deltaTime;
+            suspicionLevel -= suspicionDecayRate * Time.deltaTime;
 
-            suspicionLevel =
-                Mathf.Max(0f, suspicionLevel);
+            suspicionLevel = Mathf.Max(0f, suspicionLevel);
 
             if (suspicionLevel <= 0f)
             {
-                detectionState =
-                    DetectionState.None;
+                detectionState = DetectionState.None;
             }
             else
             {
-                detectionState =
-                    DetectionState.LostTarget;
+                detectionState = DetectionState.LostTarget;
             }
         }
     }
@@ -240,49 +244,36 @@ public class AIPerception : MonoBehaviour, IAIBehaviour
     private void OnDrawGizmosSelected()
     {
         if (!drawDebug || eyePoint == null)
+        {
             return;
+        }
 
+        //Gizmos.DrawWireSphere(eyePoint.position, viewDistance);
         Gizmos.color = Color.yellow;
+        Handles.color = Color.yellow;
+        Handles.DrawWireArc(eyePoint.position, Vector3.up, Quaternion.Euler(0, -viewAngle * 0.5f, 0) * eyePoint.forward, viewAngle, viewDistance);
 
-        Gizmos.DrawWireSphere(
-            eyePoint.position,
-            viewDistance
-        );
+        Vector3 leftBoundary = Quaternion.Euler(0, -viewAngle * 0.5f, 0) * eyePoint.forward;
 
-        Vector3 leftBoundary =
-            Quaternion.Euler(
-                0,
-                -viewAngle * 0.5f,
-                0
-            ) * eyePoint.forward;
-
-        Vector3 rightBoundary =
-            Quaternion.Euler(
-                0,
-                viewAngle * 0.5f,
-                0
-            ) * eyePoint.forward;
+        Vector3 rightBoundary = Quaternion.Euler(0, viewAngle * 0.5f, 0) * eyePoint.forward;
 
         Gizmos.color = Color.cyan;
 
-        Gizmos.DrawRay(
-            eyePoint.position,
-            leftBoundary * viewDistance
-        );
+        Gizmos.DrawRay(eyePoint.position, leftBoundary * viewDistance);
 
-        Gizmos.DrawRay(
-            eyePoint.position,
-            rightBoundary * viewDistance
-        );
+        Gizmos.DrawRay(eyePoint.position, rightBoundary * viewDistance);
+
+        if (entity.combat != null)
+        {
+            Handles.color = Color.red;
+            Handles.DrawWireArc(eyePoint.position, Vector3.up, Quaternion.Euler(0, -viewAngle * 0.5f, 0) * eyePoint.forward, viewAngle, entity.combat.attackRange);
+        }
 
         if (currentTarget != null)
         {
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.orange;
 
-            Gizmos.DrawLine(
-                eyePoint.position,
-                currentTarget.position
-            );
+            Gizmos.DrawLine(eyePoint.position, currentTarget.position);
         }
     }
 }

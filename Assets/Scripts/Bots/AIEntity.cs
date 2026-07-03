@@ -7,29 +7,47 @@ public class AIEntity : MonoBehaviour
 
     [Header("State")]
     public AIState currentState = AIState.Idle;
+    public bool canMove = true;
 
-    [HideInInspector] public AIHealth health;
-    [HideInInspector] public AIMovement movement;
-    [HideInInspector] public AIPerception perception;
-    [HideInInspector] public AICombat combat;
+    [Header("AI Target")]
+    public Transform target;
+
+    public AIHealth health;
+    public AIMovement movement;
+    public AIPerception perception;
+    public AICombat combat;
 
     private void Awake()
     {
         if (team != AITeam.Player)
         {
-            health = GetComponent<AIHealth>();
-            movement = GetComponent<AIMovement>();
-            perception = GetComponent<AIPerception>();
-            combat = GetComponent<AICombat>();
+            if (health == null) 
+            {
+                health = GetComponent<AIHealth>();
+            }
+            if (movement == null && canMove == true)
+            {
+                movement = GetComponent<AIMovement>();
+            }
+            if (perception == null)
+            {
+                perception = GetComponent<AIPerception>();
+            }
+            if (combat == null)
+            {
+                combat = GetComponent<AICombat>();
+            }
 
             InitializeSystems();
         }
     }
 
-    private void Update()
+private void Update()
     {
         if (currentState == AIState.Dead || team == AITeam.Player)
+        {
             return;
+        }
 
         HandleStateLogic();
     }
@@ -37,48 +55,96 @@ public class AIEntity : MonoBehaviour
     private void InitializeSystems()
     {
         if (health != null)
+        {
             health.Initialize(this);
+        }
 
         if (movement != null)
+        {
             movement.Initialize(this);
+        }
 
         if (perception != null)
+        {
             perception.Initialize(this);
+        }
 
         if (combat != null)
+        {
             combat.Initialize(this);
+        }
     }
 
     private void HandleStateLogic()
     {
+        //Don't make a case for dead. The AIHealth script will trigger that function
         switch (currentState)
         {
             case AIState.Idle:
-            case AIState.Patrol:
-
-                if (perception.currentTarget != null)
+                if (perception.currentTarget != null && perception.detectionState == DetectionState.Detected)
                 {
                     SetState(AIState.Combat);
                 }
 
+                if (canMove)
+                {
+                    if (perception.currentTarget != null && perception.detectionState == DetectionState.Suspicious)
+                    {
+                        movement.SetupSearchPath();
+                        SetState(AIState.Search);
+                    }
+                }
+                break;
+            case AIState.Patrol:
+
+                if (perception.currentTarget != null && perception.detectionState == DetectionState.Detected)
+                {
+                    SetState(AIState.Combat);
+                }
+
+                if (perception.currentTarget != null && perception.detectionState == DetectionState.Suspicious)
+                {
+                    movement.SetupSearchPath();
+                    SetState(AIState.Search);
+                }
                 break;
 
             case AIState.Combat:
 
                 if (perception.currentTarget == null)
                 {
-                    SetState(AIState.Search);
+                    SetState(AIState.Suppress);
                 }
-
                 break;
 
-            case AIState.Search:
-
-                if (perception.currentTarget != null)
+            case AIState.Suppress:
+                
+                if (perception.currentTarget != null && perception.detectionState == DetectionState.Detected)
                 {
                     SetState(AIState.Combat);
                 }
 
+                if (combat.isSuppressing == false)
+                {
+                    if (canMove)
+                    {
+                        movement.SetupSearchPath();
+                        SetState(AIState.Search);
+                    }
+                }
+                break;
+
+            case AIState.Search:
+
+                if (perception.currentTarget != null && perception.detectionState == DetectionState.Detected)
+                {
+                    SetState(AIState.Combat);
+                }
+
+                if (movement.isSearching == false)
+                {
+                    SetState(AIState.Idle);
+                }
                 break;
         }
     }
