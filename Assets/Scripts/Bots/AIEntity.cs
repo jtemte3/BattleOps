@@ -12,6 +12,10 @@ public class AIEntity : MonoBehaviour
     [Header("AI Target")]
     public Transform target;
 
+    [Header("Squad")]
+    [Tooltip("Optional reference to the AISquad this entity belongs to. If assigned, the entity will de-register itself upon death.")]
+    public AISquad squad;
+
     public AIHealth health;
     public AIMovement movement;
     public AIPerception perception;
@@ -42,7 +46,7 @@ public class AIEntity : MonoBehaviour
         }
     }
 
-private void Update()
+    private void Update()
     {
         if (currentState == AIState.Dead || team == AITeam.Player)
         {
@@ -102,11 +106,11 @@ private void Update()
                     SetState(AIState.Combat);
                 }
 
-                if (perception.currentTarget != null && perception.detectionState == DetectionState.Suspicious)
+                /*if (perception.currentTarget != null && perception.detectionState == DetectionState.Suspicious)
                 {
                     movement.SetupSearchPath();
                     SetState(AIState.Search);
-                }
+                }*/
                 break;
 
             case AIState.Combat:
@@ -160,6 +164,15 @@ private void Update()
 
         movement.enabled = false;
         perception.enabled = false;
+        perception.detectionState = DetectionState.None;
         combat.enabled = false;
+
+        // De-register from squad if assigned
+        if (squad != null)
+        {
+            squad.RemoveMember(this);
+        }
+
+        Destroy(this.gameObject);
     }
 }

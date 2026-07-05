@@ -8,9 +8,8 @@ public class AIMovement : MonoBehaviour, IAIBehaviour
     public AIEntity entity;
     private NavMeshAgent agent;
 
-    [Header("Patrol")]
-    public Transform[] patrolPoints;
-    private int patrolIndex;
+    [Header("Patrol Component")]
+    public AIPatrol patrol;
 
     [Header("Search")]
     public bool isSearching;
@@ -24,7 +23,6 @@ public class AIMovement : MonoBehaviour, IAIBehaviour
     public ProceduralWeaponMotion weaponMotion;
 
     [Header("Stopping Distances")]
-    public float patrolStoppingDistance = 0;
     public float combatStoppingDistance = 3;
     public float searchStoppingDistance = 5;
 
@@ -33,6 +31,12 @@ public class AIMovement : MonoBehaviour, IAIBehaviour
         this.entity = entity;
 
         agent = GetComponent<NavMeshAgent>();
+        
+        // Find patrol component if not assigned
+        if (patrol == null)
+        {
+            patrol = GetComponent<AIPatrol>();
+        }
     }
 
     private void Update()
@@ -47,16 +51,20 @@ public class AIMovement : MonoBehaviour, IAIBehaviour
         switch (entity.currentState)
         {
             case AIState.Idle:
-                agent.stoppingDistance = patrolStoppingDistance;
-                HandleIdle();
+                // Idle behavior can be added here if needed
+                // For now, squad management handles state transitions
                 break;
+
             case AIState.Patrol:
-                agent.stoppingDistance = patrolStoppingDistance;
-                HandlePatrol();
+                // Delegate patrol movement to the AIPatrol component
+                if (patrol != null)
+                {
+                    patrol.HandlePatrol();
+                }
                 break;
 
             case AIState.Combat:
-                //Eventually I want to update this state.
+                // Eventually I want to update this state.
                 /*
                  *This state should:
                  *  1. Find cover with its target still in range, and shoot from it
@@ -71,7 +79,7 @@ public class AIMovement : MonoBehaviour, IAIBehaviour
                 break;
 
             case AIState.Search:
-                //Eventually this should consist of finding 3-5 spots on the navmesh to investigate and move to those areas before returning to a patrol
+                // Eventually this should consist of finding 3-5 spots on the navmesh to investigate and move to those areas before returning to a patrol
                 /*
                  * Like a patrol, but it selects random locations in a radius of the bots location
                  * Once all of the locations have been searched, it will resume its patrol
@@ -96,36 +104,6 @@ public class AIMovement : MonoBehaviour, IAIBehaviour
         if (weaponMotion != null)
         {
             weaponMotion.moveSpeed = speed;
-        }
-    }
-
-    private void HandleIdle()
-    {
-        if (patrolPoints.Length == 1)
-        {
-            if (Vector3.Distance(agent.transform.position, patrolPoints[0].transform.position) > 1f)
-            {
-                agent.SetDestination(patrolPoints[0].position);
-            }
-        }
-        if (patrolPoints.Length >= 1)
-        {
-            entity.currentState = AIState.Patrol;
-        }
-    }
-
-    private void HandlePatrol()
-    {
-        if (patrolPoints.Length == 0)
-        {
-            return;
-        }
-
-        if (!agent.pathPending && agent.remainingDistance < 1f)
-        {
-            patrolIndex = (patrolIndex + 1) % patrolPoints.Length;
-
-            agent.SetDestination(patrolPoints[patrolIndex].position);
         }
     }
 
@@ -203,6 +181,11 @@ public class AIMovement : MonoBehaviour, IAIBehaviour
         {
             return false;
         }
+    }
+
+    public NavMeshAgent GetNavMeshAgent()
+    {
+        return agent;
     }
 
     public void MoveTo(Vector3 position)

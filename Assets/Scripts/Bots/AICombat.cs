@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.VFX;
 
 /// <summary>
 /// Handles:
@@ -51,6 +53,10 @@ public class AICombat : MonoBehaviour, IAIBehaviour
     [Tooltip("Extra spread while moving")]
     public float movingSpreadMultiplier = 2f;
 
+    [Header("Projectile")]
+    public GameObject bulletPrefab;
+    public float bulletSpeed = 100f;
+
     [Header("Search Fire")]
     public bool suppressLastKnownPosition = true;
     public float suppressionDurationMin;
@@ -73,11 +79,21 @@ public class AICombat : MonoBehaviour, IAIBehaviour
 
     public bool isSuppressing;
 
+    private float lightOffTime = 0f;
+    private float muzzleLightDuration = .1f;
+
+    private Vector3 aimTargetRestPosition;
+
     public void Initialize(AIEntity entity)
     {
         this.entity = entity;
 
         burstCount = Random.Range(burstCountMin, burstCountMax);
+
+        if (weaponAimTarget != null)
+        {
+            aimTargetRestPosition = weaponAimTarget.localPosition;
+        }
     }
 
     private void Update()
@@ -112,6 +128,18 @@ public class AICombat : MonoBehaviour, IAIBehaviour
                     }
                 }
                 break;
+
+            default:
+                ResetAimToRest();
+                break;
+        }
+
+        if (weaponMuzzle.GetComponent<Light>().enabled)
+        {
+            if (Time.time >= lightOffTime)
+            {
+                weaponMuzzle.GetComponent<Light>().enabled = false;
+            }
         }
     }
 
@@ -181,6 +209,19 @@ public class AICombat : MonoBehaviour, IAIBehaviour
         weaponAimTarget.position = smoothed;
     }
 
+    private void ResetAimToRest()
+    {
+        if (weaponAimTarget == null)
+        {
+            return;
+        }
+
+        Vector3 current = weaponAimTarget.localPosition;
+        Vector3 smoothed = Vector3.Lerp(current, aimTargetRestPosition, Time.deltaTime * aimSpeed);
+
+        weaponAimTarget.localPosition = smoothed;
+    }
+
     // --------------------------------------------------
     // FIRE CONTROL
     // --------------------------------------------------
@@ -190,7 +231,7 @@ public class AICombat : MonoBehaviour, IAIBehaviour
         if (Time.time < nextFireTime)
         {
             return;
-        }          
+        }         
 
         if (isBursting == true && currentBurstShots >= burstCount)
         {
@@ -232,8 +273,32 @@ public class AICombat : MonoBehaviour, IAIBehaviour
     // --------------------------------------------------
     // SHOOTING
     // --------------------------------------------------
-
     private void FireShot(Vector3 targetPosition)
+    {
+        Vector3 shotDirection = GetSpreadDirection(targetPosition);
+
+        // SPAWN PHYSICAL PROJECTILE
+        GameObject bullet = Instantiate(bulletPrefab, weaponMuzzle.position, Quaternion.identity);
+        bullet.transform.parent = null;
+        bullet.GetComponent<Rigidbody>().linearVelocity = shotDirection * bulletSpeed;
+
+        if (debugDrawShots)
+        {
+            Debug.DrawRay(weaponMuzzle.position, shotDirection * attackRange, Color.yellow, 1f);
+        }
+
+        weaponMuzzle.GetComponent<VisualEffect>().Play();
+        weaponMuzzle.GetComponent<Light>().enabled = true;
+        lightOffTime = Time.time + muzzleLightDuration;
+
+        // PROCEDURAL RECOIL
+        if (weaponMotion != null)
+        {
+            weaponMotion.Fire(1f);
+        }
+    }
+
+    private void FireRaycastShot(Vector3 targetPosition)
     {
         Vector3 shotDirection = GetSpreadDirection(targetPosition);
 
@@ -246,7 +311,10 @@ public class AICombat : MonoBehaviour, IAIBehaviour
 
             if (health != null)
             {
-                health.TakeDamage(20f);
+                if (health.entity.team != entity.team)
+                {
+                    health.TakeDamage(20f);
+                }
             }
 
             if (debugDrawShots)
@@ -261,6 +329,10 @@ public class AICombat : MonoBehaviour, IAIBehaviour
                 Debug.DrawRay(weaponMuzzle.position, shotDirection * attackRange, Color.yellow, 1f);
             }
         }
+
+        weaponMuzzle.GetComponent<VisualEffect>().Play();
+        weaponMuzzle.GetComponent<Light>().enabled = true;
+        lightOffTime = Time.time + muzzleLightDuration;
 
         // PROCEDURAL RECOIL
         if (weaponMotion != null)
@@ -295,5 +367,12 @@ public class AICombat : MonoBehaviour, IAIBehaviour
         direction += spreadOffset;
 
         return direction.normalized;
+    }
+
+    public void OverideSuppression()
+    {
+        isSuppressing = true;
+
+        endSuppressionTime = Time.time + Random.Range(suppressionDurationMin, suppressionDurationMax);
     }
 }
