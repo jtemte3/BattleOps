@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 366566009889531952}
   - component: {fileID: 366566009889531953}
   - component: {fileID: 366566009889531954}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,6 +59,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -80,9 +85,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &366566009889531954
 BoxCollider:
@@ -116,7 +123,7 @@ GameObject:
   - component: {fileID: 366566010935885868}
   - component: {fileID: 5935277468489640661}
   - component: {fileID: 1444247736024033244}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: OB-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +186,7 @@ LODGroup:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 366566010935885870}
-  serializedVersion: 2
+  serializedVersion: 3
   m_LocalReferencePoint: {x: 3.0000002, y: -0.05, z: 3}
   m_Size: 9
   m_FadeMode: 0
@@ -205,6 +212,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers: []
   m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
 --- !u!1 &1310363419630069886
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +225,7 @@ GameObject:
   - component: {fileID: 2775635693024797122}
   - component: {fileID: 36493660629723459}
   - component: {fileID: 8117463255542519669}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,6 +272,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -285,9 +298,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &8117463255542519669
 BoxCollider:
@@ -322,7 +337,7 @@ GameObject:
   - component: {fileID: 7670035770901394008}
   - component: {fileID: 24376222734131818}
   - component: {fileID: 4620439190970871199}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Floor (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -369,6 +384,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -390,9 +410,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &4620439190970871199
 BoxCollider:
@@ -427,7 +449,7 @@ GameObject:
   - component: {fileID: 9147482964282075735}
   - component: {fileID: 2208257624896205282}
   - component: {fileID: 5006225512674283454}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Floor (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -474,6 +496,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -495,9 +522,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &5006225512674283454
 BoxCollider:
@@ -532,7 +561,7 @@ GameObject:
   - component: {fileID: 3196264120650495405}
   - component: {fileID: 3077890327890374504}
   - component: {fileID: 6080443858331995077}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -579,6 +608,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -600,9 +634,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &6080443858331995077
 BoxCollider:
@@ -637,7 +673,7 @@ GameObject:
   - component: {fileID: 246580485403036710}
   - component: {fileID: 131674348667478991}
   - component: {fileID: 4136932354993893881}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Floor (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -684,6 +720,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -705,9 +746,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &4136932354993893881
 BoxCollider:
@@ -742,7 +785,7 @@ GameObject:
   - component: {fileID: 5451656265604450654}
   - component: {fileID: 7123933974870057265}
   - component: {fileID: 4410845266278936231}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -789,6 +832,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -810,9 +858,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &4410845266278936231
 BoxCollider:
@@ -847,7 +897,7 @@ GameObject:
   - component: {fileID: 2551868726106451314}
   - component: {fileID: 573868047942985996}
   - component: {fileID: 790130597272886470}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Floor (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -894,6 +944,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -915,9 +970,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &790130597272886470
 BoxCollider:
@@ -951,7 +1008,7 @@ GameObject:
   - component: {fileID: 1823204983447495801}
   - component: {fileID: 4143665667869337615}
   - component: {fileID: 7385158510511921804}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Objective
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -985,14 +1042,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c7ccbf975360947995726dfbdfb659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectiveType: 0
   compassPoint: {fileID: 7385158510511921804}
+  showOnCompass: 1
+  showCompassGlow: 0
   objectiveShortDescription: Move Here
   objectiveDescription: Move to the designated location
   isObjActive: 0
   isObjCompleted: 0
+  OnCompletion:
+    m_PersistentCalls:
+      m_Calls: []
   player: {fileID: 0}
-  firstPass: 1
   completionDistance: 2
 --- !u!114 &7385158510511921804
 MonoBehaviour:
@@ -1023,7 +1083,7 @@ GameObject:
   - component: {fileID: 202422154778148903}
   - component: {fileID: 4146155515921762252}
   - component: {fileID: 977506280115227877}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Floor (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1070,6 +1130,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1091,9 +1156,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &977506280115227877
 BoxCollider:
@@ -1124,6 +1191,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 366566010935885868}
     m_Modifications:
+    - target: {fileID: 342092502456980964, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4923853109135203639, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1174,10 +1246,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5211738587246856376, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5701234955011786637, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
         type: 3}
       propertyPath: m_Name
       value: WallPieceMedium (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701234955011786637, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1198,6 +1280,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 366566010935885868}
     m_Modifications:
+    - target: {fileID: 342092502456980964, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4923853109135203639, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1248,10 +1335,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5211738587246856376, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5701234955011786637, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
         type: 3}
       propertyPath: m_Name
       value: WallPieceMedium (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701234955011786637, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1272,6 +1369,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 366566010935885868}
     m_Modifications:
+    - target: {fileID: 342092502456980964, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4923853109135203639, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1322,10 +1424,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5211738587246856376, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5701234955011786637, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
         type: 3}
       propertyPath: m_Name
       value: WallPieceMedium
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701234955011786637, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1346,6 +1458,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 366566010935885868}
     m_Modifications:
+    - target: {fileID: 342092502456980964, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4923853109135203639, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1396,10 +1513,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5211738587246856376, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5701234955011786637, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
         type: 3}
       propertyPath: m_Name
       value: WallPieceMedium (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701234955011786637, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1470,10 +1597,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -19.158
       objectReference: {fileID: 0}
+    - target: {fileID: 3090264622660258284, guid: 12d5854a2e278154c9826cd8d803c30f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3292088518696765145, guid: 12d5854a2e278154c9826cd8d803c30f,
         type: 3}
       propertyPath: m_Name
       value: Pallet_1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292088518696765145, guid: 12d5854a2e278154c9826cd8d803c30f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1544,10 +1681,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -15.204
       objectReference: {fileID: 0}
+    - target: {fileID: 3090264622660258284, guid: 12d5854a2e278154c9826cd8d803c30f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3292088518696765145, guid: 12d5854a2e278154c9826cd8d803c30f,
         type: 3}
       propertyPath: m_Name
       value: Pallet_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292088518696765145, guid: 12d5854a2e278154c9826cd8d803c30f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1568,6 +1715,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 366566010935885868}
     m_Modifications:
+    - target: {fileID: 342092502456980964, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4923853109135203639, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1618,10 +1770,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5211738587246856376, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5701234955011786637, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
         type: 3}
       propertyPath: m_Name
       value: WallPieceMedium (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701234955011786637, guid: aae3c0c64bdcf5040b138f1d0ea0378e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

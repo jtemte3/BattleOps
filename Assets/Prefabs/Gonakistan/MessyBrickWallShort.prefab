@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7914353851412218959}
   - component: {fileID: 5768126705493062421}
   - component: {fileID: 4809641257775049433}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: MetalFence (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,6 +58,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,9 +84,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &7052231478873576944
 GameObject:
@@ -94,7 +101,7 @@ GameObject:
   - component: {fileID: 5628783774286765132}
   - component: {fileID: 3668780316107823674}
   - component: {fileID: 5268578192389746848}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: MetalFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,6 +148,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -162,9 +174,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8547832795981975003
 GameObject:
@@ -178,7 +192,7 @@ GameObject:
   - component: {fileID: 3974549245369360912}
   - component: {fileID: 6815334712184662976}
   - component: {fileID: 3819077948617308858}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PlaneLOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,6 +239,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -246,9 +265,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!64 &3819077948617308858
 MeshCollider:
@@ -332,13 +353,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7918335002988649766, guid: 3aa863680cd98ec4594141a40e84a65b,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 6996cb1d2979a03408a1d87ae3591f42, type: 2}
+    - target: {fileID: -7029948723529949830, guid: 3aa863680cd98ec4594141a40e84a65b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3aa863680cd98ec4594141a40e84a65b,
         type: 3}
       propertyPath: m_Name
       value: MessyBrickWallShort
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3aa863680cd98ec4594141a40e84a65b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -387,7 +418,7 @@ LODGroup:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7863115684585724340}
-  serializedVersion: 2
+  serializedVersion: 3
   m_LocalReferencePoint: {x: 0.07500007, y: 0.7124999, z: 0}
   m_Size: 2
   m_FadeMode: 1
@@ -408,6 +439,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers: []
   m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
 --- !u!23 &8341338966575023679 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7918335002988649766, guid: 3aa863680cd98ec4594141a40e84a65b,

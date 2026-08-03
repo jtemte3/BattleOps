@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8305948791855083501}
   - component: {fileID: 7358436409047295776}
   - component: {fileID: 3549219450880469387}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CubeLOD1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,6 +59,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -80,9 +85,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &3549219450880469387
 BoxCollider:
@@ -117,7 +124,7 @@ GameObject:
   - component: {fileID: 8042374607507134726}
   - component: {fileID: 2619853955880365664}
   - component: {fileID: 6791324390816599781}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CubeLOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,6 +171,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -185,9 +197,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &6791324390816599781
 BoxCollider:
@@ -222,7 +236,7 @@ GameObject:
   - component: {fileID: 8601329621908806210}
   - component: {fileID: 6270909034123082226}
   - component: {fileID: 3608864564027012729}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CubeLOD1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,6 +283,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -290,9 +309,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &3608864564027012729
 BoxCollider:
@@ -373,15 +394,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8391222552659086748, guid: fba726849bc5592438376d425039d498,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: -4683669308469848369, guid: fba726849bc5592438376d425039d498,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 7a04a64003297544ba20986c67fdf7a6, type: 2}
     - target: {fileID: 919132149155446097, guid: fba726849bc5592438376d425039d498,
         type: 3}
       propertyPath: m_Name
       value: WallArch
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fba726849bc5592438376d425039d498,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fba726849bc5592438376d425039d498,
         type: 3}
@@ -430,7 +461,7 @@ LODGroup:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7311834212701437494}
-  serializedVersion: 2
+  serializedVersion: 3
   m_LocalReferencePoint: {x: 0, y: 2.347545, z: -0.00000011920929}
   m_Size: 3
   m_FadeMode: 1
@@ -451,6 +482,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers: []
   m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
 --- !u!4 &7940702484676060300 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fba726849bc5592438376d425039d498,
