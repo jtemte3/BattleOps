@@ -20,12 +20,15 @@ public class AIEntity : MonoBehaviour
     public AIMovement movement;
     public AIPerception perception;
     public AICombat combat;
+    public AICosmetics cosmetics;
+
+    public GameObject weapon;
 
     private void Awake()
     {
         if (team != AITeam.Player)
         {
-            if (health == null) 
+            if (health == null)
             {
                 health = GetComponent<AIHealth>();
             }
@@ -40,6 +43,10 @@ public class AIEntity : MonoBehaviour
             if (combat == null)
             {
                 combat = GetComponent<AICombat>();
+            }
+            if (cosmetics == null)
+            {
+                cosmetics = GetComponent<AICosmetics>();
             }
 
             InitializeSystems();
@@ -76,6 +83,11 @@ public class AIEntity : MonoBehaviour
         if (combat != null)
         {
             combat.Initialize(this);
+        }
+
+        if (cosmetics != null)
+        {
+            cosmetics.Initialize(this);
         }
     }
 
@@ -167,12 +179,13 @@ public class AIEntity : MonoBehaviour
         perception.detectionState = DetectionState.None;
         combat.enabled = false;
 
+        weapon.SetActive(false);
         // De-register from squad if assigned
         if (squad != null)
         {
             squad.RemoveMember(this);
         }
 
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject);
     }
 }

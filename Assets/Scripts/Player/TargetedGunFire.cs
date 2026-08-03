@@ -163,6 +163,8 @@ public class TargetedGunFire : MonoBehaviour
         bullet.transform.parent = null;
         bullet.GetComponent<Rigidbody>().linearVelocity = (target.transform.position - muzzleObj.transform.position).normalized * gunProfile.bulletSpeed;
 
+        bullet.GetComponent<BulletData>().team = AITeam.Player;
+
         muzzleObj.GetComponent<VisualEffect>().Play();
         muzzleObj.GetComponent<Light>().enabled = true;
         lightOffTime = Time.time + gunProfile.muzzleLightDuration;

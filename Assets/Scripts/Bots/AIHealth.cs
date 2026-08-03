@@ -31,7 +31,7 @@ public class AIHealth : MonoBehaviour, IAIBehaviour
     public float destroyDelay = 20f;
 
     [Header("Ragdoll")]
-    public Rigidbody[] ragdollBodies;
+    public Rigidbody[] ragdollRigidBodies;
     public Collider[] ragdollColliders;
 
     [Header("Disable On Death")]
@@ -68,7 +68,7 @@ public class AIHealth : MonoBehaviour, IAIBehaviour
 
     private void SetupRagdoll()
     {
-        foreach (Rigidbody rb in ragdollBodies)
+        foreach (Rigidbody rb in ragdollRigidBodies)
         {
             if (rb == null)
                 continue;
@@ -181,7 +181,7 @@ public class AIHealth : MonoBehaviour, IAIBehaviour
 
     private void EnableRagdoll()
     {
-        foreach (Rigidbody rb in ragdollBodies)
+        foreach (Rigidbody rb in ragdollRigidBodies)
         {
             if (rb == null)
             {
@@ -208,7 +208,7 @@ public class AIHealth : MonoBehaviour, IAIBehaviour
 
     public void ApplyImpactForce(Vector3 force, Vector3 hitPoint, float radius = 0.25f)
     {
-        foreach (Rigidbody rb in ragdollBodies)
+        foreach (Rigidbody rb in ragdollRigidBodies)
         {
             if (rb == null)
             {
