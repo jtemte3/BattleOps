@@ -8,9 +8,11 @@ public class GunProfile : WeaponProfile
     [Header("Gun Details")]
     public List<ShootingModes> supportedModes;
 
+    public int maxMagazines;
     public int magazineSize;
     public float fireRate;
     public float reloadTime;
+    public Sprite ammoIcon;
 
     public Vector3 muzzleLocalPosition;
     public Vector3 muzzleLocalRotation;

@@ -5,7 +5,7 @@ public class GrenadeThrower : MonoBehaviour
     [Header("References")]
     public ControlSchemeManager controls;
     public PlayerController playerController;
-    public HandheldGrenade profile;
+    public HandheldGrenade handheldGrenade;
     public Transform target;
     public Camera cam;
 
@@ -16,11 +16,11 @@ public class GrenadeThrower : MonoBehaviour
     public float minThrowForce = 10f;
     public float upwardBoost = 0.1f;
 
-    GameObject currentGrenade;
+    public GameObject currentGrenade;
     Grenade grenadeScript;
 
     float cookTimer;
-    bool cooking;
+    public bool cooking;
     float actualFuse;
     public bool isRecharging = false;
     public float rechargeTime = 1f;
@@ -30,7 +30,7 @@ public class GrenadeThrower : MonoBehaviour
 
     void Update()
     {
-        if (playerController.GetMountStatus() == true)
+        if (playerController.GetMountStatus() == true || handheldGrenade.ammoCount <= 0)
         {
             canThrow = false;
         }
@@ -46,13 +46,17 @@ public class GrenadeThrower : MonoBehaviour
             if (rechargeTimer >= rechargeTime)
             {
                 rechargeTimer = 0;
-                profile.previewObj.SetActive(true);
-                isRecharging = false;
+                
+                if (handheldGrenade.ammoCount > 0)
+                {
+                    handheldGrenade.previewObj.SetActive(true);
+                    isRecharging = false;
+                }
             }
         }
         else
         {
-            if (canThrow)
+            if (canThrow && handheldGrenade.ammoCount > 0)
             {
                 HandleInput();
             }
@@ -69,6 +73,7 @@ public class GrenadeThrower : MonoBehaviour
         if (Input.GetKeyUp(controls.weaponFire))
         {
             ThrowGrenade();
+            handheldGrenade.ammoCount--;
         }
 
         if (cooking)
@@ -79,6 +84,7 @@ public class GrenadeThrower : MonoBehaviour
             {
                 // Explode in hand
                 grenadeScript.Arm(0);
+                handheldGrenade.ammoCount--;
             }
         }
     }
@@ -90,11 +96,11 @@ public class GrenadeThrower : MonoBehaviour
         cookTimer = 0f;
         cooking = true;
 
-        actualFuse = profile.maxFuse - Random.Range(0, profile.fuseVariation);
+        actualFuse = handheldGrenade.maxFuse - Random.Range(0, handheldGrenade.fuseVariation);
 
-        profile.previewObj.SetActive(false);
+        handheldGrenade.previewObj.SetActive(false);
 
-        currentGrenade = Instantiate(profile.prefab, profile.spawner.transform.position, profile.spawner.transform.rotation, profile.spawner.transform);
+        currentGrenade = Instantiate(handheldGrenade.prefab, handheldGrenade.spawner.transform.position, handheldGrenade.spawner.transform.rotation, handheldGrenade.spawner.transform);
         currentGrenade.SetActive(true);
 
         Rigidbody rb = currentGrenade.GetComponent<Rigidbody>();
@@ -140,13 +146,13 @@ public class GrenadeThrower : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, maxThrowRange))
         {
-            dir = (hit.point - profile.spawner.transform.position).normalized;
-            force = GetThrowForce(hit.point, profile.spawner.transform.position);
+            dir = (hit.point - handheldGrenade.spawner.transform.position).normalized;
+            force = GetThrowForce(hit.point, handheldGrenade.spawner.transform.position);
             return (dir, force);
         }
 
-        dir = (target.position - profile.spawner.transform.position).normalized;
-        force = GetThrowForce(target.position, profile.spawner.transform.position);
+        dir = (target.position - handheldGrenade.spawner.transform.position).normalized;
+        force = GetThrowForce(target.position, handheldGrenade.spawner.transform.position);
 
         return (dir, force);
 

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeaponLoader : MonoBehaviour
@@ -15,6 +17,7 @@ public class WeaponLoader : MonoBehaviour
     public GrenadeThrower grenadeScript;
     public GunAnimator gunAnimator;
     public GrenadeAnimator grenadeAnimator;
+    public AmmoCounter ammoCounter;
     public GameObject gunParent;
     public GameObject rightHandRef;
     public GameObject leftHandRef;
@@ -34,7 +37,17 @@ public class WeaponLoader : MonoBehaviour
         gunAnimator.enabled = false;
         grenadeAnimator.enabled = false;
 
+        InitializeWeapons();
+
         LoadWeapon(startingWeaponId);
+    }
+
+    private void InitializeWeapons()
+    {
+        foreach (HandheldObject handheldObject in HandheldList)
+        {
+            handheldObject.Initialize();
+        }
     }
 
     private void Update()
@@ -99,33 +112,11 @@ public class WeaponLoader : MonoBehaviour
 
         if (HandheldList[id].isGun)
         {
-            HandheldGun handheldGun = (HandheldGun)HandheldList[id];
-            GunProfile gunProfile = (GunProfile)handheldGun.profile;
-
-            recoilControllerIK.enabled = true;
-            targetedGun.enabled = true;
-            gunAnimator.enabled = true;
-
-            handheldGun.meshObject.SetActive(true);
-
-            recoilControllerIK.currentProfile = gunProfile;
-            targetedGun.gunProfile = gunProfile;
-            targetedGun.muzzleObj = handheldGun.muzzleObj;
-
-            targetedGun.mode = gunProfile.supportedModes[0];
-            gunAnimator.currentProfile = gunProfile;
+            LoadGun(id);
         }
         else if (HandheldList[id].isGrenade)
         {
-            HandheldGrenade handheldGrenade = (HandheldGrenade)HandheldList[id];
-            GrenadeProfile grenadeProfile = (GrenadeProfile)handheldGrenade.profile;
-
-            //Enable Grenade Throwing script here, assign grenade profile, and grenade spawner
-            grenadeScript.enabled = true;
-            grenadeAnimator.enabled = true;
-
-            grenadeScript.profile = handheldGrenade;
-            handheldGrenade.previewObj.SetActive(true);
+            LoadGrenade(id);
         }
         else
         {
@@ -133,12 +124,50 @@ public class WeaponLoader : MonoBehaviour
             targetedGun.enabled = false;
         }
 
+        ammoCounter.handHeld = HandheldList[id];
 
         rightHandRef.transform.position = HandheldList[id].profile.rightHandPosition;
         rightHandRef.transform.rotation = Quaternion.Euler(HandheldList[id].profile.rightHandRotation);
 
         leftHandRef.transform.position = HandheldList[id].profile.leftHandPosition;
         leftHandRef.transform.rotation = Quaternion.Euler(HandheldList[id].profile.leftHandRotation);
+    }
+
+    private void LoadGun(int id)
+    {
+        HandheldGun handheldGun = (HandheldGun)HandheldList[id];
+
+        recoilControllerIK.enabled = true;
+        targetedGun.enabled = true;
+        gunAnimator.enabled = true;
+
+        handheldGun.meshObject.SetActive(true);
+
+        recoilControllerIK.currentProfile = handheldGun.gunProfile;
+        targetedGun.handheldGun = handheldGun;
+
+        targetedGun.mode = handheldGun.mode;
+        gunAnimator.currentProfile = handheldGun.gunProfile;
+    }
+
+    private void LoadGrenade(int id)
+    {
+        HandheldGrenade handheldGrenade = (HandheldGrenade)HandheldList[id];
+
+        //Enable Grenade Throwing script here, assign grenade profile, and grenade spawner
+        grenadeScript.enabled = true;
+        grenadeAnimator.enabled = true;
+
+        grenadeScript.handheldGrenade = handheldGrenade;
+
+        if (handheldGrenade.ammoCount > 0)
+        {
+            handheldGrenade.previewObj.SetActive(true);
+        }
+        else
+        {
+            handheldGrenade.previewObj.SetActive(false);
+        }
     }
 
     public void UnloadWeapon(int id)
