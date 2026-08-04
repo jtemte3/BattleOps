@@ -265,6 +265,7 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
 --- !u!108 &3260660589975516803
 Light:
   m_ObjectHideFlags: 0
@@ -273,14 +274,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 557189261894656341}
   m_Enabled: 0
-  serializedVersion: 11
+  serializedVersion: 13
   m_Type: 2
   m_Color: {r: 1, g: 0.71646833, b: 0, a: 1}
   m_Intensity: 1
   m_Range: 3
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
     m_Type: 0
     m_Resolution: -1
@@ -325,7 +326,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
-  m_ShadowRadius: 0
+  m_ShapeRadius: 0
   m_ShadowAngle: 0
   m_LightUnit: 1
   m_LuxAtDistance: 1
@@ -385,6 +386,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3701435390676273044
 MonoBehaviour:
@@ -1008,6 +1010,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &2313047286892759567
 GameObject:
@@ -1608,6 +1611,37 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
+--- !u!1 &5092599886599811449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8689272908927779629}
+  m_Layer: 6
+  m_Name: TargetHere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8689272908927779629
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5092599886599811449}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8355074958677444784}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5338107893611283989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1754,6 +1788,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &5721263770362115491
 GameObject:
@@ -1934,6 +1969,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &6273221283579005698
 GameObject:
@@ -2023,6 +2059,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &6305220199277699083
 GameObject:
@@ -2472,6 +2509,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &7396477339502540401
 GameObject:
@@ -2527,6 +2565,7 @@ GameObject:
   - component: {fileID: 1765887484599158333}
   - component: {fileID: 5367157849817611657}
   - component: {fileID: 5769029381719317290}
+  - component: {fileID: 4244274083748892827}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -2549,6 +2588,7 @@ Transform:
   m_Children:
   - {fileID: 5792829904449714102}
   - {fileID: 3584542772498819861}
+  - {fileID: 8689272908927779629}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
 --- !u!136 &8735228943897859501
@@ -2622,6 +2662,7 @@ MonoBehaviour:
   grenadeScript: {fileID: 7736499183796495908}
   gunAnimator: {fileID: 4230356987560664231}
   grenadeAnimator: {fileID: 1765887484599158333}
+  ammoCounter: {fileID: 0}
   gunParent: {fileID: 7716241197849406353}
   rightHandRef: {fileID: 1802883367107216871}
   leftHandRef: {fileID: 4703790971942797509}
@@ -2760,7 +2801,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7421664360797520035}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8198c896c34b6644187c4bcd8a164472, type: 3}
   m_Name: 
@@ -2769,8 +2810,7 @@ MonoBehaviour:
   playerController: {fileID: 2346420641101885670}
   target: {fileID: 5283199497957068353}
   recoilController: {fileID: 2541551819334744823}
-  gunProfile: {fileID: 0}
-  muzzleObj: {fileID: 0}
+  handheldGun: {fileID: 0}
   canShoot: 1
   mode: 1
 --- !u!114 &7736499183796495908
@@ -2780,14 +2820,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7421664360797520035}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a19fdb81e2b4734cae4a614939c4987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrenadeThrower
   controls: {fileID: 11400000, guid: 8e16664d8101deb4e99b54e1c3368134, type: 2}
   playerController: {fileID: 2346420641101885670}
-  profile: {fileID: 0}
+  handheldGrenade: {fileID: 0}
   target: {fileID: 5283199497957068353}
   cam: {fileID: 4714626136205073902}
   maxThrowRange: 100
@@ -2795,6 +2835,8 @@ MonoBehaviour:
   maxThrowForce: 25
   minThrowForce: 5
   upwardBoost: 0.1
+  currentGrenade: {fileID: 0}
+  cooking: 0
   isRecharging: 0
   rechargeTime: 1
   canThrow: 1
@@ -2805,7 +2847,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7421664360797520035}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c3740e7c09e6bf449c2514e3cd2f455, type: 3}
   m_Name: 
@@ -2820,6 +2862,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   isClipped: 0
+  isReloading: 0
   unclipTime: 0.1
 --- !u!114 &1765887484599158333
 MonoBehaviour:
@@ -2828,7 +2871,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7421664360797520035}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17b988d9c867d8d40b907a4e3a6d922c, type: 3}
   m_Name: 
@@ -2843,7 +2886,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7421664360797520035}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cf53083516f3f1429d9f84289d2b900, type: 3}
   m_Name: 
@@ -2865,6 +2908,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IKPlayerAnimator
   playerController: {fileID: 2346420641101885670}
   animator: {fileID: 8705178480388682593}
+--- !u!114 &4244274083748892827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7421664360797520035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b806132423240fa4bb2a1885c79bf5d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIEntity
+  team: 1
+  currentState: 0
+  canMove: 1
+  target: {fileID: 8689272908927779629}
+  squad: {fileID: 0}
+  health: {fileID: 0}
+  movement: {fileID: 0}
+  perception: {fileID: 0}
+  combat: {fileID: 0}
+  cosmetics: {fileID: 0}
+  weapon: {fileID: 0}
 --- !u!1 &7716241197849406353
 GameObject:
   m_ObjectHideFlags: 0
@@ -2987,6 +3053,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8397997383222667480
 GameObject:
@@ -3454,8 +3521,12 @@ MonoBehaviour:
   isGun: 1
   isGrenade: 0
   animationLayer: 1
+  gunProfile: {fileID: 11400000, guid: 8c7e148c836ad8d4f9d21d139e202ff0, type: 2}
   meshObject: {fileID: 84709366247332444}
   muzzleObj: {fileID: 557189261894656341}
+  clipCount: 0
+  ammoCount: 0
+  mode: 0
 --- !u!4 &749605336014536934 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8706282e9c21d1b4c93d9c8019bf048e,
@@ -3570,11 +3641,13 @@ MonoBehaviour:
   isGun: 0
   isGrenade: 1
   animationLayer: 2
+  grenadeProfile: {fileID: 11400000, guid: 88dbe58133fa2a74da20a6ed732f5051, type: 2}
   spawner: {fileID: 8945997009866901494}
   previewObj: {fileID: 8180523660941249589}
   prefab: {fileID: 7393125254374435657, guid: 27917d99b7497954ba6a14dfb166591d, type: 3}
   maxFuse: 5
   fuseVariation: 1
+  ammoCount: 0
 --- !u!1001 &3905856545769983230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5191,15 +5264,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b7b60ef7ba281c4db59b207b49564e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandheldGrenade
-  profile: {fileID: 11400000, guid: 88dbe58133fa2a74da20a6ed732f5051, type: 2}
+  profile: {fileID: 11400000, guid: bcb24c0d5ccebeb4c95db0a61bfeab2e, type: 2}
   isGun: 0
   isGrenade: 1
   animationLayer: 2
+  grenadeProfile: {fileID: 11400000, guid: bcb24c0d5ccebeb4c95db0a61bfeab2e, type: 2}
   spawner: {fileID: 8945997009866901494}
   previewObj: {fileID: 1279726532158956534}
   prefab: {fileID: 3396375147421598074, guid: 67a495f3cfbd87d4ea19e8b73fbe4e6c, type: 3}
   maxFuse: 5
   fuseVariation: 1
+  ammoCount: 0
 --- !u!4 &4052348494334109322 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 494284145424466950, guid: 67a495f3cfbd87d4ea19e8b73fbe4e6c,
