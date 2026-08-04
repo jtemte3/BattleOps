@@ -11,6 +11,7 @@ public class GunAnimator : MonoBehaviour
     public float distance;
     public LayerMask collisionLayers;
     public bool isClipped;
+    public bool isReloading;
     public float unclipTime = 0;
 
 
@@ -19,7 +20,7 @@ public class GunAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gunScript.canShoot != true && isClipped == false)
+        if (gunScript.canShoot != true && isClipped == false && isReloading == false)
         {
             if (Time.time > resetTime)
             {
@@ -27,9 +28,20 @@ public class GunAnimator : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(controlScheme.weaponReload))
+        if (gunScript.canShoot != true && isReloading == true)
+        {
+            if (Time.time > resetTime)
+            {
+                gunScript.canShoot = true;
+                isReloading = false;
+                gunScript.handheldGun.ReloadWeapon();
+            }
+        }
+
+        if (Input.GetKeyDown(controlScheme.weaponReload) && gunScript.handheldGun.clipCount > 0 && !isReloading)
         {
             gunScript.canShoot = false;
+            isReloading = true;
             animator.SetTrigger("reload");
 
             resetTime = Time.time + currentProfile.reloadTime;
