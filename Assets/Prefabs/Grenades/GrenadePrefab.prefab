@@ -88,6 +88,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4346084285354140970
 GameObject:
@@ -177,6 +178,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &7393125254374435657
 GameObject:
@@ -272,6 +274,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!135 &8054539860961731551
 SphereCollider:
@@ -333,8 +336,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39c644c85b263b24c99088971dd56b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Grenade
-  explosionRadius: 6
-  explosionForce: 800
+  team: 0
+  explosionRadius: 5
+  explosionForce: 30
   damage: 100
   deleteOnEffect: 1
   effectObject: {fileID: 2504830513971797765, guid: 534222a5169367b4fba58a86187033cf,
@@ -427,4 +431,5 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}

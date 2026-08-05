@@ -1,25 +1,37 @@
 using UnityEngine;
 
+
 public class BulletData : MonoBehaviour
 {
     public AITeam team;
-
-    private Rigidbody rb;
+    private Rigidbody bulletRigidbody;
+    public float alertRadius = 5;
+    public bool hasImpacted = false;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        bulletRigidbody = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
     {
-        if (rb == null)
+        CheckForImpact();
+
+        if (!hasImpacted)
+        {
+            Common.AlertViaSound(transform.position,alertRadius, team);
+        }
+    }
+
+    private void CheckForImpact()
+    {
+        if (bulletRigidbody == null)
         {
             return;
         }
 
         // Calculate speed and distance to travel this frame
-        float speed = rb.linearVelocity.magnitude;
+        float speed = bulletRigidbody.linearVelocity.magnitude;
 
         if (speed < 0.01f)
         {
@@ -29,7 +41,7 @@ public class BulletData : MonoBehaviour
         float moveDistance = speed * Time.fixedDeltaTime;
 
         // Raycast forward along the velocity vector
-        if (Physics.Raycast(transform.position, rb.linearVelocity.normalized, out RaycastHit hit, moveDistance))
+        if (Physics.Raycast(transform.position, bulletRigidbody.linearVelocity.normalized, out RaycastHit hit, moveDistance))
         {
             // Check if we hit a HitBox component
             HitBox hitBox = hit.collider.GetComponent<HitBox>();
@@ -42,10 +54,11 @@ public class BulletData : MonoBehaviour
 
             // Disable the bullet rendering/physics upon impact
             GetComponent<SphereCollider>().enabled = false;
-            rb.linearVelocity = Vector3.zero;
+            bulletRigidbody.linearVelocity = Vector3.zero;
             GetComponent<Renderer>().enabled = false;
 
             //Destroy(gameObject);
+            hasImpacted = true;
         }
     }
 }

@@ -31,6 +31,7 @@ public enum AIState
     Combat,
     Search,
     Suppress,
+    Flee,
     Dead
 }
 

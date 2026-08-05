@@ -2858,9 +2858,9 @@ MonoBehaviour:
   currentProfile: {fileID: 11400000, guid: 8c7e148c836ad8d4f9d21d139e202ff0, type: 2}
   cam: {fileID: 4714626136205073902}
   distance: 1
-  collisionLayers:
+  excludedLayers:
     serializedVersion: 2
-    m_Bits: 129
+    m_Bits: 1024
   isClipped: 0
   isReloading: 0
   unclipTime: 0.1

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1604887321403346172}
   - component: {fileID: 4404887271846136884}
   - component: {fileID: 3599219182966124843}
+  - component: {fileID: 2098120763370997869}
   - component: {fileID: 134314574064530191}
   - component: {fileID: 5252853724887211909}
   m_Layer: 0
@@ -170,6 +171,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2098120763370997869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2504830513971797765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07c7d7368e2bb2146a6e7628725d2785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TimedApplyForce
+  timer: 0.1
+  explosionRadius: 0
+  explosionForce: 0
 --- !u!73398921 &134314574064530191
 VFXRenderer:
   serializedVersion: 1
@@ -216,6 +232,7 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
 --- !u!114 &5252853724887211909
 MonoBehaviour:
   m_ObjectHideFlags: 0
