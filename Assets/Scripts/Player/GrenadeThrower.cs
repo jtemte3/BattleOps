@@ -107,6 +107,7 @@ public class GrenadeThrower : MonoBehaviour
         rb.isKinematic = true;
 
         grenadeScript = currentGrenade.GetComponent<Grenade>();
+        currentGrenade.GetComponent<Grenade>().team = AITeam.Player;
     }
 
     void ThrowGrenade()

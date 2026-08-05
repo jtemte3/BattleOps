@@ -34,4 +34,13 @@ public class HitBox : MonoBehaviour
             Debug.Log("Hit by: " + data.team.ToString() + ", Damage: " + damage);
         }
     }
+
+    public void TakeHit(Grenade data, float damage)
+    {
+        if (data.team != entity.team)
+        {
+            OnHit.Invoke(damage);
+            Debug.Log("Grenade Hit by: " + data.team.ToString() + ", Damage: " + damage);
+        }
+    }
 }

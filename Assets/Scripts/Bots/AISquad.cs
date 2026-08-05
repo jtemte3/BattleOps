@@ -118,6 +118,12 @@ public class AISquad : MonoBehaviour
         // 2. Handle Search State
         if (isSquadSearching)
         {
+            //If searching but no roles assigned yet, assign them now
+            if (searchers.Count == 0)
+            {
+                BroadcastSearch();
+            }
+
             HandleSquadSearch();
             return; // Skip patrol logic while searching
         }

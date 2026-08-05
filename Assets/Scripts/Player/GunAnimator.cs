@@ -9,7 +9,7 @@ public class GunAnimator : MonoBehaviour
     [Header("Gun Clipping Setup")]
     public Camera cam;
     public float distance;
-    public LayerMask collisionLayers;
+    public LayerMask excludedLayers;
     public bool isClipped;
     public bool isReloading;
     public float unclipTime = 0;
@@ -51,7 +51,7 @@ public class GunAnimator : MonoBehaviour
     void FixedUpdate()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distance))
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distance, ~excludedLayers))
         {
             isClipped = true;
             gunScript.canShoot = false;
