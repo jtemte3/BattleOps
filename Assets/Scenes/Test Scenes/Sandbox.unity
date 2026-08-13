@@ -1802,6 +1802,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1237073980}
+    - target: {fileID: 2132516364164587413, guid: 1d31dd36267740f4789313fc7eca3af0,
+        type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 1110208312}
     - target: {fileID: 4218658575270651266, guid: 1d31dd36267740f4789313fc7eca3af0,
         type: 3}
       propertyPath: m_Name
@@ -3643,6 +3648,12 @@ PrefabInstance:
 --- !u!1 &1092203394 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7107819261248949908, guid: 186895e1badedff47a10cd08278e963a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8917808207314688604}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1110208312 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3020479667924535685, guid: 186895e1badedff47a10cd08278e963a,
     type: 3}
   m_PrefabInstance: {fileID: 8917808207314688604}
   m_PrefabAsset: {fileID: 0}

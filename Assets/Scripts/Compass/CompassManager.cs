@@ -9,6 +9,7 @@ public class CompassManager : MonoBehaviour
     public float pointDistanceMinScale = 50f;
 
     public GameObject player;
+    public Transform cameraTransform;
     public List<CompassVisual> pointList = new List<CompassVisual>();
     RectTransform rectTransform;
     float widthMultiplier;
@@ -29,17 +30,27 @@ public class CompassManager : MonoBehaviour
             float distanceRatio = 1;
             float angle;
 
+            Vector3 viewForward;
+
+            if (cameraTransform != null)
+            {
+                viewForward = Vector3.ProjectOnPlane(cameraTransform.forward, Vector3.up);
+            }
+            else
+            {
+                viewForward = Vector3.ProjectOnPlane(player.transform.forward, Vector3.up);
+            }
+
             if (point.isDirectionPoint)
             {
-                //angle = Vector3.SignedAngle(player.transform.forward, point.pointPosition.normalized, Vector3.up);
-                angle = Vector3.SignedAngle(player.transform.forward, point.pointPosition.normalized, Vector3.up);
+                angle = Vector3.SignedAngle(viewForward, point.pointPosition.normalized, Vector3.up);
             }
             else
             {
                 Vector3 targetDir = (point.pointPosition - player.transform.position).normalized;
                 targetDir = Vector3.ProjectOnPlane(targetDir, Vector3.up);
-                Vector3 playerForward = Vector3.ProjectOnPlane(player.transform.forward, Vector3.up);
-                angle = Vector3.SignedAngle(playerForward, targetDir, Vector3.up);
+
+                angle = Vector3.SignedAngle(viewForward, targetDir, Vector3.up);
 
                 Vector3 directionVector = point.pointPosition - player.transform.position;
 

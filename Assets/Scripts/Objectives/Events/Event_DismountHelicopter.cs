@@ -1,14 +1,18 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Event_DismountHelicopter : MissionEvent
 {
     public HelicopterSequence helicopterSequence;
-    public CinematicController cinemaController;
+
+    [Tooltip("Events to trigger on event completion")]
+    public UnityEvent OnIntro;
+    public UnityEvent onIntro => OnIntro;
     public override void Engage()
     {
         if (helicopterSequence.stage == HelicopterSequence.FlightStage.Descent)
         {
-            cinemaController.SetFadeState(false);
+            OnIntro.Invoke();
         }
         if (helicopterSequence.interactor.isPlayerInVehicle == false)
         {
