@@ -2806,6 +2806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8198c896c34b6644187c4bcd8a164472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TargetedGunFire
+  entity: {fileID: 4244274083748892827}
   controlScheme: {fileID: 11400000, guid: 8e16664d8101deb4e99b54e1c3368134, type: 2}
   playerController: {fileID: 2346420641101885670}
   target: {fileID: 5283199497957068353}
@@ -2825,6 +2826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a19fdb81e2b4734cae4a614939c4987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrenadeThrower
+  entity: {fileID: 4244274083748892827}
   controls: {fileID: 11400000, guid: 8e16664d8101deb4e99b54e1c3368134, type: 2}
   playerController: {fileID: 2346420641101885670}
   handheldGrenade: {fileID: 0}

@@ -3,8 +3,9 @@ using UnityEngine;
 
 public static class Common
 {
-    public static void AlertViaSound(Vector3 position, float alertRadius, AITeam team)
+    public static void AlertViaSound(Vector3 position, float alertRadius, AIEntity sourceEntity)
     {
+        float autoDetectionDistance = 5;
         Collider[] colliders = Physics.OverlapSphere(position, alertRadius);
 
         List<AIEntity> entities = new();
@@ -15,7 +16,7 @@ public static class Common
             {
                 AIEntity hitboxEntity = collider.GetComponent<HitBox>().entity;
 
-                if (!entities.Contains(hitboxEntity) && hitboxEntity.team != team)
+                if (!entities.Contains(hitboxEntity) && hitboxEntity.team != sourceEntity.team)
                 {
                     entities.Add(hitboxEntity);
                 }
@@ -26,7 +27,7 @@ public static class Common
         {
             if (entity.team == AITeam.Enemy)
             {
-                if (entity.currentState != AIState.Suppress && entity.currentState != AIState.Search)
+                if (entity.currentState != AIState.Suppress && entity.currentState != AIState.Combat)
                 {
                     if (entity.squad != null)
                     {
@@ -35,19 +36,11 @@ public static class Common
                     else
                     {
                         // Lone entities must setup their own search path
-                        if (entity.movement != null)
+                        if (entity.perception != null)
                         {
-                            entity.movement.SetupSearchPath();
+                            entity.perception.AddSuspicion(DetectionAlgorithm(entity, sourceEntity, autoDetectionDistance), sourceEntity.transform);
                         }
                     }
-
-                    // Ensure the entity knows WHERE to search
-                    if (entity.perception != null)
-                    {
-                        entity.perception.lastKnownPosition = position;
-                    }
-
-                    entity.currentState = AIState.Search;
                 }
             }
 
@@ -57,5 +50,14 @@ public static class Common
             }
 
         }
+    }
+
+    private static float DetectionAlgorithm(AIEntity entity, AIEntity sourceEntity, float autoDetectionDistance)
+    {
+        float distanceBetweenEntities = Vector3.Distance(entity.transform.position, sourceEntity.transform.position);
+
+        float percentDetection = (autoDetectionDistance / distanceBetweenEntities) * 100f;
+
+        return entity.perception.suspicionIncreaseRate * percentDetection;
     }
 }

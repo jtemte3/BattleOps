@@ -54,7 +54,9 @@ public class AIMovement : MonoBehaviour, IAIBehaviour
                 // Idle behavior can be added here if needed
                 // For now, squad management handles state transitions
                 break;
-
+            case AIState.Move:
+                agent.stoppingDistance = 0;
+                break;
             case AIState.Patrol:
                 // Delegate patrol movement to the AIPatrol component
                 if (patrol != null)
@@ -117,6 +119,14 @@ public class AIMovement : MonoBehaviour, IAIBehaviour
         agent.SetDestination(entity.perception.currentTarget.position);
     }
 
+    private void HandleBasicMove()
+    {
+        if (entity.perception.currentTarget == null)
+        {
+            agent.SetDestination(entity.perception.currentTarget.position);
+        }
+    }
+
     public float GetVelocityMagnitude()
     {
         return agent.velocity.magnitude;
@@ -128,9 +138,41 @@ public class AIMovement : MonoBehaviour, IAIBehaviour
         searchPositions.Clear();
         searchIndex = 0;
 
+        if (entity.perception.lastKnownPosition != null)
+        {
+            searchPositions.Add(entity.perception.lastKnownPosition + new Vector3(Random.Range(0, 1), 0, Random.Range(0, 1)));
+            searchPositionCount--;
+        }
+
         for (int i = 0; i < searchPositionCount; i++)
         {
             Vector3 newSearchPos = agent.transform.position + new Vector3(Random.Range(0, searchRadius), 0, Random.Range(0, searchRadius));
+
+            if (IsPositionOnNavMesh(newSearchPos))
+            {
+                searchPositions.Add(newSearchPos);
+            }
+            else
+            {
+                i = Mathf.Max(0, i--);
+            }
+        }
+
+        if (searchPositions.Count > 0)
+        {
+            agent.SetDestination(searchPositions[0]);
+        }
+    }
+
+    public void SetupAreaSearchPath(Vector3 searchPoint)
+    {
+        isSearching = true;
+        searchPositions.Clear();
+        searchIndex = 0;
+
+        for (int i = 0; i < searchPositionCount; i++)
+        {
+            Vector3 newSearchPos = searchPoint + new Vector3(Random.Range(0, searchRadius), 0, Random.Range(0, searchRadius));
 
             if (IsPositionOnNavMesh(newSearchPos))
             {

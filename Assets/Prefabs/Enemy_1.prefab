@@ -6178,7 +6178,7 @@ MonoBehaviour:
     m_Bits: 64
   suspicionIncreaseRate: 0.25
   suspicionDecayRate: 0.1
-  detectionThreshold: 1
+  detectionThreshold: 3
   drawDebug: 1
   currentTarget: {fileID: 0}
   lastKnownPosition: {x: 0, y: 0, z: 0}

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    public MissionSetupHandler missionSetupHandler;
     public GridVoronoiCity cityParent;
     public MaskedPerlinTerrain terrainObject;
     public HelicopterSequence infilVehicle;
@@ -11,6 +12,7 @@ public class LevelManager : MonoBehaviour
     public AudioSource musicPlayer;
 
     public GameObject playerController;
+    public GameObject objectivePrefab;
     //public MissionManager missionManager;
     public bool landInCity = false;
     public bool reGenerateTerrain = true;
@@ -28,6 +30,12 @@ public class LevelManager : MonoBehaviour
         {
             terrainObject.SetRandomNoiseOffset();
             terrainObject.Generate();
+        }
+
+        // Trigger mission setup after terrain is ready
+        if (missionSetupHandler != null)
+        {
+            missionSetupHandler.SetupMission();
         }
     }
 

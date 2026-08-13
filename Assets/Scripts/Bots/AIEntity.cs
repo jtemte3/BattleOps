@@ -111,6 +111,7 @@ public class AIEntity : MonoBehaviour
                     }
                 }
                 break;
+
             case AIState.Patrol:
 
                 if (perception.currentTarget != null && perception.detectionState == DetectionState.Detected)

@@ -3,6 +3,7 @@ using UnityEngine;
 public class GrenadeThrower : MonoBehaviour
 {
     [Header("References")]
+    public AIEntity entity;
     public ControlSchemeManager controls;
     public PlayerController playerController;
     public HandheldGrenade handheldGrenade;
@@ -107,7 +108,7 @@ public class GrenadeThrower : MonoBehaviour
         rb.isKinematic = true;
 
         grenadeScript = currentGrenade.GetComponent<Grenade>();
-        currentGrenade.GetComponent<Grenade>().team = AITeam.Player;
+        currentGrenade.GetComponent<Grenade>().sourceEntity = entity;
     }
 
     void ThrowGrenade()

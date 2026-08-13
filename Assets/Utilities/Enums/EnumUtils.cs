@@ -27,6 +27,7 @@ public enum MissionCategory
 public enum AIState
 {
     Idle,
+    Move,
     Patrol,
     Combat,
     Search,
