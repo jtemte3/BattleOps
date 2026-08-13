@@ -3,6 +3,7 @@ using UnityEngine.VFX;
 
 public class TargetedGunFire : MonoBehaviour
 {
+    public AIEntity entity;
     public ControlSchemeManager controlScheme;
     public PlayerController playerController;
     public Transform target;
@@ -164,7 +165,7 @@ public class TargetedGunFire : MonoBehaviour
             bullet.transform.parent = null;
             bullet.GetComponent<Rigidbody>().linearVelocity = (target.transform.position - handheldGun.muzzleObj.transform.position).normalized * handheldGun.gunProfile.bulletSpeed;
 
-            bullet.GetComponent<BulletData>().team = AITeam.Player;
+            bullet.GetComponent<BulletData>().sourceEntity = entity;
 
             handheldGun.muzzleObj.GetComponent<VisualEffect>().Play();
             handheldGun.muzzleObj.GetComponent<Light>().enabled = true;

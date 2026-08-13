@@ -17,7 +17,7 @@ public class Event_Extraction : MissionEvent
     {
         if (player == null)
         {
-            player = FindFirstObjectByType<PlayerController>();
+            player = FindAnyObjectByType<PlayerController>();
         }
         else
         {

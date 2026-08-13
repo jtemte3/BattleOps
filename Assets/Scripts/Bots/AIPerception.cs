@@ -237,6 +237,18 @@ public class AIPerception : MonoBehaviour, IAIBehaviour
         }
     }
 
+    public void AddSuspicion(float detectionAmmount, Transform potentialTarget)
+    {
+        suspicionLevel += detectionAmmount;
+        lastKnownPosition = potentialTarget.position;
+
+        if (suspicionLevel >= detectionThreshold)
+        {
+            currentTarget = potentialTarget;
+            detectionState = DetectionState.Detected;
+        }
+    }
+
     // --------------------------------------------------
     // DEBUG
     // --------------------------------------------------

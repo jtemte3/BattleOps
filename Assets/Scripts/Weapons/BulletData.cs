@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BulletData : MonoBehaviour
 {
-    public AITeam team;
+    public AIEntity sourceEntity;
     private Rigidbody bulletRigidbody;
     public float alertRadius = 5;
     public bool hasImpacted = false;
@@ -19,7 +19,7 @@ public class BulletData : MonoBehaviour
 
         if (!hasImpacted)
         {
-            Common.AlertViaSound(transform.position,alertRadius, team);
+            Common.AlertViaSound(transform.position,alertRadius, sourceEntity);
         }
     }
 

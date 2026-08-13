@@ -11,7 +11,7 @@ public class Event_GoHere : MissionEvent
     {
         if (player == null)
         {
-            player = FindFirstObjectByType<PlayerController>();
+            player = FindAnyObjectByType<PlayerController>();
         }
         else
         {

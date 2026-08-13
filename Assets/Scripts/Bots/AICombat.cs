@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -281,7 +280,7 @@ public class AICombat : MonoBehaviour, IAIBehaviour
         GameObject bullet = Instantiate(bulletPrefab, weaponMuzzle.position, Quaternion.identity);
         bullet.transform.parent = null;
         bullet.GetComponent<Rigidbody>().linearVelocity = shotDirection * bulletSpeed;
-        bullet.GetComponent<BulletData>().team = AITeam.Enemy;
+        bullet.GetComponent<BulletData>().sourceEntity = entity;
 
         if (debugDrawShots)
         {

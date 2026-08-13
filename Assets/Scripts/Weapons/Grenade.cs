@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 public class Grenade : MonoBehaviour
 {
     [Header("Team Data")]
-    public AITeam team;
+    public AIEntity sourceEntity;
     [Header("Explosion")]
     public float explosionRadius = 6f;
     public float explosionForce = 800f;
@@ -68,7 +68,7 @@ public class Grenade : MonoBehaviour
             }
         }
 
-        Common.AlertViaSound(transform.position, explosionRadius * 5, team);
+        Common.AlertViaSound(transform.position, explosionRadius * 5, sourceEntity);
 
         // TODO: spawn VFX / SFX here
 

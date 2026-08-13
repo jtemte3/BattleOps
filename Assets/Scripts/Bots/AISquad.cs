@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -29,18 +30,25 @@ public class AISquad : MonoBehaviour
     
     [Tooltip("Random variance added to each member's destination to make formation look more natural")]
     public float destinationVariance = 2.0f;
-    
+
+    [Header("Assault Configuration")]
+    [Tooltip("Radius around the target at which the squad considers itself 'in the area'")]
+    public float assaultArrivalRadius = 15.0f;
+
+
     [Header("Squad State")]
     public Transform sharedTarget;
     public int currentPatrolIndex = 0;
     public bool isSquadAlerted = false;
     public bool isSquadSearching = false;
+    public bool isSquadAssaulting = false;
 
     // Lists to track roles during search
     private List<AIEntity> searchers = new List<AIEntity>();
     private List<AIEntity> suppressors = new List<AIEntity>();
     private Vector3 lastKnownTargetPosition;
-    
+    private Vector3 assaultDestination;
+
     // Stores the random variance offset for each member for the current patrol point
     private Vector3[] memberVarianceOffsets;
 
@@ -106,29 +114,32 @@ public class AISquad : MonoBehaviour
     {
         if (squadMembers.Count == 0) return;
 
-        // 1. Check threats (Always highest priority - allows aborting search for new threats)
+        // 1. Check threats (Always highest priority)
         CheckSharedThreats();
 
+        // 2. Handle Alert/Combat
         if (isSquadAlerted)
         {
             HandleSquadCombat();
             return;
         }
 
-        // 2. Handle Search State
-        if (isSquadSearching)
+        // 3. Handle Assault Movement
+        if (isSquadAssaulting)
         {
-            //If searching but no roles assigned yet, assign them now
-            if (searchers.Count == 0)
-            {
-                BroadcastSearch();
-            }
-
-            HandleSquadSearch();
-            return; // Skip patrol logic while searching
+            HandleSquadAssault();
+            return;
         }
 
-        // 3. Handle Patrol
+        // 4. Handle Search State
+        if (isSquadSearching)
+        {
+            if (searchers.Count == 0) BroadcastSearch();
+            HandleSquadSearch();
+            return;
+        }
+
+        // 5. Handle Patrol
         HandleSquadPatrol();
     }
 
@@ -138,6 +149,7 @@ public class AISquad : MonoBehaviour
     /// </summary>
     private void CheckSharedThreats()
     {
+        // 1. Handle Active Alert State
         if (isSquadAlerted)
         {
             // Check if target is dead
@@ -145,10 +157,25 @@ public class AISquad : MonoBehaviour
             {
                 isSquadAlerted = false;
                 sharedTarget = null;
+                // If we were assaulting, we simply drop the alert and keep moving.
                 return;
             }
 
-            // Check if target is still detected by ANY squad member
+            // Check if ANY squad member detects a NEW threat
+            foreach (AIEntity member in squadMembers)
+            {
+                if (member.perception != null &&
+                    member.perception.detectionState == DetectionState.Detected &&
+                    member.perception.currentTarget != null &&
+                    member.perception.currentTarget != sharedTarget)
+                {
+                    sharedTarget = member.perception.currentTarget;
+                    BroadcastAlert();
+                    return;
+                }
+            }
+
+            // Check if target is still detected
             bool isTargetVisible = false;
             foreach (AIEntity member in squadMembers)
             {
@@ -161,32 +188,27 @@ public class AISquad : MonoBehaviour
                 }
             }
 
-            // If no one sees the target anymore, it got away -> Start Search
+            // If target is lost:
+            // - If NOT assaulting: Start Search
+            // - If Assaulting: Drop alert, resume moving to objective
             if (!isTargetVisible)
             {
                 isSquadAlerted = false;
-                isSquadSearching = true;
-                
-                // Capture last known position before clearing targets
-                if (sharedTarget != null)
+                if (!isSquadAssaulting)
                 {
-                    lastKnownTargetPosition = sharedTarget.position;
+                    isSquadSearching = true;
+                    lastKnownTargetPosition = sharedTarget != null ? sharedTarget.position : squadMembers[0].perception.lastKnownPosition;
+                    BroadcastSearch();
                 }
-                else if (squadMembers.Count > 0 && squadMembers[0].perception != null)
-                {
-                    lastKnownTargetPosition = squadMembers[0].perception.lastKnownPosition;
-                }
-
-                BroadcastSearch();
             }
         }
         else
         {
-            // Check for new threats
+            // 2. Check for new threats
             foreach (AIEntity member in squadMembers)
             {
                 if (member.perception != null &&
-                    member.perception.detectionState == DetectionState.Detected && 
+                    member.perception.detectionState == DetectionState.Detected &&
                     member.perception.currentTarget != null)
                 {
                     isSquadAlerted = true;
@@ -231,7 +253,7 @@ public class AISquad : MonoBehaviour
     /// <summary>
     /// Transitions the squad to search mode, splitting into searchers and suppressors.
     /// </summary>
-    private void BroadcastSearch()
+    private void BroadcastSearch(bool withSuppression = true)
     {
         searchers.Clear();
         suppressors.Clear();
@@ -241,10 +263,14 @@ public class AISquad : MonoBehaviour
         shuffledMembers = shuffledMembers.OrderBy(x => Random.value).ToList();
 
         // Determine number of suppressors (1 to Count-1)
-        int suppressorCount = 1;
-        if (shuffledMembers.Count > 1)
+        int suppressorCount = 0;
+        if (withSuppression)
         {
-            suppressorCount = Random.Range(1, shuffledMembers.Count);
+            suppressorCount = 1;
+            if (shuffledMembers.Count > 1)
+            {
+                suppressorCount = Random.Range(1, shuffledMembers.Count);
+            }
         }
 
         for (int i = 0; i < shuffledMembers.Count; i++)
@@ -278,6 +304,30 @@ public class AISquad : MonoBehaviour
                 {
                     member.movement.SetupSearchPath();
                 }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Transitions the squad into area search mode.
+    /// </summary>
+    private void BroadcastAreaSearch(Vector3 searchArea)
+    {
+        searchers.Clear();
+        suppressors.Clear();
+
+        for (int i = 0; i < squadMembers.Count; i++)
+        {
+            AIEntity member = squadMembers[i];
+
+            // Assign as Searcher
+            searchers.Add(member);
+            member.SetState(AIState.Search);
+            member.perception.currentTarget = null;
+
+            if (member.movement != null)
+            {
+                member.movement.SetupAreaSearchPath(searchArea);
             }
         }
     }
@@ -413,6 +463,49 @@ public class AISquad : MonoBehaviour
         return new Vector3(Mathf.Cos(angle) * formationRadius, 0, Mathf.Sin(angle) * formationRadius);
     }
 
+    /// <summary>
+    /// Manages movement toward the assault objective. If arrived, transitions to area search.
+    /// </summary>
+    private void HandleSquadAssault()
+    {
+        bool allMembersArrived = true;
+
+        for (int i = 0; i < squadMembers.Count; i++)
+        {
+            AIEntity member = squadMembers[i];
+            if (member.currentState == AIState.Dead)
+            {
+                continue;
+            }
+
+            // Check arrival
+            float distance = Vector3.Distance(member.transform.position, assaultDestination);
+            if (distance > assaultArrivalRadius)
+            {
+                allMembersArrived = false;
+
+                // Set movement destination toward the objective
+                AIMovement mover = member.GetComponent<AIMovement>();
+                if (mover != null)
+                {
+                    Vector3 offset = GetFormationOffset(i, squadMembers.Count);
+                    mover.MoveTo(assaultDestination + offset);
+                }
+            }
+        }
+
+        // If everyone is in the area, end assault and start searching
+        if (allMembersArrived)
+        {
+            isSquadAssaulting = false;
+            isSquadSearching = true;
+            lastKnownTargetPosition = assaultDestination;
+
+            // Search the area (Whole squad searches, no suppressors)
+            BroadcastAreaSearch(assaultDestination);
+        }
+    }
+
     private void HandleSquadCombat()
     {
         if (sharedTarget != null)
@@ -427,6 +520,65 @@ public class AISquad : MonoBehaviour
         }
     }
 
+    public void ForceAttackTarget(Transform target)
+    {
+        if (target == null || squadMembers.Count == 0) return;
+
+        // Set assault state and destination
+        isSquadAssaulting = true;
+        assaultDestination = target.position;
+
+        // CRITICAL: Do NOT set isSquadAlerted or call BroadcastAlert() here.
+        // We want them to move to the area, not attack a non-existent enemy.
+        isSquadAlerted = false;
+        isSquadSearching = false;
+
+        // Ensure all members are in a state that allows movement
+        foreach (AIEntity member in squadMembers)
+        {
+            if (member.currentState == AIState.Dead)
+            {
+                continue;
+            }
+
+            member.SetState(AIState.Move);
+        }
+    }
+
+    /// <summary>
+    /// Ends assault mode, allowing the squad to return to normal behavior.
+    /// Call this when the wave defense ends.
+    /// </summary>
+    public void EndAssault()
+    {
+        isSquadAssaulting = false;
+
+        // If still alerted but target is lost, transition to search
+        if (isSquadAlerted && sharedTarget != null)
+        {
+            bool isTargetVisible = false;
+            foreach (AIEntity member in squadMembers)
+            {
+                if (member.perception != null &&
+                    member.perception.currentTarget == sharedTarget &&
+                    member.perception.detectionState == DetectionState.Detected)
+                {
+                    isTargetVisible = true;
+                    break;
+                }
+            }
+
+            if (!isTargetVisible)
+            {
+                isSquadAlerted = false;
+                isSquadSearching = true;
+                lastKnownTargetPosition = sharedTarget.position;
+                BroadcastSearch();
+            }
+        }
+    }
+
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         if (squadPatrolPoints == null || squadPatrolPoints.Length == 0) return;
@@ -442,7 +594,8 @@ public class AISquad : MonoBehaviour
             }
         }
     }
-    
+#endif
+
     private void OnDestroy()
     {
         // Clean up spawned members when squad is destroyed

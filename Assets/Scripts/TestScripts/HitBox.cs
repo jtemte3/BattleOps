@@ -27,20 +27,20 @@ public class HitBox : MonoBehaviour
     //Raycast-based collision detection
     public void TakeHit(BulletData data)
     {
-        if (data.team != entity.team)
+        if (data.sourceEntity.team != entity.team)
         {
             float damage = spotDamage;
             OnHit.Invoke(damage);
-            Debug.Log("Hit by: " + data.team.ToString() + ", Damage: " + damage);
+            Debug.Log("Hit by: " + data.sourceEntity.team.ToString() + ", Damage: " + damage);
         }
     }
 
     public void TakeHit(Grenade data, float damage)
     {
-        if (data.team != entity.team)
+        if (data.sourceEntity.team != entity.team)
         {
             OnHit.Invoke(damage);
-            Debug.Log("Grenade Hit by: " + data.team.ToString() + ", Damage: " + damage);
+            Debug.Log("Grenade Hit by: " + data.sourceEntity.team.ToString() + ", Damage: " + damage);
         }
     }
 }
