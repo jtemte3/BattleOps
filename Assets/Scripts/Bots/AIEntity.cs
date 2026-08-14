@@ -196,19 +196,23 @@ public class AIEntity : MonoBehaviour
     {
         MissionStatsTracker tracker = FindAnyObjectByType<MissionStatsTracker>();
 
-        switch (team) {
-            case AITeam.Enemy:
-                tracker.IncrementBaddieDeath();
-                break;
-            case AITeam.Ally:
-                tracker.IncrementSquadKilled();
-                break;
-            case AITeam.Neutral:
-                tracker.IncrementCivilianDeath();
-                break;
-            case AITeam.Player:
-                tracker.IncrementSquadKilled();
-                break;
+        if (tracker != null)
+        {
+            switch (team)
+            {
+                case AITeam.Enemy:
+                    tracker.IncrementBaddieDeath();
+                    break;
+                case AITeam.Ally:
+                    tracker.IncrementSquadKilled();
+                    break;
+                case AITeam.Neutral:
+                    tracker.IncrementCivilianDeath();
+                    break;
+                case AITeam.Player:
+                    tracker.IncrementSquadKilled();
+                    break;
+            }
         }
     }
 }
