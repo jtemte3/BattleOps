@@ -187,6 +187,32 @@ public class AIEntity : MonoBehaviour
             squad.RemoveMember(this);
         }
 
+        LogDeath();
+
         //Destroy(this.gameObject);
+    }
+
+    public void LogDeath()
+    {
+        MissionStatsTracker tracker = FindAnyObjectByType<MissionStatsTracker>();
+
+        if (tracker != null)
+        {
+            switch (team)
+            {
+                case AITeam.Enemy:
+                    tracker.IncrementBaddieDeath();
+                    break;
+                case AITeam.Ally:
+                    tracker.IncrementSquadKilled();
+                    break;
+                case AITeam.Neutral:
+                    tracker.IncrementCivilianDeath();
+                    break;
+                case AITeam.Player:
+                    tracker.IncrementSquadKilled();
+                    break;
+            }
+        }
     }
 }
