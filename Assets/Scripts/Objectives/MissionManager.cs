@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,6 +15,8 @@ public class MissionManager : MonoBehaviour
     public UnityEvent OnCompletion;
     public UnityEvent onCompletion => OnCompletion;
 
+    public TMP_Text objTextLine;
+
     public void Update()
     {
         if (isMissionLoaded)
@@ -25,6 +28,11 @@ public class MissionManager : MonoBehaviour
                     if (missionEvent.isObjActive && !missionEvent.isObjCompleted)
                     {
                         missionEvent.Engage();
+
+                        if (!string.IsNullOrEmpty(missionEvent.objectiveShortDescription))
+                        {
+                            objTextLine.text = missionEvent.objectiveShortDescription;
+                        }
                     }
                 }
             }
