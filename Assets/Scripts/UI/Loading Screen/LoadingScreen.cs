@@ -24,8 +24,8 @@ public class LoadingScreen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        loadingbar.value = LevelManager.cityParent.loadingPercentage;
-        lblPercentage.text = string.Format(percentageFormat, LevelManager.cityParent.loadingPercentage * 100);
-        lblLoadingText.text = string.Format(loadingTextFormat, LevelManager.cityParent.loadingState);
+        loadingbar.value = LevelManager.loadingPercentage;
+        lblPercentage.text = string.Format(percentageFormat, LevelManager.loadingPercentage * 100);
+        //lblLoadingText.text = string.Format(loadingTextFormat, LevelManager.cityParent.loadingState);
     }
 }
