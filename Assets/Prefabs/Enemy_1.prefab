@@ -6080,7 +6080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIEntity
   team: 2
-  currentState: 1
+  currentState: 0
   canMove: 1
   target: {fileID: 3028295726564558450}
   squad: {fileID: 0}
