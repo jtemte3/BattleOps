@@ -7416,6 +7416,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 285221386890578673, guid: 9392ee9ca7855414ca1bdc9d62d866c0,
         type: 3}
+      propertyPath: squadPatrolPoints.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 285221386890578673, guid: 9392ee9ca7855414ca1bdc9d62d866c0,
+        type: 3}
       propertyPath: 'squadPatrolPoints.Array.data[0]'
       value: 
       objectReference: {fileID: 2120806351}
@@ -7423,12 +7428,12 @@ PrefabInstance:
         type: 3}
       propertyPath: 'squadPatrolPoints.Array.data[1]'
       value: 
-      objectReference: {fileID: 713867213}
+      objectReference: {fileID: 1302199919}
     - target: {fileID: 285221386890578673, guid: 9392ee9ca7855414ca1bdc9d62d866c0,
         type: 3}
       propertyPath: 'squadPatrolPoints.Array.data[2]'
       value: 
-      objectReference: {fileID: 1302199919}
+      objectReference: {fileID: 713867213}
     - target: {fileID: 285221386890578673, guid: 9392ee9ca7855414ca1bdc9d62d866c0,
         type: 3}
       propertyPath: 'squadPatrolPoints.Array.data[3]'

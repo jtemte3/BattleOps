@@ -14504,7 +14504,7 @@ MonoBehaviour:
   waveSquadPrefab: {fileID: 4727788057611248480, guid: feb2cc9cdccb0f944b2bb21431a16fee,
     type: 3}
   maxWaveCount: 3
-  waveDelay: 20
+  waveDelay: 30
   spawnRadius: 50
   minSpawnDistance: 35
   alertExistingSquads: 1
@@ -17909,11 +17909,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 285221386890578673, guid: 9392ee9ca7855414ca1bdc9d62d866c0,
-        type: 3}
-      propertyPath: spawnRadius
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 285221386890578673, guid: 9392ee9ca7855414ca1bdc9d62d866c0,
         type: 3}
       propertyPath: formationRadius
@@ -84193,11 +84188,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 285221386890578673, guid: 9392ee9ca7855414ca1bdc9d62d866c0,
-        type: 3}
-      propertyPath: spawnRadius
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 285221386890578673, guid: 9392ee9ca7855414ca1bdc9d62d866c0,
         type: 3}
       propertyPath: formationRadius
