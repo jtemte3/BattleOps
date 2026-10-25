@@ -46,13 +46,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AISquad
   entityPrefab: {fileID: 7879682314920889731, guid: 4df7d00caf65a7e43a8805e707c34441,
     type: 3}
-  squadSize: 7
-  spawnRadius: 5
+  squadSize: 5
+  spawnRadius: 7
   squadMembers: []
   squadPatrolPoints: []
   formationRadius: 4
   destinationVariance: 2
+  assaultArrivalRadius: 15
   sharedTarget: {fileID: 0}
   currentPatrolIndex: 0
   isSquadAlerted: 0
   isSquadSearching: 0
+  isSquadAssaulting: 0
