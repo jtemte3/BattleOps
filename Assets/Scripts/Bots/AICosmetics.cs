@@ -5,7 +5,7 @@ public class AICosmetics : MonoBehaviour, IAIBehaviour
 {
     public List<GameObject> Cosmetics;
 
-    public void Initialize(AIEntity entity)
+    public void Initialize(AIEntityBot entity)
     {
         if (Cosmetics.Count > 0)
         {

@@ -15,7 +15,7 @@ using UnityEngine;
 /// </summary>
 public class AIPerception : MonoBehaviour, IAIBehaviour
 {
-    public AIEntity entity;
+    public AIEntityBot entity;
 
     [Header("Vision")]
     public Transform eyePoint;
@@ -59,7 +59,7 @@ public class AIPerception : MonoBehaviour, IAIBehaviour
 
     private Collider[] results;
 
-    public void Initialize(AIEntity entity)
+    public void Initialize(AIEntityBot entity)
     {
         this.entity = entity;
     }

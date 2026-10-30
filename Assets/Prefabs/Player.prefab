@@ -2880,7 +2880,7 @@ GameObject:
   - component: {fileID: 1765887484599158333}
   - component: {fileID: 5367157849817611657}
   - component: {fileID: 5769029381719317290}
-  - component: {fileID: 4244274083748892827}
+  - component: {fileID: 9189368169420222313}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -3121,7 +3121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8198c896c34b6644187c4bcd8a164472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TargetedGunFire
-  entity: {fileID: 4244274083748892827}
+  entity: {fileID: 0}
   controlScheme: {fileID: 11400000, guid: 8e16664d8101deb4e99b54e1c3368134, type: 2}
   playerController: {fileID: 2346420641101885670}
   target: {fileID: 5283199497957068353}
@@ -3141,7 +3141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a19fdb81e2b4734cae4a614939c4987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrenadeThrower
-  entity: {fileID: 4244274083748892827}
+  entity: {fileID: 0}
   controls: {fileID: 11400000, guid: 8e16664d8101deb4e99b54e1c3368134, type: 2}
   playerController: {fileID: 2346420641101885670}
   handheldGrenade: {fileID: 0}
@@ -3225,7 +3225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IKPlayerAnimator
   playerController: {fileID: 2346420641101885670}
   animator: {fileID: 8705178480388682593}
---- !u!114 &4244274083748892827
+--- !u!114 &9189368169420222313
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3234,20 +3234,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7421664360797520035}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b806132423240fa4bb2a1885c79bf5d3, type: 3}
+  m_Script: {fileID: 11500000, guid: b77d726230c05414a8d8b91d5691ada1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AIEntity
+  m_EditorClassIdentifier: Assembly-CSharp::AIEntityPlayer
   team: 1
+  target: {fileID: 8689272908927779629}
   currentState: 0
   canMove: 1
-  target: {fileID: 8689272908927779629}
-  squad: {fileID: 0}
-  health: {fileID: 0}
-  movement: {fileID: 0}
-  perception: {fileID: 0}
-  combat: {fileID: 0}
-  cosmetics: {fileID: 0}
-  weapon: {fileID: 0}
 --- !u!1 &7716241197849406353
 GameObject:
   m_ObjectHideFlags: 0

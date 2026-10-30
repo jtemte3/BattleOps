@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class AIPatrol : MonoBehaviour, IAIBehaviour
 {
-    public AIEntity entity;
+    public AIEntityBot entity;
 
     [Header("Patrol Settings")]
     [Tooltip("Distance to stop when reaching a patrol destination")]
@@ -16,7 +16,7 @@ public class AIPatrol : MonoBehaviour, IAIBehaviour
     private Vector3 currentDestination;
     private bool hasDestination = false;
 
-    public void Initialize(AIEntity entity)
+    public void Initialize(AIEntityBot entity)
     {
         this.entity = entity;
     }

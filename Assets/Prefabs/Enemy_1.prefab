@@ -505,7 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60f87a9082e9a842a12d6559aa1cfb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   spotDamage: 10
   OnHit:
     m_PersistentCalls:
@@ -1201,7 +1201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60f87a9082e9a842a12d6559aa1cfb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   spotDamage: 10
   OnHit:
     m_PersistentCalls:
@@ -1314,7 +1314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60f87a9082e9a842a12d6559aa1cfb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   spotDamage: 10
   OnHit:
     m_PersistentCalls:
@@ -1425,7 +1425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60f87a9082e9a842a12d6559aa1cfb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   spotDamage: 100
   OnHit:
     m_PersistentCalls:
@@ -2674,7 +2674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60f87a9082e9a842a12d6559aa1cfb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   spotDamage: 10
   OnHit:
     m_PersistentCalls:
@@ -3198,7 +3198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60f87a9082e9a842a12d6559aa1cfb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   spotDamage: 10
   OnHit:
     m_PersistentCalls:
@@ -3474,7 +3474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60f87a9082e9a842a12d6559aa1cfb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   spotDamage: 10
   OnHit:
     m_PersistentCalls:
@@ -4317,7 +4317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60f87a9082e9a842a12d6559aa1cfb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   spotDamage: 10
   OnHit:
     m_PersistentCalls:
@@ -4971,7 +4971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60f87a9082e9a842a12d6559aa1cfb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   spotDamage: 30
   OnHit:
     m_PersistentCalls:
@@ -5320,7 +5320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60f87a9082e9a842a12d6559aa1cfb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   spotDamage: 40
   OnHit:
     m_PersistentCalls:
@@ -6015,7 +6015,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2915196191985013688}
   - component: {fileID: 9131349624923831771}
-  - component: {fileID: 1718882723535567018}
+  - component: {fileID: 3555031465781934743}
   - component: {fileID: 6123575179813463439}
   - component: {fileID: 6206834200990304596}
   - component: {fileID: 2254463371924351558}
@@ -6067,7 +6067,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1718882723535567018
+--- !u!114 &3555031465781934743
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6076,13 +6076,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7879682314920889731}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b806132423240fa4bb2a1885c79bf5d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 22acbc8d8aff944429743827317d7df9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AIEntity
+  m_EditorClassIdentifier: Assembly-CSharp::AIEntityBot
   team: 2
+  target: {fileID: 3028295726564558450}
   currentState: 0
   canMove: 1
-  target: {fileID: 3028295726564558450}
   squad: {fileID: 0}
   health: {fileID: 3789016347672160996}
   movement: {fileID: 6123575179813463439}
@@ -6102,7 +6102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0568db6f5611c3b44bb6e6e3dbe4b570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIMovement
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   patrol: {fileID: 0}
   isSearching: 0
   searchPositionCount: 5
@@ -6125,7 +6125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed10c69d64a4c6549a253f376df6b425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AICombat
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   weaponMuzzle: {fileID: 5913835758535570925}
   weaponAimTarget: {fileID: 729217180674167578}
   weaponMotion: {fileID: 1713355864772821147}
@@ -6165,7 +6165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a3834316dbf9c40a51dd6cdcb4290f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIPerception
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   eyePoint: {fileID: 7529847686152232246}
   viewDistance: 15
   viewAngle: 90
@@ -6196,7 +6196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5710112024cb31468d8703dc57d1ec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIHealth
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   maxHealth: 100
   currentHealth: 100
   destroyOnDeath: 0
@@ -6243,7 +6243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d42f2727670796d41967d482e01488a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIPatrol
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   stoppingDistance: 1.5
 --- !u!114 &6687823621591917302
 MonoBehaviour:
@@ -6420,7 +6420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60f87a9082e9a842a12d6559aa1cfb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
-  entity: {fileID: 1718882723535567018}
+  entity: {fileID: 3555031465781934743}
   spotDamage: 10
   OnHit:
     m_PersistentCalls:

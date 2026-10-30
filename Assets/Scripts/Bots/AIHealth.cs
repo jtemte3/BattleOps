@@ -17,7 +17,7 @@ using UnityEngine.Animations.Rigging;
 /// </summary>
 public class AIHealth : MonoBehaviour, IAIBehaviour
 {
-    public AIEntity entity;
+    public AIEntityBot entity;
 
     [Header("Health")]
     public float maxHealth = 100f;
@@ -48,7 +48,7 @@ public class AIHealth : MonoBehaviour, IAIBehaviour
 
     private bool isDead;
 
-    public void Initialize(AIEntity entity)
+    public void Initialize(AIEntityBot entity)
     {
         this.entity = entity;
 

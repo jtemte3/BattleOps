@@ -7336,6 +7336,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2254463371924351558, guid: 4df7d00caf65a7e43a8805e707c34441,
+        type: 3}
+      propertyPath: entity
+      value: 
+      objectReference: {fileID: 779472288465124958}
     - target: {fileID: 2915196191985013688, guid: 4df7d00caf65a7e43a8805e707c34441,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7386,16 +7391,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3789016347672160996, guid: 4df7d00caf65a7e43a8805e707c34441,
+        type: 3}
+      propertyPath: entity
+      value: 
+      objectReference: {fileID: 779472288465124958}
     - target: {fileID: 5913835758535570925, guid: 4df7d00caf65a7e43a8805e707c34441,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6123575179813463439, guid: 4df7d00caf65a7e43a8805e707c34441,
+        type: 3}
+      propertyPath: entity
+      value: 
+      objectReference: {fileID: 779472288465124958}
+    - target: {fileID: 6206834200990304596, guid: 4df7d00caf65a7e43a8805e707c34441,
+        type: 3}
+      propertyPath: entity
+      value: 
+      objectReference: {fileID: 779472288465124958}
     - target: {fileID: 6244254654564396270, guid: 4df7d00caf65a7e43a8805e707c34441,
         type: 3}
       propertyPath: playerTarget
       value: 
       objectReference: {fileID: 1829961998}
+    - target: {fileID: 6884824483047940814, guid: 4df7d00caf65a7e43a8805e707c34441,
+        type: 3}
+      propertyPath: entity
+      value: 
+      objectReference: {fileID: 779472288465124958}
     - target: {fileID: 7879682314920889731, guid: 4df7d00caf65a7e43a8805e707c34441,
         type: 3}
       propertyPath: m_Name
@@ -7406,6 +7431,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4df7d00caf65a7e43a8805e707c34441, type: 3}
+--- !u!114 &779472288465124958 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3555031465781934743, guid: 4df7d00caf65a7e43a8805e707c34441,
+    type: 3}
+  m_PrefabInstance: {fileID: 779472288465124957}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22acbc8d8aff944429743827317d7df9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIEntityBot
 --- !u!1001 &7824682001205054415
 PrefabInstance:
   m_ObjectHideFlags: 0

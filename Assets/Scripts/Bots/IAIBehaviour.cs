@@ -3,5 +3,5 @@ using UnityEngine;
 
 public interface IAIBehaviour
 {
-    void Initialize(AIEntity entity);
+    void Initialize(AIEntityBot entity);
 }

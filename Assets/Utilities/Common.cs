@@ -27,32 +27,29 @@ public static class Common
         {
             if (entity.team == AITeam.Enemy)
             {
+                AIEntityBot botentity = (AIEntityBot)entity;
                 if (entity.currentState != AIState.Suppress && entity.currentState != AIState.Combat)
                 {
-                    if (entity.squad != null)
+                    if (botentity.squad != null)
                     {
-                        entity.squad.isSquadSearching = true;
+                        botentity.squad.isSquadSearching = true;
                     }
                     else
                     {
                         // Lone entities must setup their own search path
-                        if (entity.perception != null)
+                        if (botentity.perception != null)
                         {
-                            entity.perception.AddSuspicion(DetectionAlgorithm(entity, sourceEntity, autoDetectionDistance), sourceEntity.transform);
+                            botentity.perception.AddSuspicion(BotDetectionAlgorithm(botentity, sourceEntity, autoDetectionDistance), sourceEntity.transform);
                         }
                     }
                 }
             }
-
-            if (entity.team == AITeam.Neutral)
-            {
-                entity.currentState = AIState.Flee;
-            }
-
         }
+
+        //Add AIEntityCivilian here
     }
 
-    private static float DetectionAlgorithm(AIEntity entity, AIEntity sourceEntity, float autoDetectionDistance)
+    private static float BotDetectionAlgorithm(AIEntityBot entity, AIEntity sourceEntity, float autoDetectionDistance)
     {
         float distanceBetweenEntities = Vector3.Distance(entity.transform.position, sourceEntity.transform.position);
 

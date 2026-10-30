@@ -20,7 +20,7 @@ public class AISquad : MonoBehaviour
     public float spawnRadius = 3.0f;
 
     [Header("Squad Configuration")]
-    public List<AIEntity> squadMembers = new List<AIEntity>();
+    public List<AIEntityBot> squadMembers = new List<AIEntityBot>();
     
     [Tooltip("Patrol points specific to this squad. If empty, squad will idle.")]
     public Transform[] squadPatrolPoints;
@@ -44,8 +44,8 @@ public class AISquad : MonoBehaviour
     public bool isSquadAssaulting = false;
 
     // Lists to track roles during search
-    private List<AIEntity> searchers = new List<AIEntity>();
-    private List<AIEntity> suppressors = new List<AIEntity>();
+    private List<AIEntityBot> searchers = new List<AIEntityBot>();
+    private List<AIEntityBot> suppressors = new List<AIEntityBot>();
     private Vector3 lastKnownTargetPosition;
     private Vector3 assaultDestination;
 
@@ -62,7 +62,7 @@ public class AISquad : MonoBehaviour
         else if (squadMembers.Count == 0)
         {
             // Fallback to children if no prefab defined
-            var entities = GetComponentsInChildren<AIEntity>();
+            var entities = GetComponentsInChildren<AIEntityBot>();
             squadMembers.AddRange(entities);
         }
         
@@ -81,7 +81,7 @@ public class AISquad : MonoBehaviour
             
             // Instantiate the entity
             GameObject newMemberGO = Instantiate(entityPrefab, spawnPosition, Quaternion.identity);
-            AIEntity newMember = newMemberGO.GetComponent<AIEntity>();
+            AIEntityBot newMember = newMemberGO.GetComponent<AIEntityBot>();
             
             if (newMember != null)
             {
@@ -97,7 +97,7 @@ public class AISquad : MonoBehaviour
     /// <summary>
     /// Removes a member from the squad (called when a member dies).
     /// </summary>
-    public void RemoveMember(AIEntity member)
+    public void RemoveMember(AIEntityBot member)
     {
         if (member == null) return;
 
@@ -162,7 +162,7 @@ public class AISquad : MonoBehaviour
             }
 
             // Check if ANY squad member detects a NEW threat
-            foreach (AIEntity member in squadMembers)
+            foreach (AIEntityBot member in squadMembers)
             {
                 if (member.perception != null &&
                     member.perception.detectionState == DetectionState.Detected &&
@@ -177,7 +177,7 @@ public class AISquad : MonoBehaviour
 
             // Check if target is still detected
             bool isTargetVisible = false;
-            foreach (AIEntity member in squadMembers)
+            foreach (AIEntityBot member in squadMembers)
             {
                 if (member.perception != null &&
                     member.perception.currentTarget == sharedTarget &&
@@ -205,7 +205,7 @@ public class AISquad : MonoBehaviour
         else
         {
             // 2. Check for new threats
-            foreach (AIEntity member in squadMembers)
+            foreach (AIEntityBot member in squadMembers)
             {
                 if (member.perception != null &&
                     member.perception.detectionState == DetectionState.Detected &&
@@ -229,7 +229,7 @@ public class AISquad : MonoBehaviour
         searchers.Clear();
         suppressors.Clear();
 
-        foreach (AIEntity member in squadMembers)
+        foreach (AIEntityBot member in squadMembers)
         {
             if (member.perception != null)
             {
@@ -259,7 +259,7 @@ public class AISquad : MonoBehaviour
         suppressors.Clear();
 
         // Shuffle members to randomize roles
-        List<AIEntity> shuffledMembers = new List<AIEntity>(squadMembers);
+        List<AIEntityBot> shuffledMembers = new List<AIEntityBot>(squadMembers);
         shuffledMembers = shuffledMembers.OrderBy(x => Random.value).ToList();
 
         // Determine number of suppressors (1 to Count-1)
@@ -275,7 +275,7 @@ public class AISquad : MonoBehaviour
 
         for (int i = 0; i < shuffledMembers.Count; i++)
         {
-            AIEntity member = shuffledMembers[i];
+            AIEntityBot member = shuffledMembers[i];
             if (member.perception == null) continue;
 
             if (i < suppressorCount)
@@ -318,7 +318,7 @@ public class AISquad : MonoBehaviour
 
         for (int i = 0; i < squadMembers.Count; i++)
         {
-            AIEntity member = squadMembers[i];
+            AIEntityBot member = squadMembers[i];
 
             // Assign as Searcher
             searchers.Add(member);
@@ -340,7 +340,7 @@ public class AISquad : MonoBehaviour
     {
         bool allSearchersFinished = true;
 
-        foreach (AIEntity searcher in searchers)
+        foreach (AIEntityBot searcher in searchers)
         {
             // If searcher is dead, ignore them
             if (searcher.currentState == AIState.Dead) continue;
@@ -358,7 +358,7 @@ public class AISquad : MonoBehaviour
         {
             isSquadSearching = false;
             
-            foreach (AIEntity member in squadMembers)
+            foreach (AIEntityBot member in squadMembers)
             {
                 if (member.currentState == AIState.Dead) continue;
 
@@ -389,7 +389,7 @@ public class AISquad : MonoBehaviour
         Transform nextPoint = squadPatrolPoints[currentPatrolIndex];
         
         bool allMembersArrived = true;
-        foreach (AIEntity member in squadMembers)
+        foreach (AIEntityBot member in squadMembers)
         {
             if (member.currentState == AIState.Dead) continue;
 
@@ -413,7 +413,7 @@ public class AISquad : MonoBehaviour
         
         for (int i = 0; i < squadMembers.Count; i++)
         {
-            AIEntity member = squadMembers[i];
+            AIEntityBot member = squadMembers[i];
             if (member.currentState == AIState.Dead) continue;
 
             // FIX: Skip members that are in Combat state to prevent patrol from overriding combat movement
@@ -472,7 +472,7 @@ public class AISquad : MonoBehaviour
 
         for (int i = 0; i < squadMembers.Count; i++)
         {
-            AIEntity member = squadMembers[i];
+            AIEntityBot member = squadMembers[i];
             if (member.currentState == AIState.Dead)
             {
                 continue;
@@ -510,7 +510,7 @@ public class AISquad : MonoBehaviour
     {
         if (sharedTarget != null)
         {
-            foreach (AIEntity member in squadMembers)
+            foreach (AIEntityBot member in squadMembers)
             {
                 if (member.perception != null)
                 {
@@ -534,7 +534,7 @@ public class AISquad : MonoBehaviour
         isSquadSearching = false;
 
         // Ensure all members are in a state that allows movement
-        foreach (AIEntity member in squadMembers)
+        foreach (AIEntityBot member in squadMembers)
         {
             if (member.currentState == AIState.Dead)
             {
@@ -557,7 +557,7 @@ public class AISquad : MonoBehaviour
         if (isSquadAlerted && sharedTarget != null)
         {
             bool isTargetVisible = false;
-            foreach (AIEntity member in squadMembers)
+            foreach (AIEntityBot member in squadMembers)
             {
                 if (member.perception != null &&
                     member.perception.currentTarget == sharedTarget &&
@@ -599,7 +599,7 @@ public class AISquad : MonoBehaviour
     private void OnDestroy()
     {
         // Clean up spawned members when squad is destroyed
-        foreach (AIEntity member in squadMembers)
+        foreach (AIEntityBot member in squadMembers)
         {
             if (member != null)
             {
