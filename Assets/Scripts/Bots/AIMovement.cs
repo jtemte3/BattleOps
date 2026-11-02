@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class AIMovement : MonoBehaviour, IAIBehaviour
 {
-    public AIEntity entity;
+    public AIEntityBot entity;
     private NavMeshAgent agent;
 
     [Header("Patrol Component")]
@@ -26,7 +26,7 @@ public class AIMovement : MonoBehaviour, IAIBehaviour
     public float combatStoppingDistance = 3;
     public float searchStoppingDistance = 5;
 
-    public void Initialize(AIEntity entity)
+    public void Initialize(AIEntityBot entity)
     {
         this.entity = entity;
 

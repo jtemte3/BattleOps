@@ -17,7 +17,7 @@ using UnityEngine.VFX;
 /// </summary>
 public class AICombat : MonoBehaviour, IAIBehaviour
 {
-    public AIEntity entity;
+    public AIEntityBot entity;
 
     [Header("References")]
     public Transform weaponMuzzle;
@@ -83,7 +83,7 @@ public class AICombat : MonoBehaviour, IAIBehaviour
 
     private Vector3 aimTargetRestPosition;
 
-    public void Initialize(AIEntity entity)
+    public void Initialize(AIEntityBot entity)
     {
         this.entity = entity;
 
@@ -280,7 +280,7 @@ public class AICombat : MonoBehaviour, IAIBehaviour
         GameObject bullet = Instantiate(bulletPrefab, weaponMuzzle.position, Quaternion.identity);
         bullet.transform.parent = null;
         bullet.GetComponent<Rigidbody>().linearVelocity = shotDirection * bulletSpeed;
-        bullet.GetComponent<BulletData>().sourceEntity = entity;
+        bullet.GetComponent<BulletData>().sourceEntity = (AIEntity)entity;
 
         if (debugDrawShots)
         {
